@@ -1400,6 +1400,44 @@ body:not(.owner) .foot{margin-top:28px}
 .ppm input.pin{background:#fff;color:#3a0a0c;width:100%;box-sizing:border-box;border-radius:14px;border:2px solid #e6c9b2;padding:12px;font:inherit;font-size:22px;letter-spacing:.4em;text-align:center;margin-bottom:12px}
 .ppm-row{display:flex;flex-direction:column;gap:6px;align-items:center}
 @media (prefers-reduced-motion:reduce){.est.new,.ppm-c,.ppm-flip .est{animation:none}}
+/* ===== Colección Fundador (solo dueño) ===== */
+.fc{position:relative;border-radius:28px;padding:22px 0 20px;background:radial-gradient(120% 70% at 50% 0%,#2a0508 0%,#0b0001 60%,#000 100%);border:2px solid transparent;background-clip:padding-box;box-shadow:0 0 0 2px #e9b23a,0 0 0 6px rgba(233,178,58,.12),0 22px 50px rgba(0,0,0,.6);overflow:hidden;color:#fff1e6}
+.fc:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.025) 0 2px,transparent 2px 7px);pointer-events:none}
+.fc-h{position:relative;padding:0 20px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.fc-k{font-size:11px;letter-spacing:.24em;font-weight:900;color:#e9b23a;text-transform:uppercase}
+.fc-h h4{margin:4px 0 0;font-size:26px;line-height:1;font-weight:900;background:linear-gradient(180deg,#fff6d6,#ffc83d 55%,#b8800f);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fc-n{flex:none;text-align:right;font-weight:900;font-size:13px;color:#ffc83d;line-height:1.2}
+.fc-n b{display:block;font-size:24px;color:#fff}
+.fc-rail{position:relative;display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:22px 15% 26px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.fc-rail::-webkit-scrollbar{display:none}
+.fx{flex:0 0 70%;scroll-snap-align:center;perspective:900px;transition:transform .35s,opacity .35s;opacity:.55;transform:scale(.9)}
+.fx.cur{opacity:1;transform:none}
+.fx-c{position:relative;aspect-ratio:5/7;border-radius:20px;padding:9px;background:linear-gradient(135deg,#fff3c4 0%,#e9b23a 22%,#8a5a00 45%,#ffe08a 62%,#b8800f 80%,#fff3c4 100%);box-shadow:0 18px 34px rgba(0,0,0,.7),0 0 26px var(--glow,rgba(255,200,61,.35));transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out;transform-style:preserve-3d;will-change:transform}
+.fx-in{position:relative;height:100%;border-radius:13px;overflow:hidden;background:radial-gradient(circle at 50% 38%,var(--c1),var(--c2));box-shadow:inset 0 0 0 2px rgba(0,0,0,.5)}
+.fx-in:before{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 40%,rgba(255,255,255,.07) 0 6deg,transparent 6deg 12deg)}
+.fx-art{position:absolute;left:2%;right:2%;top:11%}
+.fx-art svg{width:100%;height:auto;display:block;filter:drop-shadow(0 10px 10px rgba(0,0,0,.35))}
+.fx-top{position:absolute;left:10px;right:10px;top:9px;display:flex;justify-content:space-between;align-items:center;z-index:2}
+.fx-num{font-weight:900;font-size:12px;background:rgba(0,0,0,.55);color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:999px;padding:3px 9px;letter-spacing:.06em}
+.fx-rar{font-weight:900;font-size:9px;letter-spacing:.1em;white-space:nowrap;text-transform:uppercase;border-radius:999px;padding:3px 7px;color:#1a0a0a;background:var(--rar);box-shadow:0 0 12px var(--rar)}
+.fx-plate{position:absolute;left:8px;right:8px;bottom:8px;border-radius:11px;padding:6px 8px 5px;background:linear-gradient(180deg,#2a0306,#0a0000);border:1.5px solid #e9b23a;text-align:center;z-index:2}
+.fx-plate b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px;font-weight:900;color:#ffc83d;line-height:1.1}
+.fx-plate span{font-size:10px;letter-spacing:.3em;color:var(--rar)}
+.fx-holo{position:absolute;inset:0;border-radius:13px;pointer-events:none;mix-blend-mode:overlay;opacity:.5;background:linear-gradient(115deg,transparent 20%,rgba(255,0,170,.55) 30%,rgba(255,230,0,.55) 40%,rgba(0,255,190,.55) 50%,rgba(0,170,255,.55) 60%,transparent 72%);background-size:260% 260%;background-position:var(--hx,50%) var(--hy,50%);transition:background-position .2s}
+.fx-shine{position:absolute;inset:0;border-radius:13px;pointer-events:none;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);background-size:300% 100%;animation:fxsh 4.5s ease-in-out infinite}
+@keyframes fxsh{0%,60%{background-position:150% 0}100%{background-position:-60% 0}}
+.fx.leg .fx-c{background:linear-gradient(135deg,#fffbe6,#ffd54a 25%,#fff1a8 45%,#c98a00 65%,#fff6c8 85%,#ffd54a);animation:fxleg 2.4s ease-in-out infinite alternate}
+@keyframes fxleg{to{box-shadow:0 18px 34px rgba(0,0,0,.7),0 0 46px rgba(255,214,74,.85)}}
+.fc-dots{display:flex;justify-content:center;gap:6px;margin-top:-8px}
+.fc-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .25s}
+.fc-dots i.on{width:22px;border-radius:9px;background:#ffc83d}
+.fc-mini{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:16px 18px 0}
+.fc-mini button{appearance:none;padding:0;border:1.5px solid rgba(233,178,58,.45);border-radius:10px;overflow:hidden;aspect-ratio:1;background:radial-gradient(circle at 50% 40%,var(--c1),var(--c2));cursor:pointer;position:relative}
+.fc-mini button.on{border-color:#ffc83d;box-shadow:0 0 0 2px #ffc83d,0 0 12px rgba(255,200,61,.6)}
+.fc-mini svg{width:118%;margin:6% 0 0 -9%;height:auto}
+.fc-foot{padding:14px 20px 0;font-size:12px;color:rgba(255,241,230,.6);text-align:center}
+.fc-foot b{color:#ffc83d}
+@media (prefers-reduced-motion:reduce){.fx-shine,.fx.leg .fx-c{animation:none}}
 </style>
 </head>
 <body>
@@ -4216,7 +4254,7 @@ window.PP_ESTAMPAS=(function(){
   }
 
   /* ---------- Enlace con la tarjeta de sellos ---------- */
-  window.ppAlbum={paint:function(d,anim){
+  window.ppAlbum={svg:svg,paint:function(d,anim){
     if(!d)return;
     if(card&&card.albumCanjes!=null&&d.albumCanjes==null&&String(card.whatsapp)===String(d.whatsapp))d.albumCanjes=card.albumCanjes;
     card=d;
@@ -4232,6 +4270,44 @@ window.PP_ESTAMPAS=(function(){
     }
     enviarPend();
   }};
+})();
+
+</script>
+<script>
+/* ===== Colección Fundador: las 12 estampas, solo en el panel del dueño ===== */
+(function(){
+  var E=window.PP_ESTAMPAS||[],A=window.ppAlbum;if(!A||!A.svg||!E.length)return;
+  var tarjeta=document.querySelector('[data-a-panel] .osc');if(!tarjeta)return;
+  var antes=tarjeta.closest('section');
+  var RAR=function(i){return i>=12?['Legendaria','#ffd54a',5]:i>=9?['Épica','#c58bff',4]:i>=5?['Rara','#5cc8ff',3]:['Común','#d9d9d9',2]};
+  var sec=document.createElement('section');sec.className='dsec';sec.setAttribute('data-ot','inicio');sec.setAttribute('data-solo-dueno','');
+  sec.setAttribute('aria-label','Colección Fundador de Pops');
+  var h='<h3 class="dsec-t"><span>Tu colección de Pops 👑</span></h3><div class="fc"><div class="fc-h"><div><div class="fc-k">Edición Fundador</div><h4>Álbum de Pops</h4></div><div class="fc-n"><b>12/12</b>completo</div></div><div class="fc-rail" data-fc-rail>';
+  E.forEach(function(e){var r=RAR(e.id);
+    h+='<div class="fx'+(e.id===12?' leg':'')+'" data-fx="'+e.id+'" style="--c1:'+e.bg[0]+';--c2:'+e.bg[1]+';--rar:'+r[1]+'"><div class="fx-c" style="--glow:'+r[1]+'66"><div class="fx-in"><div class="fx-top"><span class="fx-num">#'+('0'+e.id).slice(-2)+'/12</span><span class="fx-rar">'+r[0]+'</span></div><div class="fx-art">'+A.svg(e)+'</div><div class="fx-plate"><b>'+e.n+'</b><span>'+'★★★★★'.slice(0,r[2])+'</span></div><div class="fx-holo"></div><div class="fx-shine"></div></div></div></div>';
+  });
+  h+='</div><div class="fc-dots" data-fc-dots>'+E.map(function(){return '<i></i>'}).join('')+'</div><div class="fc-mini" data-fc-mini>';
+  E.forEach(function(e){h+='<button type="button" aria-label="'+e.n+'" data-go="'+e.id+'" style="--c1:'+e.bg[0]+';--c2:'+e.bg[1]+'">'+A.svg(e)+'</button>'});
+  h+='</div><p class="fc-foot">Tus clientes juntan estas 12 estampas con sus compras. <b>12 estampas = 1 Jumbo gratis.</b></p></div>';
+  sec.innerHTML=h;antes.parentNode.insertBefore(sec,antes.nextSibling);
+  var rail=sec.querySelector('[data-fc-rail]'),cards=[].slice.call(sec.querySelectorAll('.fx')),dots=[].slice.call(sec.querySelectorAll('[data-fc-dots] i')),minis=[].slice.call(sec.querySelectorAll('[data-go]'));
+  function actual(){var c=rail.scrollLeft+rail.clientWidth/2,best=0,bd=1e9;cards.forEach(function(el,i){var m=el.offsetLeft+el.offsetWidth/2,dd=Math.abs(m-c);if(dd<bd){bd=dd;best=i}});
+    cards.forEach(function(el,i){el.classList.toggle('cur',i===best)});dots.forEach(function(d,i){d.classList.toggle('on',i===best)});minis.forEach(function(m,i){m.classList.toggle('on',i===best)})}
+  var raf=0;rail.addEventListener('scroll',function(){cancelAnimationFrame(raf);raf=requestAnimationFrame(actual)},{passive:true});
+  minis.forEach(function(m,i){m.addEventListener('click',function(){var el=cards[i];rail.scrollTo({left:el.offsetLeft-(rail.clientWidth-el.offsetWidth)/2,behavior:'smooth'})})});
+  // Inclinación 3D + brillo holográfico al tocar o mover el dedo sobre la carta
+  cards.forEach(function(el){var c=el.querySelector('.fx-c');
+    function mv(x,y){var r=c.getBoundingClientRect(),px=(x-r.left)/r.width,py=(y-r.top)/r.height;if(px<0||px>1||py<0||py>1)return;
+      c.style.setProperty('--ry',((px-.5)*18).toFixed(1)+'deg');c.style.setProperty('--rx',((.5-py)*18).toFixed(1)+'deg');
+      c.querySelector('.fx-holo').style.setProperty('--hx',(px*100)+'%');c.querySelector('.fx-holo').style.setProperty('--hy',(py*100)+'%')}
+    function out(){c.style.setProperty('--ry','0deg');c.style.setProperty('--rx','0deg')}
+    c.addEventListener('pointermove',function(e){mv(e.clientX,e.clientY)});c.addEventListener('pointerleave',out);
+    c.addEventListener('touchmove',function(e){var t=e.touches[0];mv(t.clientX,t.clientY)},{passive:true});c.addEventListener('touchend',out,{passive:true});
+  });
+  // Al abrir el panel, centrar la primera carta
+  var obs=new MutationObserver(function(){if(sec.offsetParent){rail.scrollLeft=0;actual()}});
+  obs.observe(document.querySelector('[data-a-panel]'),{attributes:true,attributeFilter:['hidden','data-tab']});
+  actual();
 })();
 
 </script>
