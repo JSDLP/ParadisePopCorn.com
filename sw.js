@@ -1,5 +1,5 @@
 // Paradise Pop Corn — pantalla sin internet + fotos guardadas para abrir más rápido
-const CACHE = 'paradise-v2';
+const CACHE = 'paradise-v3';
 const OFFLINE = './offline.html';
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 
@@ -31,26 +31,28 @@ function cacheFirst(req) {
   );
 }
 
+// Página: intenta internet; si falla, lo intenta otra vez de forma distinta antes de mostrar a Pops
+function page(req) {
+  return fetch(req)
+    .catch(() => fetch(req.url, { cache: 'no-store', credentials: 'same-origin' }))
+    .catch(() => caches.open(CACHE).then((c) => c.match(OFFLINE)));
+}
+
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // Páginas: siempre lo más nuevo de internet; sin internet, la pantalla de Pops
   if (req.mode === 'navigate') {
-    event.respondWith(
-      fetch(req).catch(() => caches.open(CACHE).then((c) => c.match(OFFLINE)))
-    );
+    event.respondWith(page(req));
     return;
   }
 
-  // Fotos de la página (img-xxxx): cada foto nueva trae otro nombre, así que se pueden guardar para siempre
   if (url.origin === self.location.origin && /\/img-[0-9a-f]+\.(webp|png|jpg)$/.test(url.pathname)) {
-    event.respondWith(cacheFirst(req));
+    event.respondWith(cacheFirst(req).catch(() => fetch(req)));
     return;
   }
 
-  // Tipografía Bricolage
   if (FONT_HOSTS.includes(url.hostname)) {
     event.respondWith(cacheFirst(req).catch(() => caches.match(req)));
   }

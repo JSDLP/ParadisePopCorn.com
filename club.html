@@ -1439,6 +1439,7 @@ body:not(.owner) .foot{margin-top:28px}
 .fc-foot b{color:#ffc83d}
 @media (prefers-reduced-motion:reduce){.fx-shine,.fx.leg .fx-c{animation:none}}
 </style>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 <div class="wrap">
@@ -4374,6 +4375,65 @@ window.PP_ESTAMPAS=(function(){
   document.addEventListener('mousedown',function(e){if(e.button===0)inicio(e.clientX,e.clientY,e.target);});
   document.addEventListener('mousemove',function(e){mover(e.clientX,e.clientY,null);});
   document.addEventListener('mouseup',fin);
+})();
+</script>
+<style id="lq-css">
+html,body{overflow-x:clip}
+/* ===== Barra líquida del modo dueño / gerente ===== */
+body.owner .onav.lq{background:transparent!important;border-color:transparent!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  overflow:visible;filter:drop-shadow(0 16px 26px rgba(0,0,0,.7))}
+body.owner .onav.lq::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;
+  background:rgba(5,4,3,.96);border:1px solid rgba(212,175,55,.5);
+  -webkit-mask:radial-gradient(circle 41px at var(--lq-x,50%) -8px,transparent 39px,#000 41px);
+  mask:radial-gradient(circle 41px at var(--lq-x,50%) -8px,transparent 39px,#000 41px)}
+body.gerente.owner .onav.lq::before{background:rgba(6,9,12,.96);border-color:rgba(200,214,229,.5)}
+body.owner .onav.lq .lq-b{position:absolute;top:-34px;left:var(--lq-x,50%);width:60px;height:60px;margin-left:-30px;border-radius:50%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle at 35% 30%,#fff3c4,#e6c35c 52%,#b28a26);box-shadow:0 10px 22px rgba(0,0,0,.55),0 0 18px rgba(230,195,92,.35);opacity:0;transition:opacity .25s}
+body.gerente.owner .onav.lq .lq-b{background:radial-gradient(circle at 35% 30%,#ffffff,#d9e3ee 52%,#93a4b8);box-shadow:0 10px 22px rgba(0,0,0,.55),0 0 18px rgba(200,214,229,.35)}
+body.owner .onav.lq.lq-ready .lq-b{opacity:1}
+body.owner .onav.lq button[data-go]{z-index:1;background:transparent!important;box-shadow:none!important;justify-content:center}
+body.owner .onav.lq button[data-go]::after{display:none!important}
+body.owner .onav.lq button[data-go] svg{transition:transform .5s cubic-bezier(.34,1.56,.64,1),color .3s;position:relative}
+body.owner .onav.lq button[data-go] span{position:absolute;bottom:9px;left:0;right:0;text-align:center;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .45s cubic-bezier(.34,1.56,.64,1);color:#e6c35c}
+body.gerente.owner .onav.lq button[data-go] span{color:#e4ecf5}
+body.owner .onav.lq button[data-go][aria-current="page"] svg{transform:translateY(-39px);color:#1a1206}
+body.gerente.owner .onav.lq button[data-go][aria-current="page"] svg{color:#0d1a24}
+body.owner .onav.lq button[data-go][aria-current="page"] span{opacity:1;transform:none}
+body.owner .onav.lq button[data-go] .ob{z-index:2}
+body.owner .onav.lq .dk-go{z-index:3}
+@media (prefers-reduced-motion:reduce){body.owner .onav.lq button[data-go] svg,body.owner .onav.lq button[data-go] span{transition:none}}
+</style>
+<script>
+(function(){
+  function init(){
+    var nav=document.querySelector('[data-onav]'); if(!nav||nav.classList.contains('lq')) return;
+    nav.classList.add('lq');
+    var bub=document.createElement('span'); bub.className='lq-b'; bub.setAttribute('aria-hidden','true'); nav.insertBefore(bub,nav.firstChild);
+    var cur=null, raf=0, calm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function target(){
+      var b=nav.querySelector('button[data-go][aria-current="page"]');
+      if(!b||!b.offsetParent) return null;
+      var nr=nav.getBoundingClientRect(), br=b.getBoundingClientRect();
+      if(!nr.width) return null;
+      return br.left-nr.left+br.width/2;
+    }
+    function set(x){ nav.style.setProperty('--lq-x',x.toFixed(1)+'px'); }
+    function ease(p){ /* rebote suave tipo líquido */ var c1=1.3,c3=c1+1; return 1+c3*Math.pow(p-1,3)+c1*Math.pow(p-1,2); }
+    function move(instant){
+      var x=target(); if(x==null) return;
+      nav.classList.add('lq-ready');
+      cancelAnimationFrame(raf);
+      if(instant||cur==null||calm){ cur=x; set(x); return; }
+      var from=cur, t0=performance.now(), D=520;
+      (function fr(t){ var p=Math.min(1,(t-t0)/D); cur=from+(x-from)*ease(p); set(cur); if(p<1) raf=requestAnimationFrame(fr); })(t0);
+    }
+    new MutationObserver(function(){ move(false); }).observe(nav,{subtree:true,attributes:true,attributeFilter:['aria-current']});
+    new MutationObserver(function(){ requestAnimationFrame(function(){ move(true); }); }).observe(document.body,{attributes:true,attributeFilter:['class']});
+    window.addEventListener('resize',function(){ move(true); });
+    if(window.ResizeObserver) new ResizeObserver(function(){ move(true); }).observe(nav);
+    requestAnimationFrame(function(){ move(true); });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
 </script>
 </body>

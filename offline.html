@@ -61,6 +61,7 @@ body{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;color:#
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 
@@ -155,10 +156,26 @@ body{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;color:#
   fit(); show(i);
   window.addEventListener('resize',fit);
   setInterval(function(){ i=(i+1)%2; show(i); },9000);
-  function retry(){ location.reload(); }
+  // ¿De verdad no hay internet? Lo comprobamos directo, sin pasar por la pantalla guardada
+  function probe(){
+    return fetch('./manifest.json?ping='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok; }).catch(function(){ return false; });
+  }
+  function heal(){
+    var n=0; try{ n=parseInt(sessionStorage.getItem('pp-heal')||'0',10); sessionStorage.setItem('pp-heal',String(n+1)); }catch(e){}
+    if(n<1){ location.replace('./?r='+Date.now()); return; }
+    // segunda vez: reinicia el ayudante sin internet y abre la página
+    var jobs=[];
+    if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations){ jobs.push(navigator.serviceWorker.getRegistrations().then(function(rs){ return Promise.all(rs.map(function(r){ return r.unregister(); })); })); }
+    if(window.caches&&caches.keys){ jobs.push(caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); })); }
+    try{ sessionStorage.removeItem('pp-heal'); }catch(e){}
+    Promise.all(jobs).catch(function(){}).then(function(){ location.replace('./?r='+Date.now()); });
+  }
+  function check(){ probe().then(function(ok){ if(ok) heal(); }); }
+  function retry(){ check(); }
   document.querySelectorAll('[data-retry]').forEach(function(b){ b.addEventListener('click',retry); });
-  window.addEventListener('online',function(){ setTimeout(retry,600); });
-  setInterval(function(){ if(navigator.onLine){ fetch('./',{method:'HEAD',cache:'no-store'}).then(retry).catch(function(){}); } },8000);
+  window.addEventListener('online',function(){ setTimeout(check,600); });
+  setTimeout(check,1500);
+  setInterval(check,6000);
 })();
 </script>
 </body>
