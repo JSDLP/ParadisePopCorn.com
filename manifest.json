@@ -1,12 +1,91 @@
 {
+  "id": "./",
   "name": "Paradise Pop Corn",
   "short_name": "Paradise",
+  "description": "Palomitas gourmet con 33 sabores en Tláhuac y Coyoacán. Arma tu pedido, junta sellos y descubre promociones.",
+  "lang": "es-MX",
+  "dir": "ltr",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#000000",
+  "orientation": "portrait",
+  "background_color": "#140203",
   "theme_color": "#b30000",
+  "categories": [
+    "food",
+    "shopping"
+  ],
   "icons": [
-    { "src": "icon-192.png?v=5", "sizes": "192x192", "type": "image/png" },
-    { "src": "icon-512.png?v=5", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "icon-192.png?v=5",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png?v=5",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-192.png?v=1",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-maskable-512.png?v=1",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Arma tu pedido",
+      "short_name": "Pedir",
+      "description": "Elige tus palomitas y mándalas por WhatsApp",
+      "url": "./#pedido",
+      "icons": [
+        {
+          "src": "icon-192.png?v=5",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Menú y precios",
+      "short_name": "Menú",
+      "url": "./#menu",
+      "icons": [
+        {
+          "src": "icon-192.png?v=5",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Mis sellos",
+      "short_name": "Sellos",
+      "description": "Tu tarjeta de sellos del Club Paradise",
+      "url": "club.html#sellos",
+      "icons": [
+        {
+          "src": "icon-192.png?v=5",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Sucursales",
+      "url": "./#sucursales",
+      "icons": [
+        {
+          "src": "icon-192.png?v=5",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }
