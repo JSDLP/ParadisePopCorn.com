@@ -637,6 +637,20 @@ html,body,body *{font-family:var(--font)}
 .pf-soc a.tt{background:#050000;border:1.5px solid rgba(255,241,230,.3)!important}
 .pg4 .foot.pf .legal{max-width:1040px;margin:26px auto 0;border-top:1.5px dashed rgba(255,200,61,.3)}
 @media (prefers-reduced-motion:reduce){.pf-bulbs,.pf-st,.pf-fc,.pf-cloud,.pf-pops img,.pf-z,.pf-est i,.pf-fall i{animation:none}.pf-fall i{opacity:.9;translate:-60px 40px}}
+
+/* ===== Sucursales: tarjetas que siempre caben ===== */
+.stg .suc-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))!important;justify-content:center}
+.stg .suc-grid>.grand{min-width:0;width:100%;max-width:520px;justify-self:center;box-sizing:border-box}
+.grand .gr-mq{container-type:inline-size}
+.grand .gr-board{max-width:100%;box-sizing:border-box;gap:min(3px,.6cqw);padding:min(7px,1.6cqw)}
+.grand .gr-board i{width:min(32px,calc((100cqw - 56px) / 12));height:min(42px,calc((100cqw - 56px) / 12 * 1.32));font-size:min(28px,calc((100cqw - 56px) / 12 * .86))}
+.grand .gr-board i.sp{width:min(6px,1.2cqw)}
+.grand .gr-mq-sub{font-size:clamp(12px,3.6cqw,14px);text-align:center}
+.grand .gr-info{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grand .gr-info b{font-size:clamp(14px,4.4cqw,18px)}
+.grand .gr-tx{container-type:inline-size}
+.grand .gr-btns{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.grand .gr-addr span{min-width:0;overflow-wrap:anywhere}
 /* ===== Taquilla: cómo pedir y pagar ===== */
 .pay{position:relative;background:linear-gradient(180deg,#2a0306,#140102);color:#fff1e6;border-radius:24px;padding:0 0 22px;border:3px solid #ffc83d;box-shadow:0 0 0 4px #7a0a12,0 18px 40px rgba(0,0,0,.55);overflow:hidden;display:flex;flex-direction:column;gap:20px}
 .pay-mq{position:relative;text-align:center;padding:28px 18px 24px;background:repeating-linear-gradient(90deg,#d10f1f 0 26px,#b30a18 26px 52px);border-bottom:4px solid #ffc83d;box-shadow:0 10px 20px rgba(0,0,0,.4)}
