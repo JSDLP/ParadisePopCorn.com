@@ -1520,7 +1520,7 @@ window.ppAla=function(m){var h=Math.floor(m/60)%12||12;return (h===1?'a la ':'a 
   function ahora(){
     var d=new Date(Date.now()-6*3600*1000);
     return {dia:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getUTCDay()],min:d.getUTCHours()*60+d.getUTCMinutes()};
-  }p
+  }
   function render(){
     OPEN=PP_HOR.a;CLOSE=PP_HOR.c;
     var t=ahora(), cls, txt;
