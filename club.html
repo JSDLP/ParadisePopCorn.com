@@ -112,6 +112,19 @@ button,input{font:inherit}
 .b-txt .b-n{font-weight:800;font-size:7cqw;line-height:1;color:var(--gold)}
 .b-txt small{display:block;font-weight:600;font-size:2.6cqw;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,241,230,.7)}
 .b-soon{font-size:2.8cqw!important;color:#fff4c2}
+.bn{margin:18px 0;padding:18px 16px;border-radius:22px;background:linear-gradient(#3a0508,#1a0204);border:2px solid rgba(255,200,61,.55);color:#fff1e6}
+.bn-h{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.bn-k{align-self:flex-start;background:#2fd06a;color:#08361a;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+.bn-h h3{margin:0;font-weight:800;font-size:22px;letter-spacing:-.02em;text-transform:uppercase}
+.bn-l{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.bn-l li{display:flex;gap:12px;align-items:flex-start;padding:10px;border-radius:14px;background:rgba(255,241,230,.06)}
+.bn-l b{display:block;font-size:15.5px;font-weight:800}
+.bn-l small{display:block;font-size:13px;line-height:1.35;opacity:.85;margin-top:2px}
+.bn-i{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(255,200,61,.16);font-size:20px}
+.bn-mas{background:#d10f1f;color:#fff;font-weight:800;font-size:16px;border:2px dashed #fff1e6}
+.bn-foto{background:linear-gradient(160deg,rgba(255,200,61,.25),rgba(255,200,61,.08))!important;border:1.5px solid rgba(255,200,61,.5)}
+.bn-wa{display:inline-flex;align-items:center;gap:6px;margin-top:8px;min-height:44px;padding:0 16px;border-radius:999px;background:#1faa53;color:#fff!important;font-weight:800;font-size:14.5px;text-decoration:none;box-shadow:0 3px 0 #127a3a}
+
 .hint{text-align:center;font-weight:600;font-size:14px;opacity:.85;margin:4px 0 0}
 .hint b{color:var(--gold)}
 
@@ -1518,13 +1531,23 @@ body:not(.owner) .foot{margin-top:28px}
             <p>Muestra este código en caja para verificar tu membresía.</p>
             <small>Miembro No.</small><div class="b-n" data-c-num2>0000</div>
             <p style="margin-top:2.2cqw"><b data-c-name2>Tu nombre</b></p>
-            <p class="b-soon">✨ Beneficios exclusivos próximamente</p>
+            <p class="b-soon">✨ Beneficios activos: sellos, Álbum de Pops y foto-sello</p>
           </div>
           <div class="holo"></div>
         </div>
       </div>
     </div>
     <p class="hint" data-hint>Toca la credencial para <b>voltearla</b> 🔄</p>
+    <div class="bn" data-bn>
+      <div class="bn-h"><span class="bn-k">Ya disponibles</span><h3>Tus beneficios del Club</h3></div>
+      <ul class="bn-l">
+        <li><span class="bn-i">🍿</span><div><b>Tarjeta de sellos</b><small>Junta 10 sellos y llévate una mediana gratis.</small></div></li>
+        <li><span class="bn-i">📒</span><div><b>Álbum de Pops</b><small>Gana 1 estampa por compra. Completa las 12 y llévate un Jumbo gratis.</small></div></li>
+        <li class="bn-foto"><span class="bn-i bn-mas">+1</span><div><b>Foto con tus palomitas = 1 sello</b><small>Mándanos tu foto y te sumamos 1 sello cuando la revisemos. Una foto por compra.</small>
+          <a class="bn-wa" data-bn-wa href="https://wa.me/525523386765" target="_blank" rel="noopener">📸 Mandar mi foto</a></div></li>
+        <li><span class="bn-i">⭐</span><div><b>Califica tu pedido</b><small>Tu opinión llega directo al dueño.</small></div></li>
+      </ul>
+    </div>
 
     <!-- Registro -->
     <div class="box" data-reg>
@@ -1574,7 +1597,7 @@ body:not(.owner) .foot{margin-top:28px}
         <button class="go" type="submit">Ver mi tarjeta</button>
         <p class="msg" data-s-msg hidden></p>
       </form>
-      <p class="priv">¿Ya eres Premium? Usa el mismo WhatsApp: tu tarjeta ya está lista. Si es tu primera vez, escribe también tu nombre. Al continuar aceptas nuestro <button type="button" class="plink" data-priv-open>Aviso de privacidad</button>.</p>
+      <p class="priv">Escribe tu WhatsApp y el nombre con el que registraste tu tarjeta (si es tu primera vez, el nombre con el que la quieres). Así nadie más puede ver tus sellos. Al continuar aceptas nuestro <button type="button" class="plink" data-priv-open>Aviso de privacidad</button>.</p>
     </div>
 
     <div data-s-card hidden>
@@ -1606,6 +1629,16 @@ body:not(.owner) .foot{margin-top:28px}
         </ul>
         <button class="link" type="button" data-s-out>Usar otra tarjeta</button>
       </div>
+    </div>
+    <div class="bn" data-bn data-bn2>
+      <div class="bn-h"><span class="bn-k">Ya disponibles</span><h3>Tus beneficios del Club</h3></div>
+      <ul class="bn-l">
+        <li><span class="bn-i">🍿</span><div><b>Tarjeta de sellos</b><small>Junta 10 sellos y llévate una mediana gratis.</small></div></li>
+        <li><span class="bn-i">📒</span><div><b>Álbum de Pops</b><small>Gana 1 estampa por compra. Completa las 12 y llévate un Jumbo gratis.</small></div></li>
+        <li class="bn-foto"><span class="bn-i bn-mas">+1</span><div><b>Foto con tus palomitas = 1 sello</b><small>Mándanos tu foto y te sumamos 1 sello cuando la revisemos. Una foto por compra.</small>
+          <a class="bn-wa" data-bn-wa href="https://wa.me/525523386765" target="_blank" rel="noopener">📸 Mandar mi foto</a></div></li>
+        <li><span class="bn-i">⭐</span><div><b>Califica tu pedido</b><small>Tu opinión llega directo al dueño.</small></div></li>
+      </ul>
     </div>
   </section>
 
@@ -3444,7 +3477,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       var q=qrModel(verifyURL(m.numero));if(q){var n=q.getModuleCount(),qs=236,cell=qs/n,qx=px+32,qy=py+32;c.fillStyle='#fff';rr(c,qx-10,qy-10,qs+20,qs+20,18);c.fill();c.fillStyle='#1a0203';
         for(var rr2=0;rr2<n;rr2++)for(var cc=0;cc<n;cc++)if(q.isDark(rr2,cc))c.fillRect(Math.floor(qx+cc*cell),Math.floor(qy+rr2*cell),Math.ceil(cell),Math.ceil(cell))}
       var tx=px+310;c.fillStyle='#d10f1f';c.font='800 44px "Bricolage Grotesque", Arial';c.fillText('Muestra este código',tx,py+96);c.fillText('en caja',tx,py+146);
-      c.fillStyle='#5a1a1a';c.font='600 30px "Bricolage Grotesque", Arial';c.fillText('Miembro No. '+m.numero,tx,py+204);c.fillText('✨ Beneficios próximamente',tx,py+250);
+      c.fillStyle='#5a1a1a';c.font='600 30px "Bricolage Grotesque", Arial';c.fillText('Miembro No. '+m.numero,tx,py+204);c.fillText('✨ Beneficios activos',tx,py+250);
       c.textAlign='center';c.fillStyle='rgba(255,241,230,.9)';c.font='600 28px "Bricolage Grotesque", Arial';c.fillText('Sabor fuera de serie · @paradisepopcorn.mx',W/2,H-36);c.textAlign='left';
       return new Promise(function(ok){cv.toBlob(ok,'image/png')});
     });
@@ -3485,9 +3518,14 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     if(anim==='canje'){rain(40)}
     if(window.ppAlbum)window.ppAlbum.paint(d,anim);
   }
-  function fetchCard(tel,nombre){
-    show(sMsg,'');var p={accion:'tarjeta',whatsapp:tel};if(nombre)p.nombre=nombre;
+  function nrm1(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().split(/\s+/)[0]||''}
+  function fetchCard(tel,nombre,verificar){
+    show(sMsg,'');var p={accion:'tarjeta',whatsapp:tel};if(nombre&&!verificar)p.nombre=nombre;
     return api(p).then(function(d){
+      if(verificar&&d&&!d.ok&&d.nueva&&nombre){verificar=false;return api({accion:'tarjeta',whatsapp:tel,nombre:nombre})}
+      return d;
+    }).then(function(d){
+      if(verificar&&d&&d.ok&&d.nombre&&nrm1(d.nombre)!==nrm1(nombre)){sReg.hidden=false;sCard.hidden=true;show(sMsg,'El nombre no coincide con el de esta tarjeta. Escribe el nombre con el que la registraste.');$('[name=nombre]',sF).focus();return}
       if(!d||!d.ok){sReg.hidden=false;sCard.hidden=true;$('[name=whatsapp]',sF).value=tel;show(sMsg,(d&&d.error)||'No encontramos tu tarjeta.');if(d&&d.nueva)$('[name=nombre]',sF).focus();return}
       paintCard(d);
     }).catch(function(err){if(card)show(sOk,netErr(err));else{sReg.hidden=false;show(sMsg,netErr(err))}});
@@ -3495,7 +3533,9 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   sF.addEventListener('submit',function(e){e.preventDefault();
     var fd=new FormData(sF),tel=tel10(fd.get('whatsapp')),nombre=String(fd.get('nombre')||'').trim();
     if(!tel)return show(sMsg,'Escribe tu WhatsApp a 10 dígitos.');
-    var b=$('button[type=submit]',sF);b.disabled=true;fetchCard(tel,nombre).then(function(){b.disabled=false});
+    var gs=load(K_SELLOS),gp=load(K_PREM),conf=(gs&&gs.whatsapp===tel)||(gp&&gp.whatsapp===tel);
+    if(!conf&&nombre.length<2){show(sMsg,'Por seguridad, escribe también el nombre con el que registraste tu tarjeta.');$('[name=nombre]',sF).focus();return}
+    var b=$('button[type=submit]',sF);b.disabled=true;fetchCard(tel,nombre,!conf).then(function(){b.disabled=false});
   });
   $('[data-s-refresh]').addEventListener('click',function(){if(card){sOk.hidden=true;fetchCard(card.whatsapp)}});
   $('[data-s-out]').addEventListener('click',function(){save(K_SELLOS,null);card=null;sCard.hidden=true;sReg.hidden=false;sF.reset();show(sMsg,'')});
@@ -4470,6 +4510,17 @@ body.owner .onav.lq .dk-go{z-index:3}
     requestAnimationFrame(function(){ move(true); });
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+<script>
+(function(){
+  /* ---------- Foto con palomitas = 1 sello ---------- */
+  function L(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+  function url(){var m=L('paradise-premium')||{},s=L('paradise-sellos')||{},n=m.nombre||s.nombre||'',w=m.whatsapp||s.whatsapp||'',num=m.numero||'';
+    var t='Hola, les mando mi foto con mis palomitas Paradise 🍿📸 para ganar mi sello.';
+    if(n)t+='\nNombre: '+n;if(w)t+='\nWhatsApp del Club: '+w;if(num)t+='\nMiembro No. '+num;
+    return 'https://wa.me/525523386765?text='+encodeURIComponent(t)}
+  document.querySelectorAll('[data-bn-wa]').forEach(function(a){a.href=url();a.addEventListener('click',function(){a.href=url()})});
 })();
 </script>
 </body>
