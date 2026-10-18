@@ -779,6 +779,18 @@ body.owner .wrap{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 110px)}
 .pv-day{font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;background:#ffc83d;color:#2a0606;padding:4px 10px;border-radius:6px}
 .pv-2x1 b{font-weight:800;font-size:46px;line-height:1;color:#fff;text-shadow:0 3px 0 #2a0606}
 .pv-rib{font-weight:800;font-size:14px;color:#2a0606;background:#fff1e6;padding:5px 14px;border-radius:6px;transform:rotate(-2deg)}
+.g-prs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.g-prs label{display:flex;flex-direction:column;gap:4px;align-items:center}
+.g-prs em{font-style:normal;font-weight:800;font-size:12px;background:#6b2a9e;color:#fff;border-radius:6px;padding:2px 8px}
+.g-prs input{width:100%;padding:11px 6px;border-radius:12px;border:2px solid rgba(255,200,61,.35);background:#fff8f2;color:#2a0606;font:800 17px/1.1 "Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;text-align:center;outline:none}
+.g-prs input:focus{border-color:#ffc83d;box-shadow:0 0 0 4px rgba(255,200,61,.2)}
+.g-igual{grid-column:1 / -1;appearance:none;cursor:pointer;border:2px dashed #ffc83d;background:rgba(255,200,61,.1);color:#ffc83d;font:800 15px "Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;padding:11px 14px;border-radius:14px}
+.g-igual:active{transform:translateY(2px)}
+.pv-gou{background:radial-gradient(120% 90% at 30% 0%,#8a3fc4,#3a0f5c 75%);border:2px solid #ffc83d;color:#fff1e6;display:flex;flex-direction:column;align-items:center;gap:5px}
+.pv-gou .pv-k{padding:0;color:#ffc83d}
+.pv-gou b{font-weight:800;font-size:22px;line-height:1.05;text-transform:uppercase;letter-spacing:-.02em}
+.pv-gfin{background:#d10f1f;color:#fff;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px}
+.pv-gp{font-weight:800;font-size:14px;color:#ffc83d}
 .pv-mes{background:linear-gradient(135deg,#fff4c2,#ffc83d 60%,#c99a1e);color:#2a0606;display:flex;flex-direction:column;gap:2px}
 .pv-k{display:block;padding-right:50px;font-weight:800;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
 .pv-mes b{font-weight:800;font-size:26px;line-height:1.05}
@@ -1825,6 +1837,20 @@ body:not(.owner) .foot{margin-top:28px}
               <label class="pf"><span>Día</span><select name="d_dia"><option value="0">Domingo</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option></select></label>
               <label class="pf"><span>Sabor</span><select name="d_sabor"><optgroup label="Saladas y Tradicionales"><option>Takis Fuego</option><option>Takis Azul</option><option>Chips Fuego</option><option>Mantequilla</option><option>Limón y Sal</option><option>Limón y Chile</option><option>Queso</option><option>Pizzerola</option><option>Salsas Negras</option><option>Churrumaíz</option><option>Esquites</option><option>Jalapeño</option><option>Ruffles</option><option>Queso Jalapeño</option></optgroup><optgroup label="Caramelo"><option>Caramelo</option><option>Naranja</option><option>Cereza</option><option>Fresa</option><option>Manzana Verde</option><option>Mora Azul</option><option>Mango</option><option>Tutti Frutti</option><option>Uva</option><option>Sandía</option><option>Chicle</option></optgroup><optgroup label="Gourmet"><option>Piña Colada</option><option>Chocolate Abuelita</option><option>Chocoreta</option><option>Pica Fresa</option><option>Mango Habanero</option><option>Unicornio</option><option>Habanero</option></optgroup></select></label>
               <div class="pv pv-2x1" aria-hidden="true"><span class="pv-day" data-pv="dday">Todos los martes</span><b>2x1</b><span class="pv-rib" data-pv="drib">Martes de Mantequilla</span></div>
+            </div>
+          </article>
+          <article class="pc" data-pc="gou">
+            <header><span class="pc-ic">👨‍🍳</span><div><b>Gourmet a precio especial</b><small>Precio por tiempo limitado en los 7 sabores Gourmet</small></div><label class="sw"><input type="checkbox" name="g_activa"><span></span><em class="sr">Activar precio especial Gourmet</em></label></header>
+            <div class="pc-body">
+              <div class="pf wide"><span>Precio especial por tamaño</span><div class="g-prs">
+                <label><em>CH</em><input type="number" inputmode="numeric" min="1" step="1" name="g_ch" aria-label="Precio Gourmet Chico"></label>
+                <label><em>M</em><input type="number" inputmode="numeric" min="1" step="1" name="g_m" aria-label="Precio Gourmet Mediano"></label>
+                <label><em>G</em><input type="number" inputmode="numeric" min="1" step="1" name="g_g" aria-label="Precio Gourmet Grande"></label>
+                <label><em>J</em><input type="number" inputmode="numeric" min="1" step="1" name="g_j" aria-label="Precio Gourmet Jumbo"></label>
+              </div></div>
+              <button class="g-igual" type="button" data-g-igual>🍬 Igualar a los precios de Caramelo</button>
+              <label class="pf wide"><span>Termina el (opcional)</span><input type="date" name="g_fin"></label>
+              <div class="pv pv-gou" aria-hidden="true"><span class="pv-k">Sabores Gourmet</span><b>¡Ahora a precio de caramelo!</b><span class="pv-gfin" data-pv="gfin">Por tiempo limitado</span><span class="pv-gp" data-pv="gpr"></span></div>
             </div>
           </article>
           <article class="pc" data-pc="mes">
@@ -3930,11 +3956,14 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     $('[data-pv=msab]').textContent=f.m_sabor.value;$('[data-pv=mtxt]').textContent=f.m_texto.value;
     var est=(PR.querySelector('[name=a_estilo]:checked')||{}).value||'info';
     $('[data-pv=abar]').className='pv pv-av '+est;$('[data-pv=atxt]').textContent=f.a_texto.value||'Tu mensaje aparecerá aquí';
-    ['dosx1','mes','aviso'].forEach(function(k,i){$('[data-pc='+k+']').classList.toggle('on',[f.d_activa,f.m_activa,f.a_activa][i].checked)});
+    ['dosx1','mes','aviso','gou'].forEach(function(k,i){$('[data-pc='+k+']').classList.toggle('on',[f.d_activa,f.m_activa,f.a_activa,f.g_activa][i].checked)});
+    var gp=[f.g_ch,f.g_m,f.g_g,f.g_j].map(function(x){return x.value});$('[data-pv=gpr]').textContent='CH $'+gp[0]+' · M $'+gp[1]+' · G $'+gp[2]+' · J $'+gp[3];
+    var gf=f.g_fin.value;$('[data-pv=gfin]').textContent=gf?'Hasta el '+(+gf.slice(8,10))+' de '+MESES[+gf.slice(5,7)-1]:'Por tiempo limitado';
   }
   function prLlenar(c){
     var f=PR.elements;f.d_activa.checked=!!c.dosx1.activa;f.d_dia.value=String(c.dosx1.dia);f.d_sabor.value=c.dosx1.sabor||'Mantequilla';
     f.m_activa.checked=!!c.mes.activa;if(c.mes.sabor)f.m_sabor.value=c.mes.sabor;f.m_texto.value=c.mes.texto||'';
+    var g=c.gourmet||{activa:true,precios:[35,65,130,200],fin:''};f.g_activa.checked=!!g.activa;[f.g_ch,f.g_m,f.g_g,f.g_j].forEach(function(x,i){x.value=(g.precios||[])[i]||''});f.g_fin.value=g.fin||'';
     f.a_activa.checked=!!c.aviso.activa;f.a_texto.value=c.aviso.texto||'';var r=PR.querySelector('[name=a_estilo][value="'+(c.aviso.estilo||'info')+'"]');if(r)r.checked=true;
     prVista();
   }
@@ -3946,14 +3975,21 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       prLlenar(d.promos);pqLlenar(d.paquete)}).catch(function(err){ld.textContent=ml.textContent=netErr(err)});
   }
   PR.addEventListener('input',prVista);PR.addEventListener('change',prVista);
+  $('[data-g-igual]').addEventListener('click',function(){var f=PR.elements,c=(SITIO&&SITIO.precios&&SITIO.precios.caramelo)||[35,65,130,200];
+    [f.g_ch,f.g_m,f.g_g,f.g_j].forEach(function(x,i){x.value=c[i]});f.g_activa.checked=true;prVista();toast('🍬 Precios de Caramelo copiados')});
   PR.addEventListener('submit',function(e){e.preventDefault();var f=PR.elements,m=$('[data-pr-msg]'),b=$('[data-pr-save]');show(m,'');
     if(f.m_activa.checked&&!f.m_sabor.value)return show(m,'Elige el sabor del mes.');
     if(f.a_activa.checked&&!f.a_texto.value.trim())return show(m,'Escribe el mensaje del aviso.');
-    var cfg={dosx1:{activa:f.d_activa.checked,dia:+f.d_dia.value,sabor:f.d_sabor.value},mes:{activa:f.m_activa.checked,sabor:f.m_sabor.value,texto:f.m_texto.value},aviso:{activa:f.a_activa.checked,texto:f.a_texto.value,estilo:(PR.querySelector('[name=a_estilo]:checked')||{}).value||'info'}};
+    var gpr=[f.g_ch,f.g_m,f.g_g,f.g_j].map(function(x){return Math.round(+x.value)});
+    if(f.g_activa.checked&&gpr.some(function(v){return !(v>0)}))return show(m,'Escribe los 4 precios especiales de Gourmet.');
+    var cfg={dosx1:{activa:f.d_activa.checked,dia:+f.d_dia.value,sabor:f.d_sabor.value},mes:{activa:f.m_activa.checked,sabor:f.m_sabor.value,texto:f.m_texto.value},aviso:{activa:f.a_activa.checked,texto:f.a_texto.value,estilo:(PR.querySelector('[name=a_estilo]:checked')||{}).value||'info'},gourmet:{activa:f.g_activa.checked,precios:gpr,fin:f.g_fin.value}};
     b.disabled=true;b.textContent='Publicando…';
     api({accion:'guardarPromos',pin:A.pin,config:JSON.stringify(cfg)}).then(function(d){
       if(!d||!d.ok){if(!salir(d&&d.error))show(m,(d&&d.error)||'No se pudo publicar.');return}
-      prLlenar(d.promos);show(m,'✅ ¡Publicado! Ya se ve en tu página principal.',true);sonido('canje');confeti();toast('📣 Promociones publicadas');resumen();
+      var sinG=!d.promos||!d.promos.gourmet;if(d.promos&&sinG)d.promos.gourmet=cfg.gourmet;
+      prLlenar(d.promos);
+      if(sinG){show(m,'⚠️ Se publicaron tus otras promociones, pero el precio especial Gourmet no se guardó: hay que actualizar el código de Google para que lo acepte.');return}
+      show(m,'✅ ¡Publicado! Ya se ve en tu página principal.',true);sonido('canje');confeti();toast('📣 Promociones publicadas');resumen();
     }).catch(function(err){show(m,netErr(err))}).then(function(){b.disabled=false;b.textContent='Publicar en mi página 🚀'});
   });
   /* ---------- Fotos de clientes ---------- */
