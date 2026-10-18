@@ -676,6 +676,7 @@ html,body,body *{font-family:var(--font)}
 .pprog.full .pprog-full{opacity:1;transform:rotate(-4deg)}
 .pprog.full .pprog-track{border-color:#fff3b0;box-shadow:0 0 0 2px #2a0606,0 0 18px 4px rgba(255,200,61,.75),inset 0 3px 5px rgba(0,0,0,.7)}
 .pprog.full .pprog-pct{display:none}
+.pprog .pprog-pct{display:none!important}
 .pprog.bump .pprog-bk{animation:bk-hop .6s ease}
 @keyframes bk-hop{40%{transform:translateY(5px) scale(1.25) rotate(-8deg)}}
 .pkern{position:fixed;z-index:998;width:13px;height:12px;pointer-events:none;background:var(--tile) var(--bx) 50%/auto 26px;border-radius:50% 45% 50% 40%;box-shadow:0 1px 2px rgba(0,0,0,.35);animation:pkern var(--t,.85s) cubic-bezier(.3,.6,.6,1) forwards}
@@ -688,6 +689,19 @@ html,body,body *{font-family:var(--font)}
 <meta name="apple-mobile-web-app-title" content="Paradise">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#b30000">
+<meta name="description" content="Palomitas gourmet con 32 sabores: saladas, de caramelo y gourmet. Sucursales en Tláhuac y Coyoacán. Pide por WhatsApp. ¡Sabor fuera de serie!">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Paradise Pop Corn">
+<meta property="og:title" content="Paradise Pop Corn · Sabor fuera de serie">
+<meta property="og:description" content="32 sabores de palomitas gourmet. 2x1 en Mantequilla los martes. Pide por WhatsApp y recoge en sucursal.">
+<meta property="og:url" content="https://jsdlp.github.io/ParadisePopCorn.com/">
+<meta property="og:image" content="https://jsdlp.github.io/ParadisePopCorn.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_MX">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jsdlp.github.io/ParadisePopCorn.com/og-image.jpg">
+
 
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preload" as="image" href="img-92ed15418a.webp">
@@ -695,7 +709,7 @@ html,body,body *{font-family:var(--font)}
 <style id="ppi-css">
 html.ppi-on,html.ppi-on body{overflow:hidden!important}
 html.ppi-on body>*:not(#ppi){visibility:hidden!important}
-html.ppi-off #ppi{display:none!important}
+html:not(.ppi-on) #ppi{display:none!important}
 #ppi{position:fixed;inset:0;z-index:2147483000;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent;
  background:radial-gradient(120% 85% at 50% 46%,#8E0A1F 0%,#4A0510 36%,#140204 70%,#050101 100%);
  font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;color:#fff1e6}
@@ -999,7 +1013,7 @@ html.ppi-off #ppi{display:none!important}
 <div class="fly ker" style="--x:-3%;--y:84%;--w:11%;--r:35deg;--b:1px;--d:8s;--dl:-3s;--s:-1;--br:1;--se:0.7;--sa:1.6;--dx:10px;--dr:-10deg"></div>
 <div class="fly ker" style="--x:-9%;--y:26%;--w:22%;--r:-15deg;--b:6px;--d:10s;--dl:-1s;--s:1;--br:0.9;--se:0;--sa:1;--dx:12px;--dr:8deg"></div>
 <div class="fly ker" style="--x:80%;--y:88%;--w:18%;--r:28deg;--b:5px;--d:11s;--dl:-4s;--s:-1;--br:0.9;--se:0.7;--sa:1.6;--dx:-12px;--dr:-10deg"></div>
-<section class="cta" id="sabores"><div class="ticket">Out of this world flavor</div><h2>¿Se te antojó?<span>Pide tus palomitas</span></h2><p class="lead">Saladas, caramelo y gourmet: 32 sabores fuera de serie, hechos para que no puedas parar.</p><div class="btns"><a class="btn pri" href="https://wa.me/525523386765?text=Hola%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener">Pedir ahora</a><a class="btn sec" href="#sabores">Ver sabores</a></div><div class="cluster"><img class="prod" style="--r:-7deg;--d:5.4s;--dl:-1s" alt="Chocolate Abuelita" src="img-0a3daf08d7.webp"><img class="prod mid" style="--r:0deg;--d:6s" alt="Cubeta gourmet Paradise Pop Corn" src="img-92ed15418a.webp"><img class="prod" style="--r:7deg;--d:5.6s;--dl:-2s" alt="Palomitas de caramelo" src="img-28ca6a10fd.webp"></div><div class="cards3"><a class="cd" href="#sabores" style="--c:#c9740a"><header><span class="ic" aria-hidden="true">🧂</span>Saladas y Tradicionales</header><p>Desde <b>$25</b>14 sabores</p></a><a class="cd" href="#sabores" style="--c:#d10f1f"><header><span class="ic" aria-hidden="true">🍬</span>Caramelo</header><p>Desde <b>$35</b>11 sabores</p></a><a class="cd" href="#sabores" style="--c:#6b2a9e"><header><span class="ic" aria-hidden="true">👨‍🍳</span>Gourmet</header><p>Desde <b>$35</b>7 sabores</p></a></div></section>
+<section class="cta" id="antojo"><div class="ticket">Out of this world flavor</div><h2>¿Se te antojó?<span>Pide tus palomitas</span></h2><p class="lead">Saladas, caramelo y gourmet: 32 sabores fuera de serie, hechos para que no puedas parar.</p><div class="btns"><a class="btn pri" href="https://wa.me/525523386765?text=Hola%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener">Pedir ahora</a><a class="btn sec" href="#sabores">Ver sabores</a></div><div class="cluster"><img class="prod" style="--r:-7deg;--d:5.4s;--dl:-1s" alt="Chocolate Abuelita" src="img-0a3daf08d7.webp"><img class="prod mid" style="--r:0deg;--d:6s" alt="Cubeta gourmet Paradise Pop Corn" src="img-92ed15418a.webp"><img class="prod" style="--r:7deg;--d:5.6s;--dl:-2s" alt="Palomitas de caramelo" src="img-28ca6a10fd.webp"></div><div class="cards3"><a class="cd" href="#sabores" style="--c:#c9740a"><header><span class="ic" aria-hidden="true">🧂</span>Saladas y Tradicionales</header><p>Desde <b>$25</b>14 sabores</p></a><a class="cd" href="#sabores" style="--c:#d10f1f"><header><span class="ic" aria-hidden="true">🍬</span>Caramelo</header><p>Desde <b>$35</b>11 sabores</p></a><a class="cd" href="#sabores" style="--c:#6b2a9e"><header><span class="ic" aria-hidden="true">👨‍🍳</span>Gourmet</header><p>Desde <b>$35</b>7 sabores</p></a></div></section>
 <style>
 .pq{position:relative;z-index:3;width:100%;max-width:1040px;margin:0 auto;padding:10px 20px 80px;display:flex;flex-direction:column;gap:18px;font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif}
 .pq[hidden]{display:none}
@@ -1506,7 +1520,7 @@ window.ppAla=function(m){var h=Math.floor(m/60)%12||12;return (h===1?'a la ':'a 
   function ahora(){
     var d=new Date(Date.now()-6*3600*1000);
     return {dia:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getUTCDay()],min:d.getUTCHours()*60+d.getUTCMinutes()};
-  }
+  }p
   function render(){
     OPEN=PP_HOR.a;CLOSE=PP_HOR.c;
     var t=ahora(), cls, txt;
@@ -1964,8 +1978,8 @@ body.pp-has-aviso .ppfab{bottom:calc(env(safe-area-inset-bottom,0px) + 96px)}
   var fab=document.querySelector('[data-ppfab]'),chat=document.querySelector('[data-ppchat]'),top=document.querySelector('[data-pptop]'),ring=document.querySelector('[data-ppring]'),
       wc=document.querySelector('[data-wc]'),hd=document.querySelector('[data-ppwa]'),mini=document.querySelector('[data-wcmini]'),
       inp=document.querySelector('[data-wcin]'),msg=document.querySelector('[data-wcmsg]'),ty=document.querySelector('[data-wcty]');
-  var cerrado=false,plegado=false,abierto=false,y0=0;
-  try{plegado=sessionStorage.getItem('pp-wc')==='0'}catch(e){}
+  var cerrado=false,plegado=true,abierto=false,y0=0;
+  try{if(sessionStorage.getItem('pp-wc')==='0')plegado=true}catch(e){}
   function num(){return '52'+(window.PP_WA||'5523386765')}
   function url(t){return 'https://wa.me/'+num()+'?text='+encodeURIComponent(t||'Hola, quiero hacer un pedido 🍿')}
   function hora(){var d=new Date(Date.now()-6*3600*1000),h=d.getUTCHours(),m=d.getUTCMinutes();return (h%12||12)+':'+(m<10?'0':'')+m+' '+(h<12?'a.m.':'p.m.')}
