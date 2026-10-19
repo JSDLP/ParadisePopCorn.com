@@ -1518,8 +1518,13 @@ body:not(.owner) .foot{margin-top:28px}
 .fd-fh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:0 4px;flex-wrap:wrap}
 .fd-fh h4{margin:0;font-size:17px;font-weight:800;color:#fff1e6}
 .fd-fh span{font-size:12.5px;color:#b9a79c}.fd-fh span b{color:#ffc83d}
-.fd-chart{flex:1;min-height:330px;background:repeating-linear-gradient(0deg,transparent 0 63px,rgba(255,241,230,.07) 63px 64px);display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;align-items:end;padding:0 2px;border-bottom:6px solid #5a2a14;position:relative}
-.fd-col{display:flex;flex-direction:column;align-items:center;min-width:0}
+.fd-scroll{flex:1;min-height:360px;display:flex;flex-direction:column;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;padding-bottom:6px;scrollbar-color:#ffc83d #2a0306}
+.fd-scroll::-webkit-scrollbar{height:8px}.fd-scroll::-webkit-scrollbar-thumb{background:#ffc83d;border-radius:8px}.fd-scroll::-webkit-scrollbar-track{background:#2a0306;border-radius:8px}
+.fd-chart{flex:1;min-height:330px;width:max-content;min-width:100%;background:repeating-linear-gradient(0deg,transparent 0 63px,rgba(255,241,230,.07) 63px 64px);display:grid;grid-auto-flow:column;grid-auto-columns:76px;justify-content:end;gap:8px;align-items:end;padding:0 4px;border-bottom:6px solid #5a2a14;position:relative}
+.fd-col{display:flex;flex-direction:column;align-items:center;min-width:0;scroll-snap-align:end}
+.fd-days span{display:flex;flex-direction:column;line-height:1.15}.fd-days span em{font-style:normal;font-size:10px;opacity:.75;letter-spacing:.02em}
+.fd-col.zero .fd-tag{opacity:.45}
+.fd-col.mstart{position:relative}.fd-col.mstart:before{content:attr(data-mes);position:absolute;left:-6px;top:4px;font-size:10px;font-weight:800;letter-spacing:.14em;color:#ffc83d;writing-mode:vertical-rl;transform:rotate(180deg);opacity:.8}
 .fd-tag{font-size:10.5px;font-weight:800;padding:3px 4px;border-radius:6px;background:#fff1e6;color:#2a0606;margin-bottom:6px;white-space:nowrap;letter-spacing:-.02em}
 .fd-col.hoy .fd-tag{background:#ffc83d}
 .fd-bk{width:100%;max-width:66px;display:flex;flex-direction:column;filter:drop-shadow(0 6px 6px rgba(0,0,0,.5))}
@@ -1529,7 +1534,7 @@ body:not(.owner) .foot{margin-top:28px}
 .fd-body{display:block;width:94.79%;margin:-3px 0 0 2.49%;height:var(--h);background:linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,0) 7px),var(--strip) 0 0/100% 100% no-repeat;border-radius:0 0 4px 4px}
 .fd-best{font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#ffc83d;margin-bottom:3px;white-space:nowrap;display:flex;align-items:center;gap:3px}
 .fd-best:before{content:"★";font-size:11px}
-.fd-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;padding:0 2px;text-align:center;font-size:11px;font-weight:800;letter-spacing:.08em;color:#a8998f}
+.fd-days{display:grid;grid-auto-flow:column;grid-auto-columns:76px;justify-content:end;width:max-content;min-width:100%;gap:8px;padding:4px 4px 0;text-align:center;font-size:11px;font-weight:800;letter-spacing:.08em;color:#a8998f}
 .fd-days .h{color:#ffc83d}
 .fd-side{display:flex;flex-direction:column;gap:12px;min-width:0}
 .fd-goal{appearance:none;cursor:pointer;position:relative;width:100%;border-radius:20px;padding:0 14px 14px;overflow:hidden;color:#fff1e6;font:inherit;text-align:center;
@@ -1576,6 +1581,23 @@ body:not(.owner) .foot{margin-top:28px}
 .fd-foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:flex-end;gap:4px;margin-right:-12px;margin-bottom:-14px;padding-top:6px}
 .fd-pops{width:92px;height:auto;transform:rotate(-8deg);pointer-events:none;flex:none}
 .fd-bub{margin-bottom:34px;background:#fff1e6;color:#2a0606;font-size:11.5px;font-weight:800;padding:7px 9px;border-radius:12px 12px 2px 12px;max-width:130px;line-height:1.2}
+.fd-hist{border-radius:18px;padding:14px;background:linear-gradient(135deg,rgba(255,200,61,.10),rgba(255,200,61,0) 60%),#1a0204;border:1.5px solid rgba(255,200,61,.4);display:flex;flex-direction:column;gap:10px}
+.fh-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.fh-head .k{font-size:11px;font-weight:800;letter-spacing:.24em;color:#ffc83d}
+.fh-sub{font-size:12px;color:#b9a79c}
+.fh-grid{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,2fr);gap:10px}
+@media (max-width:760px){.fh-grid{grid-template-columns:1fr}}
+.fh-brand{border-radius:14px;padding:14px 16px;background:linear-gradient(135deg,#ffd76a,#ffb21f);color:#2a0606;display:flex;flex-direction:column;gap:4px;justify-content:center}
+.fh-brand small{font-size:10.5px;font-weight:800;letter-spacing:.14em}
+.fh-brand b{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1;white-space:nowrap}
+.fh-brand span{font-size:12.5px;font-weight:700;opacity:.85}
+.fh-sucs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.fh-s{border-radius:14px;padding:12px 14px;color:#fff1e6;display:flex;flex-direction:column;gap:3px}
+.fh-s.c1{background:#c40e1d}.fh-s.c2{background:#e07a12}.fh-s.c3{background:#6b2bb8}.fh-s.c4{background:#127a5a}
+.fh-s small{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.9}
+.fh-s b{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.05;white-space:nowrap}
+.fh-s span{font-size:12px;opacity:.9}
+.fh-bar{height:6px;border-radius:999px;background:rgba(0,0,0,.25);overflow:hidden;margin-top:4px}.fh-bar i{display:block;height:6px;background:#fff1e6;border-radius:999px}
 /* ===== Sucursales en la Cartelera ===== */
 .sx-list{display:flex;flex-direction:column;gap:12px}
 .sx-it{border-radius:20px;background:linear-gradient(160deg,#1f0305,#0a0000);border:1.5px solid rgba(255,200,61,.3);padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -1784,12 +1806,18 @@ body:not(.owner) .foot{margin-top:28px}
           <div class="fd-mq"><img class="fd-logo" alt="Paradise Pop Corn" data-img="LOGOT"><div class="t"><span class="k" data-fd-fecha>EN CARTELERA HOY</span><b data-fd-hola>Buenas noches, J/R</b></div><span class="fd-chip" data-fd-chip><i></i><span>—</span></span>
             <div class="fd-btns"><button type="button" class="fd-btn" data-fd-corte>Registrar corte</button><button type="button" class="fd-btn g" data-fd-sello>+ Dar sello</button></div></div>
           <div class="fd-tix" data-fd-tix></div>
+          <div class="fd-hist" data-fd-hist>
+            <div class="fh-head"><span class="k">TAQUILLA HISTÓRICA</span><span class="fh-sub" data-fh-sub>Desde tu primer corte</span></div>
+            <div class="fh-grid">
+              <div class="fh-brand"><small>PARADISE POP CORN · TODAS LAS SUCURSALES</small><b data-fh-total>$0</b><span data-fh-meta>—</span></div>
+              <div class="fh-sucs" data-fh-sucs></div>
+            </div>
+          </div>
           <div class="fd-grid">
             <div class="fd-film">
-              <div class="fd-fh"><h4>Taquilla de la semana</h4><span>Total 7 días · <b data-fd-sem>$0</b></span></div>
-              <p style="margin:0 4px;font-size:12px;color:#b9a79c">Con lo que tú registras en el Corte del día. Toca un bote para registrar o corregir ese día.</p>
-              <div class="fd-chart" data-fd-chart></div>
-              <div class="fd-days" data-fd-days></div>
+              <div class="fd-fh"><h4>Taquilla día por día</h4><span>Últimos 7 días · <b data-fd-sem>$0</b></span></div>
+              <p style="margin:0 4px;font-size:12px;color:#b9a79c">Desliza a la izquierda para ver los días anteriores. Toca un bote para registrar o corregir ese día.</p>
+              <div class="fd-scroll" data-fd-scroll><div class="fd-chart" data-fd-chart></div><div class="fd-days" data-fd-days></div></div>
             </div>
             <div class="fd-side">
               <button type="button" class="fd-goal" data-fd-goal aria-label="Cambiar la meta del mes">
@@ -3981,6 +4009,19 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   function fdEscala(){var ch=$('[data-fd-chart]');if(!ch)return;var H=ch.clientHeight;if(!H)return;var av=Math.max(120,H-72);
     $$('.fd-body',ch).forEach(function(b){b.style.setProperty('--h',Math.max(10,Math.round((+b.getAttribute('data-f')||0)*av))+'px')})}
   if(window.ResizeObserver){try{new ResizeObserver(function(){fdEscala()}).observe($('[data-fd-chart]'))}catch(e){}}
+  function fdHist(L,hoy){
+    var tot=L.reduce(function(a,c){return a+c.monto},0),dias={};L.forEach(function(c){dias[c.fecha]=1});var nd=Object.keys(dias).length,pri=Object.keys(dias).sort()[0];
+    $('[data-fh-total]').textContent=ctMoney(tot);
+    $('[data-fh-meta]').textContent=nd?nd+(nd===1?' día registrado':' días registrados')+' · promedio '+ctMoney(tot/nd)+' por día':'Aún no registras cortes';
+    $('[data-fh-sub]').textContent=pri?'Desde el '+(+pri.slice(8))+' de '+MESN[+pri.slice(5,7)-1]+' de '+pri.slice(0,4):'Desde tu primer corte';
+    var box=$('[data-fh-sucs]');box.innerHTML='';var nombres=CT.sucs.slice();L.forEach(function(c){if(nombres.indexOf(c.sucursal)<0)nombres.push(c.sucursal)});
+    nombres.forEach(function(sn,i){var Ls=L.filter(function(c){return c.sucursal===sn}),t=Ls.reduce(function(a,c){return a+c.monto},0);
+      var porMes={};Ls.forEach(function(c){var m=c.fecha.slice(0,7);porMes[m]=(porMes[m]||0)+c.monto});var mm=null;Object.keys(porMes).forEach(function(m){if(!mm||porMes[m]>porMes[mm])mm=m});
+      var d=fdEl('div','fh-s c'+(i%4+1));d.appendChild(fdEl('small','',sn+(CT.sucs.indexOf(sn)<0?' (cerrada)':'')));d.appendChild(fdEl('b','',ctMoney(t)));
+      d.appendChild(fdEl('span','',(tot?Math.round(t/tot*100):0)+'% de la marca · '+Ls.length+(Ls.length===1?' corte':' cortes')));
+      if(mm)d.appendChild(fdEl('span','','Mejor mes: '+MESN[+mm.slice(5,7)-1]+' '+mm.slice(0,4)+' ('+ctMoney(porMes[mm])+')'));
+      var br=fdEl('div','fh-bar'),bi=fdEl('i');bi.style.width=(tot?t/tot*100:0)+'%';br.appendChild(bi);d.appendChild(br);box.appendChild(d)});
+  }
   function fdPintar(){
     if(A.rol==='gerente'||!$('[data-fd]'))return;
     var hoy=CT.hoy||ctHoy(),L=CT.lista||[],dia={};L.forEach(function(c){dia[c.fecha]=(dia[c.fecha]||0)+c.monto});
@@ -3991,16 +4032,21 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     tix.appendChild(fdTk('gold','Taquilla hoy',ctMoney(dia[hoy]||0),L.some(function(c){return c.fecha===hoy})?'Todas las salas':'Aún sin corte','ADMITE 1'));
     var mesA=hoy.slice(0,7),mesN=MESN[+mesA.slice(5,7)-1];CT.sucs.forEach(function(s,i){var sm=function(fn){return L.filter(function(c){return c.sucursal===s&&fn(c)}).reduce(function(a,c){return a+c.monto},0)};var mm=sm(function(c){return c.fecha.slice(0,7)===mesA}),hh=sm(function(c){return c.fecha===hoy});tix.appendChild(fdTk('c'+(i%4+1),s,ctMoney(mm),'Total de '+mesN+' · hoy '+ctMoney(hh),'SALA '+(i+1)))});
     var U=ULT||{};tix.appendChild(fdTk('','Sellos hoy',String(U.sellosHoy!=null?U.sellosHoy:'—'),(U.clientesHoy!=null?U.clientesHoy+' clientes':'')||' ','BOLETO'));
-    var vals=[],tot=0;for(var k=6;k>=0;k--){var f=ctMas(hoy,-k);vals.push([f,dia[f]||0]);tot+=dia[f]||0}
+    var vals=[],tot=0,fechasL=Object.keys(dia).sort(),ini=fechasL.length&&fechasL[0]<ctMas(hoy,-6)?fechasL[0]:ctMas(hoy,-6);
+    if(ini<ctMas(hoy,-730))ini=ctMas(hoy,-730);
+    for(var f=ini;f<=hoy;f=ctMas(f,1)){vals.push([f,dia[f]||0])}
+    for(var k=6;k>=0;k--)tot+=dia[ctMas(hoy,-k)]||0;
     $('[data-fd-sem]').textContent=ctMoney(tot);requestAnimationFrame(function(){requestAnimationFrame(fdEscala)});
     var mx=Math.max.apply(null,vals.map(function(v){return v[1]}))||1,ch=$('[data-fd-chart]'),dd=$('[data-fd-days]');ch.innerHTML='';dd.innerHTML='';
-    vals.forEach(function(v){var c=fdEl('div','fd-col'+(v[0]===hoy?' hoy':''));c.appendChild(fdEl('span','fd-tag',ctMoney(v[1])));
+    vals.forEach(function(v,ix){var c=fdEl('div','fd-col'+(v[0]===hoy?' hoy':'')+(v[1]?'':' zero'));if(ix===0||v[0].slice(8)==='01'){c.classList.add('mstart');c.setAttribute('data-mes',MESN[+v[0].slice(5,7)-1].slice(0,3).toUpperCase())}c.appendChild(fdEl('span','fd-tag',ctMoney(v[1])));
       var b=fdEl('div','fd-bk'),im=new Image();im.src=BK_HEAD;im.alt='';b.appendChild(im);var bo=fdEl('i','fd-body');bo.setAttribute('data-f',v[1]/mx);bo.style.setProperty('--h','10px');b.appendChild(bo);
       if(v[1]>0&&v[1]===mx){var cr=fdEl('span','fd-best','Mejor día');c.classList.add('best');c.insertBefore(cr,c.firstChild)}
       c.appendChild(b);c.setAttribute('role','button');c.tabIndex=0;c.setAttribute('aria-label','Registrar o cambiar el corte del '+v[0]);c.style.cursor='pointer';
       (function(f){var go=function(){var g=document.querySelector('[data-go="numeros"]');if(g)g.click();setTimeout(function(){ctF.elements.fecha.value=f;ctLlenarDe();ctF.scrollIntoView({behavior:'smooth',block:'center'});var mm=ctF.elements.monto;if(mm)mm.focus()},250)};c.addEventListener('click',go);c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}})})(v[0]);
       ch.appendChild(c);
-      var dt=new Date(v[0]+'T12:00:00');dd.appendChild(fdEl('span',v[0]===hoy?'h':'',v[0]===hoy?'HOY':DIA3[dt.getDay()]))});
+      var dt=new Date(v[0]+'T12:00:00'),dl=fdEl('span',v[0]===hoy?'h':'',v[0]===hoy?'HOY':DIA3[dt.getDay()]);dl.appendChild(fdEl('em','',(+v[0].slice(8))+' '+MESN[+v[0].slice(5,7)-1].slice(0,3)));dd.appendChild(dl)});
+    var sc=$('[data-fd-scroll]');if(sc)requestAnimationFrame(function(){sc.scrollLeft=sc.scrollWidth});
+    fdHist(L,hoy);
     var mes=hoy.slice(0,7),tm=L.filter(function(c){return c.fecha.slice(0,7)===mes}).reduce(function(a,c){return a+c.monto},0);
     $('[data-fd-gk]').textContent='BOTE DE '+MESN[+mes.slice(5,7)-1].toUpperCase();
     var pct=CT.meta>0?Math.round(tm/CT.meta*100):null;
