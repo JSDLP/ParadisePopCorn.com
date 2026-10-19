@@ -969,6 +969,42 @@ html:not(.ppi-on):not(.ppi-out) #ppi{display:none!important}
 @keyframes ppi-breathe{0%,100%{transform:scale(.92);opacity:.85}50%{transform:scale(1.04);opacity:1}}
 </style>
 <script>(function(){var h=document.documentElement,seen=false;try{seen=!!sessionStorage.getItem('ppi-seen')}catch(e){}h.classList.add(seen?'ppi-off':'ppi-on')})()</script>
+<style>
+/* ===== Top 5 de sabores (se activa desde el Modo dueño) ===== */
+.t5{position:relative;z-index:3;width:100%;max-width:900px;background:#fff1e6;color:#2a0606;border-radius:22px;border:2px solid rgba(255,255,255,.4);box-shadow:0 14px 30px rgba(0,0,0,.5);overflow:hidden}
+.t5-h{display:flex;align-items:center;gap:12px;padding:16px 18px;background:linear-gradient(90deg,#d10f1f,#8f0a14);color:#fff1e6}
+.t5-h .ic{font-size:26px;line-height:1}
+.t5-h h3{margin:0;font-weight:800;text-transform:uppercase;letter-spacing:-.02em;font-size:clamp(20px,5.4vw,26px);line-height:1}
+.t5-h small{display:block;font-weight:600;font-size:13px;opacity:.85;text-transform:none;letter-spacing:0;margin-top:3px}
+.t5-l{list-style:none;margin:0;padding:8px 14px 14px;display:flex;flex-direction:column;gap:8px}
+.t5-l li{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:#fff;box-shadow:0 2px 0 rgba(42,6,6,.08)}
+.t5-l li:first-child{background:linear-gradient(90deg,#ffe9a8,#fff6dc);box-shadow:0 0 0 2px #ffc83d}
+.t5-n{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;background:#2a0606;color:#fff1e6}
+.t5-l li:nth-child(-n+3) .t5-n{background:none;font-size:26px}
+.t5-s{flex:1;min-width:0;font-weight:800;font-size:clamp(16px,4.4vw,19px);line-height:1.1}
+.t5-c{flex:none;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:5px 9px;border-radius:999px;background:#f3e3d6;color:#7a0a12}
+.t5-c.car{background:#ffe1c2;color:#8a3b00}.t5-c.gou{background:#ece0ff;color:#5a1fb0}
+.t5-go{display:block;margin:0 14px 16px;text-align:center;font-weight:800;text-decoration:none;color:#fff1e6;background:#d10f1f;border-radius:14px;padding:13px;box-shadow:0 4px 0 #7a0a12}
+/* ===== Muro de récords (se activa desde el Modo dueño) ===== */
+.mr{position:relative;z-index:3;width:100%;max-width:1040px;margin:26px auto;padding:26px clamp(14px,4vw,28px);box-sizing:border-box;border-radius:26px;background:radial-gradient(80% 60% at 50% 0%,rgba(255,200,61,.18),transparent 70%),linear-gradient(#3a0508,#1a0204);border:3px solid #ffc83d;box-shadow:0 0 0 4px #7a0a12,0 20px 40px rgba(0,0,0,.5);color:#fff1e6;display:flex;flex-direction:column;gap:18px}
+.mr-h{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.mr-h h2{margin:6px 0 0;font-weight:800;text-transform:uppercase;letter-spacing:-.04em;line-height:.95;font-size:clamp(32px,8vw,48px);text-shadow:0 4px 0 #7a0a12}
+.mr-h p{margin:0;font-size:14.5px;opacity:.85}
+.mr-l{list-style:none;margin:0 auto;padding:0;width:100%;max-width:620px;display:flex;flex-direction:column;gap:10px}
+.mr-l li{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:6px 12px;padding:12px 14px;border-radius:16px;background:rgba(255,241,230,.07);border:1px solid rgba(255,200,61,.25)}
+.mr-l li:first-child{background:linear-gradient(90deg,rgba(255,200,61,.28),rgba(255,200,61,.08));border-color:#ffc83d}
+.mr-m{font-size:26px;text-align:center;font-weight:800}
+.mr-m.n{font-size:17px;opacity:.8}
+.mr-nm{font-weight:800;font-size:clamp(16px,4.4vw,19px);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mr-ct{font-weight:800;font-size:20px;color:#ffc83d;text-align:right;line-height:1}
+.mr-ct small{display:block;font-size:11px;font-weight:700;color:#fff1e6;opacity:.75;text-transform:uppercase;letter-spacing:.06em}
+.mr-br{grid-column:2 / -1;height:7px;border-radius:9px;background:rgba(255,241,230,.12);overflow:hidden}
+.mr-br i{display:block;height:100%;width:var(--w,0%);border-radius:9px;background:linear-gradient(90deg,#ffc83d,#ff8a3d);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.mr-empty{text-align:center;font-weight:700;opacity:.9;margin:0}
+.mr-ft{text-align:center;font-size:13px;opacity:.75;margin:0}
+.mr-ft a{color:#ffc83d;font-weight:800}
+@media (prefers-reduced-motion:reduce){.mr-br i{transition:none}}
+</style>
 </head><body>
 <div id="ppi" role="status" aria-label="Bienvenido a Paradise Pop Corn">
 <div class="rays"></div><div class="dots"></div><div class="glow"></div>
@@ -1188,6 +1224,11 @@ html:not(.ppi-on):not(.ppi-out) #ppi{display:none!important}
 <header class="favs-h"><span class="favs-ic" aria-hidden="true">❤</span><h3>Mis favoritos</h3><span class="favs-n" data-favs-n>0</span></header>
 <p class="favs-empty" data-favs-empty>Toca el <b>♡</b> junto a cualquier sabor y lo guardamos aquí para la próxima vez que vengas.</p>
 <ul class="favs-list" data-favs-list></ul>
+</section>
+<section class="t5" id="top5" data-t5 hidden aria-labelledby="t5-t">
+<header class="t5-h"><span class="ic" aria-hidden="true">🏆</span><div><h3 id="t5-t">Lo más vendido</h3><small>Los 5 sabores favoritos de la semana</small></div></header>
+<ol class="t5-l" data-t5-l></ol>
+<a class="t5-go" href="#pedido">¡Pide el tuyo! →</a>
 </section>
 <section class="meter" aria-label="Medidor de picante"><h3 class="meter-t"><span class="meter-hd lv3" role="img" aria-label="Muy picante" title="Muy picante"><svg viewBox="0 0 64 64"><use href="#chili"/></svg></span>Medidor de picante</h3><div class="m-row lv1"><div class="m-lbl"><b>Poco picante</b><span>Apenas un toque de chile, para todos.</span></div><div class="m-bar" style="--pos:38%"><div class="m-segs"><i style="background:#6a9a3a"></i><i style="background:#8cc63f"></i><i style="background:#e9cd4f"></i><i style="background:#f5a623"></i><i style="background:#f37a0a"></i><i style="background:#f2512a"></i><i style="background:#ee2c0c"></i></div><span class="m-ico lv1" role="img" aria-label="Poco picante" title="Poco picante"><svg viewBox="0 0 64 64"><use href="#chili"/></svg></span></div><small class="m-ex">Limón y Chile · Salsas Negras · Jalapeño · Queso Jalapeño · Pica Fresa</small></div><div class="m-row lv2"><div class="m-lbl"><b>Picante</b><span>Se siente el fuego, pero se disfruta.</span></div><div class="m-bar" style="--pos:70%"><div class="m-segs"><i style="background:#6a9a3a"></i><i style="background:#8cc63f"></i><i style="background:#e9cd4f"></i><i style="background:#f5a623"></i><i style="background:#f37a0a"></i><i style="background:#f2512a"></i><i style="background:#ee2c0c"></i></div><span class="m-ico lv2" role="img" aria-label="Picante" title="Picante"><svg viewBox="0 0 64 64"><use href="#chili"/></svg></span></div><small class="m-ex">Takis Fuego · Takis Azul · Chips Fuego · Mango Habanero</small></div><div class="m-row lv3"><div class="m-lbl"><b>Muy picante</b><span>Solo para valientes.</span></div><div class="m-bar" style="--pos:100%"><div class="m-segs"><i style="background:#6a9a3a"></i><i style="background:#8cc63f"></i><i style="background:#e9cd4f"></i><i style="background:#f5a623"></i><i style="background:#f37a0a"></i><i style="background:#f2512a"></i><i style="background:#ee2c0c"></i></div><span class="m-ico lv3" role="img" aria-label="Muy picante" title="Muy picante"><svg viewBox="0 0 64 64"><use href="#chili"/></svg></span></div><small class="m-ex">Habanero</small></div></section>
 <section class="ap" id="pedido" aria-labelledby="ap-t" data-ap>
@@ -1613,6 +1654,51 @@ html:not(.ppi-on):not(.ppi-out) #ppi{display:none!important}
 </div>
 <div class="rs-row" data-rs-row role="list"></div>
 </section>
+<section class="mr" id="records" data-mr hidden aria-labelledby="mr-t">
+<div class="mr-h"><span class="suc-k" data-mr-mes>Récords del mes</span><h2 id="mr-t">Muro de récords</h2><p>Los clientes del Club con más sellos este mes 🍿</p></div>
+<ol class="mr-l" data-mr-l></ol>
+<p class="mr-empty" data-mr-empty hidden>¡Este mes todavía no hay récords! Tu próximo sello te puede poner en el primer lugar.</p>
+<p class="mr-ft">¿Quieres salir aquí? Junta sellos con tu <a href="club.html#sellos">tarjeta del Club</a>.</p>
+</section>
+<script>
+(function(){
+  /* ---------- Top 5 de sabores y Muro de récords: se prenden y apagan desde el Modo dueño ---------- */
+  var T=document.querySelector('[data-t5]'),W=document.querySelector('[data-mr]');
+  var MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  function norm(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim()}
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+  function categoria(sabor){
+    var n=norm(sabor),K=[['Salada',''],['Caramelo','car'],['Gourmet','gou']],hit=null;
+    document.querySelectorAll('.pg3 section.cat').forEach(function(sec,i){if(hit||i>2)return;
+      sec.querySelectorAll('.flv li').forEach(function(li){if(hit)return;var t=li.getAttribute('data-n');
+        if(!t)li.childNodes.forEach(function(c){if(!t&&c.nodeType===3&&c.nodeValue.trim())t=c.nodeValue});
+        if(norm(t)===n)hit=K[i]})});
+    return hit;
+  }
+  function top5(c){
+    if(!T)return;var tp=c&&c.top,lista=(tp&&tp.sabores)||[];
+    if(!tp||!tp.activa||!lista.length){T.hidden=true;return}
+    var ol=T.querySelector('[data-t5-l]'),M=['🥇','🥈','🥉'];ol.innerHTML='';
+    lista.slice(0,5).forEach(function(s,i){var li=el('li');li.appendChild(el('span','t5-n',i<3?M[i]:String(i+1)));li.appendChild(el('span','t5-s',s));
+      var k=categoria(s);if(k)li.appendChild(el('span','t5-c'+(k[1]?' '+k[1]:''),k[0]));ol.appendChild(li)});
+    T.hidden=false;
+  }
+  function muro(c,lista){
+    if(!W)return;if(!c||!c.muro||!c.muro.activa){W.hidden=true;return}
+    lista=(lista||[]).filter(function(x){return x&&+x.sellos>0}).slice(0,5);
+    var mes=W.querySelector('[data-mr-mes]');mes.textContent='Récords de '+MES[new Date(Date.now()-6*3600*1000).getUTCMonth()];
+    var ol=W.querySelector('[data-mr-l]'),M=['🥇','🥈','🥉'],mx=lista.length?+lista[0].sellos:1;ol.innerHTML='';
+    lista.forEach(function(x,i){var li=el('li');li.appendChild(el('span','mr-m'+(i>2?' n':''),i<3?M[i]:String(i+1)));li.appendChild(el('span','mr-nm',x.nombre||'Cliente Paradise'));
+      var ct=el('span','mr-ct',String(+x.sellos));ct.appendChild(el('small','',+x.sellos===1?'sello':'sellos'));li.appendChild(ct);
+      var br=el('span','mr-br'),bi=el('i');br.appendChild(bi);li.appendChild(br);ol.appendChild(li);
+      requestAnimationFrame(function(){requestAnimationFrame(function(){bi.style.setProperty('--w',Math.max(8,x.sellos*100/mx)+'%')})})});
+    ol.hidden=!lista.length;W.querySelector('[data-mr-empty]').hidden=!!lista.length;W.hidden=false;
+  }
+  window.ppRecords=function(c,lista){top5(c);muro(c,lista)};
+  if(window.PP_REC)window.ppRecords(window.PP_REC[0],window.PP_REC[1]);
+  else{try{var k=JSON.parse(localStorage.getItem('pp-records')||'null');if(k)window.ppRecords(k[0],k[1])}catch(e){}}
+})();
+</script>
 <section class="suc" id="sucursales" aria-label="Nuestras sucursales">
 <div class="stg">
 <div class="stg-val" aria-hidden="true"><span class="stg-bulbs"></span></div>
@@ -2259,6 +2345,7 @@ window.ppAla=function(m){var h=Math.floor(m/60)%12||12;return (h===1?'a la ':'a 
   fetch(URL,{method:'POST',body:new URLSearchParams({accion:'promos'})}).then(function(r){return r.json()}).then(function(d){
     if(d&&d.ok&&d.sitio){aplicarSitio(d.sitio);try{localStorage.setItem('pp-sitio',JSON.stringify(d.sitio))}catch(e){}}
     if(d&&d.ok&&d.promos){aplicar(d.promos);try{localStorage.setItem('pp-promos',JSON.stringify(d.promos))}catch(e){}}
+    if(d&&d.ok&&d.promos){window.PP_REC=[d.promos,d.muro||[]];if(window.ppRecords)window.ppRecords(d.promos,d.muro||[]);try{localStorage.setItem('pp-records',JSON.stringify(window.PP_REC))}catch(e){}}
     if(d&&d.ok&&d.paquete&&window.ppPaquete){ppPaquete(d.paquete);try{localStorage.setItem('pp-paquete',JSON.stringify(d.paquete))}catch(e){}}
   }).catch(function(){});
 })();
