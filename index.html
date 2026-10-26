@@ -2323,9 +2323,12 @@ function apply(h){
 /* clima real (Open-Meteo, gratis). En la vista previa puede no cargar: queda "despejado". */
 async function getWx(){
   try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),6000);
-    const r=await fetch("https://api.open-meteo.com/v1/forecast?latitude=19.31&longitude=-99.06&current=weather_code,cloud_cover,temperature_2m",{signal:ctl.signal});
+    const r=await fetch("https://api.open-meteo.com/v1/forecast?latitude=19.31&longitude=-99.06&current=weather_code,cloud_cover,temperature_2m,precipitation,rain,showers",{signal:ctl.signal});
     const j=await r.json();const code=j.current.weather_code,cc=j.current.cloud_cover;temp=j.current.temperature_2m;
-    realWx=(code>=51)?"rain":(cc>=70||code===3||code===45||code===48)?"cloudy":"clear";
+    /* solo hay lluvia si de verdad está cayendo agua ahorita (no solo por el pronóstico) */
+    const mm=Math.max(+j.current.precipitation||0,(+j.current.rain||0)+(+j.current.showers||0));
+    const rainCode=(code>=61&&code<=67)||(code>=80&&code<=82)||code>=95;
+    realWx=(rainCode&&mm>=0.2)||mm>=0.5?"rain":(code>=51||cc>=70||code===3||code===45||code===48)?"cloudy":"clear";
   }catch(e){realWx="clear";}
   apply(curH());
 }
