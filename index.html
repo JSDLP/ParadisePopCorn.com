@@ -5,7 +5,7 @@
    Navidad: 1 dic – 6 ene · Amor y amistad: 1 – 15 feb
    Para probar: agrega ?temporada=halloween | navidad | amor | ninguna al final del link (?temporada=auto regresa a la fecha). */
 (function(){
-  var IM={"bce868c739-halloween":"img-0ea6495470.webp","bce868c739-navidad":"img-d1d42a1cd9.webp","bce868c739-amor":"img-9cb95b3f7f.webp","47c6fc5d0a-halloween":"img-e69cbd927e.webp","47c6fc5d0a-navidad":"img-d49e82b50d.webp","47c6fc5d0a-amor":"img-5b340c0ed8.webp"};
+  var IM={"bce868c739-halloween":"IMG_4904.webp","bce868c739-navidad":"IMG_4911.webp","bce868c739-amor":"IMG_4913.webp","47c6fc5d0a-navidad":"IMG_4912.webp","47c6fc5d0a-amor":"IMG_4914.webp"};
   var FRASES={
     halloween:'¡Buuu! 👻 Soy Pops fantasma. ¿Truco o palomitas?',
     navidad:'¡Jo, jo, jo! 🎅 Feliz Navidad de parte de Pops y toda la familia Paradise.',
@@ -33,7 +33,7 @@
     var s=img.getAttribute('src')||'',n='';
     if(img.getAttribute('data-img')==='POPS')n=src('bce868c739');
     else if(s.indexOf('data:')!==0){var m=s.match(RE);if(m)n=src(m[1])}
-    if(n&&s!==n)img.setAttribute('src',n);
+    if(n&&s!==n){var pr=new Image();pr.onload=function(){img.setAttribute('src',n)};pr.src=n;}
   }
   function todo(r){(r.querySelectorAll?r.querySelectorAll('img'):[]).forEach(cambia)}
   function inicia(){todo(document);
@@ -2036,8 +2036,8 @@ html:not(.ppi-on):not(.ppi-out) #ppi{display:none!important}
       <span class="onair"><i></i>EN VIVO · <span class="oa-t">—</span></span>
       <span class="wxbadge"><svg class="wxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="wx-t">—</span></span>
       <div class="scene tl" id="sc-tl" data-k="tl">
-      <img loading="lazy" decoding="async" class="base open" alt="Fachada de la Sucursal #1 en Tláhuac" src="img-7c8744d571.webp">
-      <img loading="lazy" decoding="async" class="base shutter" alt="" src="img-0f46d14477.webp">
+      <img loading="lazy" decoding="async" class="base open" alt="Fachada de la Sucursal #1 en Tláhuac" src="IMG_4910.webp">
+      <img loading="lazy" decoding="async" class="base shutter" alt="" src="IMG_4907.webp">
       <img loading="lazy" decoding="async" class="base closed-full" alt="" data-copy=".shutter">
       <div class="bar"></div>
       <div class="walkers"></div>
@@ -2045,7 +2045,7 @@ html:not(.ppi-on):not(.ppi-out) #ppi{display:none!important}
       <div class="glow" style="background:radial-gradient(38% 22% at 49% 19%,rgba(255,214,150,.55),transparent 70%),radial-gradient(60% 18% at 50% 80%,rgba(255,190,120,.25),transparent 70%)"></div>
       <div class="halo" style="background:radial-gradient(52% 16% at 50% 29%,rgba(255,235,220,.55),transparent 70%)"></div>
       <img loading="lazy" decoding="async" class="sign" alt="" data-copy=".open" style="clip-path:inset(21% 9.6% 63.3% 11.2%)">
-      <div class="treebox"><img loading="lazy" decoding="async" class="tree" alt="" src="img-6ce0e84baf.webp"></div>
+      <div class="treebox"><img loading="lazy" decoding="async" class="tree" alt="" src="IMG_4908.webp"></div>
       <canvas class="rain"></canvas>
     </div>
     </div>
@@ -2066,15 +2066,15 @@ html:not(.ppi-on):not(.ppi-out) #ppi{display:none!important}
       <span class="onair"><i></i>EN VIVO · <span class="oa-t">—</span></span>
       <span class="wxbadge"><svg class="wxi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="wx-t">—</span></span>
       <div class="scene co" id="sc-co" data-k="co">
-      <img loading="lazy" decoding="async" class="base open" alt="Fachada de la Sucursal #2 en Coyoacán" src="img-7f1863a59d.webp">
-      <img loading="lazy" decoding="async" class="base shutter" alt="" src="img-699a783632.webp">
+      <img loading="lazy" decoding="async" class="base open" alt="Fachada de la Sucursal #2 en Coyoacán" src="IMG_4909.webp">
+      <img loading="lazy" decoding="async" class="base shutter" alt="" src="IMG_4905.webp">
       <img loading="lazy" decoding="async" class="base closed-full" alt="" data-copy=".shutter">
       <div class="bar"></div>
       <div class="walkers"></div>
       <div class="tint"></div><div class="wash"></div>
       <div class="inner" style="background:radial-gradient(34% 24% at 50% 52%,rgba(255,215,160,.5),transparent 75%)"></div>
       <div class="glow" style="background:radial-gradient(42% 14% at 52% 24%,rgba(255,220,170,.5),transparent 72%),radial-gradient(70% 20% at 45% 86%,rgba(255,200,140,.07),transparent 70%)"></div>
-      <img loading="lazy" decoding="async" class="lights" alt="" src="img-515d6daeb5.webp">
+      <img loading="lazy" decoding="async" class="lights" alt="" src="IMG_4906.webp">
       <div class="halo" style="background:radial-gradient(48% 13% at 52% 25%,rgba(255,235,220,.5),transparent 70%)"></div>
       <img loading="lazy" decoding="async" class="sign" alt="" data-copy=".open" style="clip-path:inset(19.3% 14.1% 67.8% 18.5%)">
       <canvas class="rain"></canvas>
@@ -2131,7 +2131,7 @@ const CFG={
 const ROLL=3.2; /* segundos que tarda la cortina */
 /* banqueta: altura de la persona y línea del piso (en % del alto de la foto) */
 const WALKZONE={tl:{h:32,foot:83.6},co:{h:36,foot:88}};
-const WALK={"fa": {"src": "img-0b927d3bf4.webp", "n": 57, "cols": 10, "fw": 261, "fh": 468, "v": 0.012792364021741129, "fps": 50, "dir": 1, "body": 0.9777424483306836, "footpad": 0.012718600953895072, "cx": 0.4228571428571429}};
+const WALK={"fa": {"src": "IMG_4903.webp", "n": 57, "cols": 10, "fw": 261, "fh": 468, "v": 0.012792364021741129, "fps": 50, "dir": 1, "body": 0.9777424483306836, "footpad": 0.012718600953895072, "cx": 0.4228571428571429}};
 const GAP=3.5; /* segundos entre una persona y la siguiente */
 /* luz por hora: b=brillo s=saturación c=contraste t=tinte(multiplicar) w=lavado(pantalla) g=lámparas */
 const N={b:.40,s:.72,c:1.08,t:[40,60,140,.48],w:[0,0,0,0],g:1};
