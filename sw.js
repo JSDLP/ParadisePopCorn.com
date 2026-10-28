@@ -1,5 +1,5 @@
 // Paradise Pop Corn — pantalla sin internet + fotos guardadas para abrir más rápido
-const CACHE = 'paradise-v3';
+const CACHE = 'paradise-v4';
 const OFFLINE = './offline.html';
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 
@@ -32,8 +32,10 @@ function cacheFirst(req) {
 }
 
 // Página: intenta internet; si falla, lo intenta otra vez de forma distinta antes de mostrar a Pops
+// Siempre pide la versión más nueva de la página (nunca una copia vieja guardada)
 function page(req) {
-  return fetch(req)
+  return fetch(req, { cache: 'no-cache' })
+    .catch(() => fetch(req))
     .catch(() => fetch(req.url, { cache: 'no-store', credentials: 'same-origin' }))
     .catch(() => caches.open(CACHE).then((c) => c.match(OFFLINE)));
 }
