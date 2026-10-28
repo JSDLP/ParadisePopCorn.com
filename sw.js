@@ -1,7 +1,7 @@
 // Paradise Pop Corn — la página abre aunque no haya internet
 // 1) Con internet: siempre muestra la versión más nueva y la guarda.
 // 2) Sin internet: muestra la última versión guardada (con sus fotos).
-const CACHE = 'paradise-v5';
+const CACHE = 'paradise-v6';
 const OFFLINE = './offline.html';
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 const CORE = [
@@ -39,6 +39,16 @@ self.addEventListener('install', (event) => {
       .then((cache) => saveAll(cache, CORE).then(() => saveAssetsOf(cache, ['./index.html', './club.html'])))
       .then(() => self.skipWaiting())
   );
+});
+
+// La página le pasa la lista de sus fotos para guardarlas todas
+self.addEventListener('message', (event) => {
+  const d = event.data || {};
+  if (d.t !== 'save' || !Array.isArray(d.u)) return;
+  const urls = [...new Set(d.u)].filter((u) => u.startsWith(self.location.origin)).slice(0, 300);
+  event.waitUntil(caches.open(CACHE).then((cache) => Promise.all(urls.map((u) =>
+    cache.match(u, { ignoreSearch: true }).then((hit) => hit || fetch(u).then((r) => put(cache, u, r)).catch(() => {}))
+  ))));
 });
 
 self.addEventListener('activate', (event) => {
