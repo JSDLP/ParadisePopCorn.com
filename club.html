@@ -3880,9 +3880,49 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   var KER=IMG.KER, CUB=IMG.CUB;
   var calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---------- Modo sin internet: el panel abre con los últimos datos guardados ---------- */
+  var OFF_READ={resumen:1,buscar:1,cortes:1,fotos:1,promos:1,tarjeta:1},offRol='dueno';
+  function offKey(p){var o={_r:offRol};Object.keys(p).sort().forEach(function(k){if(k!=='pin')o[k]=p[k]});return 'pp-off:'+JSON.stringify(o)}
+  function offGet(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+  function offSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){try{Object.keys(localStorage).forEach(function(x){if(x.indexOf('pp-off:')===0&&x.indexOf('"accion":"buscar"')>0)localStorage.removeItem(x)});localStorage.setItem(k,JSON.stringify(v))}catch(e2){}}}
+  function pinHash(pin,salt){
+    if(!(window.crypto&&crypto.subtle&&window.TextEncoder))return Promise.reject();
+    var te=new TextEncoder();
+    return crypto.subtle.importKey('raw',te.encode(String(pin)),'PBKDF2',false,['deriveBits']).then(function(k){
+      return crypto.subtle.deriveBits({name:'PBKDF2',salt:te.encode('paradise-club:'+salt),iterations:150000,hash:'SHA-256'},k,256)}).then(function(b){
+      return Array.prototype.map.call(new Uint8Array(b),function(x){return ('0'+x.toString(16)).slice(-2)}).join('')});
+  }
+  function offBar(t){var b=document.getElementById('pp-offbar');
+    if(!t){if(b)b.hidden=true;return}
+    if(!b){b=document.createElement('div');b.id='pp-offbar';b.setAttribute('role','status');b.style.cssText='position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 74px);transform:translateX(-50%);z-index:99999;max-width:92vw;padding:8px 16px;border-radius:999px;background:#2a0606;border:2px solid #ffc83d;color:#fff1e6;font:700 13px/1.25 "Bricolage Grotesque",Arial,sans-serif;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.5);pointer-events:none';document.body.appendChild(b)}
+    b.textContent=t;b.hidden=false;clearTimeout(offBar.k);offBar.k=setTimeout(function(){b.hidden=true},7000)}
+  function offHora(ts){try{var d=new Date(ts),h=new Date();var f=d.toLocaleTimeString('es-MX',{hour:'numeric',minute:'2-digit'});return d.toDateString()===h.toDateString()?'de hoy '+f:'del '+d.toLocaleDateString('es-MX',{day:'numeric',month:'short'})+' '+f}catch(e){return ''}}
+  function offline(p,err){
+    if(p.accion==='dueno'){
+      var cred=offGet('pp-off-cred');if(!cred)return Promise.reject(err);
+      var r=(cred.list||[]).map(function(c){return pinHash(p.pin,c.salt).then(function(h){return h===c.h?c.rol:null},function(){return null})});
+      return Promise.all(r).then(function(roles){var rol=roles.filter(Boolean)[0];
+        if(!rol)return {ok:false,error:'Sin internet: escribe el mismo PIN con el que entraste la última vez.'};
+        offRol=rol;offBar('📴 Sin internet · viendo tus datos guardados');return {ok:true,rol:rol,_offline:1}});
+    }
+    if(OFF_READ[p.accion]){var c=offGet(offKey(p));
+      if(!c&&p.accion==='buscar'){c=offGet(offKey({accion:'buscar',q:''}))}
+      if(c){offBar('📴 Sin internet · datos guardados '+offHora(c.t));return Promise.resolve(c.d)}
+      return Promise.reject(err);
+    }
+    return Promise.resolve({ok:false,error:'Sin internet. Puedes ver tu panel, pero para guardar o sellar necesitas conexión.'});
+  }
   function api(p){
     if(!CLUB_URL||CLUB_URL.indexOf('PEGA_')===0) return Promise.reject({cfg:true});
-    return fetch(CLUB_URL,{method:'POST',body:new URLSearchParams(p)}).then(function(r){return r.json()});
+    if(navigator.onLine===false)return offline(p,{net:true});
+    return fetch(CLUB_URL,{method:'POST',body:new URLSearchParams(p)}).then(function(r){return r.json()}).then(function(d){
+      if(d&&d.ok){offBar('');if(p.accion==='dueno')offRol=d.rol==='gerente'?'gerente':'dueno';
+        if(OFF_READ[p.accion])offSet(offKey(p),{t:Date.now(),d:d});
+        if(p.accion==='dueno'&&p.pin){var salt=Math.random().toString(36).slice(2)+Date.now().toString(36),rol=d.rol==='gerente'?'gerente':'dueno';
+          pinHash(p.pin,salt).then(function(h){var cr=offGet('pp-off-cred')||{list:[]};cr.list=(cr.list||[]).filter(function(c){return c.rol!==rol});cr.list.push({rol:rol,salt:salt,h:h});offSet('pp-off-cred',cr)}).catch(function(){})}
+      }
+      return d;
+    },function(err){return offline(p,err)});
   }
   function netErr(e){return e&&e.cfg?'El Club todavía no está conectado. Avísale al personal de Paradise.':'No pudimos conectar. Revisa tu internet e inténtalo otra vez.'}
 
@@ -5208,5 +5248,5 @@ window.PP_ESTAMPAS=(function(){
   window.addEventListener('resize',function(){mueve(false)});setTimeout(function(){mueve(false)},300);
 })();
 </script>
-</body>
+<script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script></body>
 </html>
