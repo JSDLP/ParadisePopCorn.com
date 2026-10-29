@@ -4127,6 +4127,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       if(c){offBar('📴 Sin internet · datos guardados '+offHora(c.t));return Promise.resolve(c.d)}
       return Promise.reject(err);
     }
+    if(navigator.onLine!==false)return Promise.reject(err);
     return Promise.resolve({ok:false,error:'Sin internet. Puedes ver tu panel, pero para guardar o sellar necesitas conexión.'});
   }
   function api(p){
@@ -4190,6 +4191,8 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   stage.addEventListener('pointerup',function(e){if(e.pointerType!=='mouse')reset();if(!moved)flip()});
 
   /* ---------- QR ---------- */
+  /* Número de miembro: se muestra a partir del 20 (el 1 en Google = 0020) */
+  window.ppNum=function(n){var x=parseInt(String(n==null?'':n).replace(/\D/g,''),10);if(isNaN(x))return n;return ('000'+(x+19)).slice(-Math.max(4,String(x+19).length))};
   function verifyURL(num){return P.origin+P.pathname+'?miembro='+num}
   function qrModel(text){try{var q=new PPQR.QRCode(-1,PPQR.L.M);q.addData(text);q.make();return q}catch(e){return null}}
   function qrSVG(text){var q=qrModel(text);if(!q)return '';var n=q.getModuleCount(),d='';
@@ -4200,7 +4203,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   function paint(m){
     var sample=!m;
     cred.classList.toggle('sample',sample);$('[data-sample]').hidden=!sample;
-    var name=sample?'Tu nombre aquí':m.nombre, num=sample?'0000':m.numero;
+    var name=sample?'Tu nombre aquí':m.nombre, num=sample?'0000':ppNum(m.numero);
     $('[data-c-name]').textContent=name;$('[data-c-name2]').textContent=sample?'Tu nombre':m.nombre;
     $('[data-c-num]').textContent=num;$('[data-c-num2]').textContent=num;$('[data-c-date]').textContent=sample?'--/--/----':m.fecha;
     var L=name.length;cred.style.setProperty('--nfs',(L<=12?6.6:L<=16?5.6:L<=20?4.7:L<=26?3.9:3.3)+'cqw');
@@ -4269,7 +4272,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     c.letterSpacing='0px';var nm=m.nombre.toUpperCase();var fs=fitText(c,nm,u*62,u*6.6,800);c.font='800 '+fs+'px "Bricolage Grotesque", Arial';
     c.save();c.shadowColor='rgba(0,0,0,.6)';c.shadowBlur=u*1.6;c.shadowOffsetY=u*.5;c.fillStyle='#fff';c.fillText(nm,X+u*6,Y+H-u*14.2);c.restore();
     c.font='600 '+(u*2.9)+'px "Bricolage Grotesque", Arial';c.fillStyle='rgba(255,241,230,.85)';c.fillText('Desde ',X+u*6,Y+H-u*9.4);var dw=c.measureText('Desde ').width;c.fillStyle='#ffc83d';c.font='800 '+(u*2.9)+'px "Bricolage Grotesque", Arial';c.fillText(m.fecha,X+u*6+dw,Y+H-u*9.4);
-    c.textAlign='right';c.font='800 '+(u*8.6)+'px "Bricolage Grotesque", Arial';c.fillStyle=gold(c,0,Y+H-u*18,0,Y+H-u*9);c.save();c.shadowColor='rgba(0,0,0,.5)';c.shadowBlur=u*.8;c.fillText(m.numero,X+W-u*6,Y+H-u*9.4);c.restore();c.textAlign='left';
+    c.textAlign='right';c.font='800 '+(u*8.6)+'px "Bricolage Grotesque", Arial';c.fillStyle=gold(c,0,Y+H-u*18,0,Y+H-u*9);c.save();c.shadowColor='rgba(0,0,0,.5)';c.shadowBlur=u*.8;c.fillText(ppNum(m.numero),X+W-u*6,Y+H-u*9.4);c.restore();c.textAlign='left';
     c.restore();
     c.save();rr(c,X+u*.4,Y+u*.4,W-u*.8,H-u*.8,R);c.lineWidth=u*.75;c.strokeStyle=gold(c,X,Y,X+W,Y+H);c.stroke();c.restore();
     if(pops){c.save();c.shadowColor='rgba(0,0,0,.55)';c.shadowBlur=u*2;c.shadowOffsetY=u*1.6;var pw=u*41;c.drawImage(pops,X+W+u*3-pw,Y-u*21,pw,pw*pops.height/pops.width);c.restore()}
@@ -4285,10 +4288,10 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       drawCard(c,m,logo,pops,90,420,900);
       var py=420+900/1.586+56,pw=900,ph=300,px=90;
       c.save();c.shadowColor='rgba(0,0,0,.4)';c.shadowBlur=30;c.shadowOffsetY=10;rr(c,px,py,pw,ph,36);c.fillStyle='#fff1e6';c.fill();c.restore();
-      var q=qrModel(verifyURL(m.numero));if(q){var n=q.getModuleCount(),qs=236,cell=qs/n,qx=px+32,qy=py+32;c.fillStyle='#fff';rr(c,qx-10,qy-10,qs+20,qs+20,18);c.fill();c.fillStyle='#1a0203';
+      var q=qrModel(verifyURL(ppNum(m.numero)));if(q){var n=q.getModuleCount(),qs=236,cell=qs/n,qx=px+32,qy=py+32;c.fillStyle='#fff';rr(c,qx-10,qy-10,qs+20,qs+20,18);c.fill();c.fillStyle='#1a0203';
         for(var rr2=0;rr2<n;rr2++)for(var cc=0;cc<n;cc++)if(q.isDark(rr2,cc))c.fillRect(Math.floor(qx+cc*cell),Math.floor(qy+rr2*cell),Math.ceil(cell),Math.ceil(cell))}
       var tx=px+310;c.fillStyle='#d10f1f';c.font='800 44px "Bricolage Grotesque", Arial';c.fillText('Muestra este código',tx,py+96);c.fillText('en caja',tx,py+146);
-      c.fillStyle='#5a1a1a';c.font='600 30px "Bricolage Grotesque", Arial';c.fillText('Miembro No. '+m.numero,tx,py+204);c.fillText('✨ Beneficios próximamente',tx,py+250);
+      c.fillStyle='#5a1a1a';c.font='600 30px "Bricolage Grotesque", Arial';c.fillText('Miembro No. '+ppNum(m.numero),tx,py+204);c.fillText('✨ Beneficios próximamente',tx,py+250);
       c.textAlign='center';c.fillStyle='rgba(255,241,230,.9)';c.font='600 28px "Bricolage Grotesque", Arial';c.fillText('Sabor fuera de serie · @paradisepopcorn.mx',W/2,H-36);c.textAlign='left';
       return new Promise(function(ok){cv.toBlob(ok,'image/png')});
     });
@@ -4296,7 +4299,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   $('[data-save]').addEventListener('click',function(){
     var m=load(K_PREM);if(!m)return;var b=this;b.disabled=true;b.textContent='Creando…';
     makeImage(m).then(function(blob){
-      var name='Credencial-Club-Paradise-'+m.numero+'.png',file;
+      var name='Credencial-Club-Paradise-'+ppNum(m.numero)+'.png',file;
       try{file=new File([blob],name,{type:'image/png'})}catch(e){}
       if(file&&navigator.canShare&&navigator.canShare({files:[file]})){return navigator.share({files:[file],title:'Mi credencial Club Paradise'}).catch(function(){})}
       var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);
@@ -4461,8 +4464,15 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       if(params.modo==='canjear')rain(30);
       resumen();
       var sb=$('.res button.sel');if(sb){var ct=$('.cnt',sb);ct.innerHTML=d.sellos+'/'+d.meta+'<i>'+(d.sellos>=d.meta?'¡Completa!':'sellos')+'</i>';sb.parentNode.classList.toggle('full',d.sellos>=d.meta);var bi=$('.bar2 i',sb);if(bi)bi.style.setProperty('--w',Math.min(100,d.sellos*100/d.meta)+'%');(A.lista||[]).forEach(function(x){if(x.whatsapp===d.whatsapp)x.sellos=d.sellos})}
-    }).catch(function(err){show(aOk,netErr(err));aOk.className='msg'}).then(function(){btns.forEach(function(b){b.disabled=false});if(A.sel)pintarEd(A.sel)});
+    }).catch(function(err){show(aOk,'⚠️ No llegó la respuesta. Revisando la tarjeta para no sellar dos veces…');aOk.className='msg';revisarTarjeta()}).then(function(){btns.forEach(function(b){b.disabled=false});if(A.sel)pintarEd(A.sel)});
   }
+  /* Si se cae la conexión al sellar, vuelve a leer la tarjeta real antes de dejar sellar otra vez */
+  function revisarTarjeta(){var c=A.sel;if(!c)return;
+    api({accion:'buscar',pin:A.pin,q:String(c.whatsapp)}).then(function(d){var r=d&&d.ok&&(d.resultados||[]).filter(function(x){return String(x.whatsapp)===String(c.whatsapp)})[0];
+      if(!r){show(aOk,netErr({}));return}
+      var cambio=+r.sellos!==+c.sellos;c.sellos=+r.sellos;c.canjes=r.canjes!=null?r.canjes:c.canjes;pintarEd(c);
+      show(aOk,cambio?'✅ Sí se guardó. Ahora lleva '+c.sellos+' sellos (no vuelvas a sellar).':'ℹ️ No se guardó. Lleva '+c.sellos+' sellos; puedes intentar otra vez.',cambio);
+      (A.lista||[]).forEach(function(x){if(String(x.whatsapp)===String(c.whatsapp))x.sellos=c.sellos})}).catch(function(e){show(aOk,netErr(e))})}
   $$('[data-a-add]').forEach(function(b){b.addEventListener('click',function(){var n=+b.getAttribute('data-a-add');
     ajustar({modo:'sumar',valor:n},function(d){var dif=d.sellos-d.antes;return dif>0?'✅ '+(dif===1?'Sello agregado':dif+' sellos agregados')+' ('+A.motivo+'). Ahora lleva '+d.sellos+' de '+d.meta+'.':dif<0?'↩️ Sello quitado. Ahora lleva '+d.sellos+' de '+d.meta+'.':'Sin cambios: ya estaba en '+d.sellos+'.'})})});
   $('[data-a-canje]').addEventListener('click',function(){ajustar({modo:'canjear'},function(d){return '🎁 Mediana gratis canjeada. La tarjeta vuelve a 0.'})});
@@ -4883,7 +4893,10 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       c.sellos=d.sellos;btn.classList.add('ok');btn.textContent='✓';sonido('sello');burst(btn,8);toast('🍿 +1 sello a '+(c.nombre||fmtTel(c.whatsapp))+' · lleva '+d.sellos+' de '+d.meta);
       var row=btn.parentNode,ct=$('.cnt',row);if(ct)ct.innerHTML=d.sellos+'/'+d.meta+'<i>'+(d.sellos>=d.meta?'¡Completa!':'sellos')+'</i>';var bi=$('.bar2 i',row);if(bi)bi.style.setProperty('--w',Math.min(100,d.sellos*100/d.meta)+'%');row.classList.toggle('full',d.sellos>=d.meta);
       setTimeout(function(){btn.classList.remove('ok');btn.textContent='+1';delete btn.dataset.busy;if(d.sellos>=d.meta){btn.disabled=true}},1200);resumen();
-    }).catch(function(err){toast(netErr(err));delete btn.dataset.busy});
+    }).catch(function(err){toast('⚠️ Revisando si se guardó el sello…');
+      api({accion:'buscar',pin:A.pin,q:String(c.whatsapp)}).then(function(d){var r=d&&d.ok&&(d.resultados||[]).filter(function(x){return String(x.whatsapp)===String(c.whatsapp)})[0];
+        if(r&&+r.sellos>+c.sellos){c.sellos=+r.sellos;btn.classList.add('ok');btn.textContent='✓';toast('✅ Sí se guardó: lleva '+r.sellos+' sellos');setTimeout(function(){btn.classList.remove('ok');btn.textContent='+1';delete btn.dataset.busy},1500)}
+        else{toast(r?'No se guardó, puedes intentar otra vez':netErr(err));delete btn.dataset.busy}}).catch(function(){toast(netErr(err));delete btn.dataset.busy})});
   }
   (function ambiente(){
     var cv=$('[data-amb]');if(calm||!cv)return;var c=cv.getContext('2d'),P=[],W,H,dpr=Math.min(2,devicePixelRatio||1);
@@ -5136,11 +5149,11 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   $$('[data-reopen]').forEach(function(a){a.addEventListener('click',function(e){if(!EMB)return;e.preventDefault();try{PW.history.replaceState(null,'',P.pathname)}catch(x){}PW.ppClubOpen('premium')})});
   if(vnum){
     $('#p-ver').hidden=false;$('[data-tabs]').hidden=true;$('#p-premium').hidden=true;$('#p-sellos').hidden=true;
-    api({accion:'verificar',numero:vnum}).then(function(d){
+    api({accion:'verificar',numero:(+vnum>=20?('000'+(+vnum-19)).slice(-Math.max(vnum.length,1)):vnum)}).then(function(d){
       var ok=d&&d.ok&&d.valido;$('[data-ver]').classList.toggle('valid',!!ok);
       $('[data-ver-ico]').textContent=ok?'✅':'❌';
       $('[data-ver-t]').textContent=ok?'Miembro Premium válido':'Membresía no encontrada';
-      $('[data-ver-d]').textContent=ok?(d.nombre+' · Miembro No. '+d.numero+' · desde '+d.fecha):'No encontramos el miembro No. '+vnum+'. Revisa la credencial.';
+      $('[data-ver-d]').textContent=ok?(d.nombre+' · Miembro No. '+ppNum(d.numero)+' · desde '+d.fecha):'No encontramos el miembro No. '+vnum+'. Revisa la credencial.';
       if(ok)rain(30);
     }).catch(function(err){$('[data-ver-ico]').textContent='⚠️';$('[data-ver-t]').textContent='No pudimos verificar';$('[data-ver-d]').textContent=netErr(err)});
     return;
