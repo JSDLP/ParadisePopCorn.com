@@ -149,6 +149,31 @@
 .rc-chip.up{color:#7dffa8;background:rgba(31,184,90,.16);border-color:rgba(125,255,168,.4)}
 .rc-chip.down{color:#ffb3a8;background:rgba(209,15,31,.18);border-color:rgba(255,140,120,.4)}
 @media (prefers-reduced-motion:reduce){.rc-med{animation:none}}
+/* ---------- Miembros Premium (número para darle al cliente) ---------- */
+.pm{position:relative;overflow:hidden;border-radius:28px;padding:16px;background:linear-gradient(160deg,rgba(255,241,230,.12),rgba(255,241,230,.03));border:1px solid rgba(255,241,230,.2);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 20px 50px -24px rgba(0,0,0,.8)}
+.pm-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.pm-k{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,241,230,.65)}
+.pm-tot{display:block;margin-top:2px;font-size:20px;font-weight:800;color:#fff1e6}
+.pm-ref{flex:none;width:42px;height:42px;border-radius:50%;cursor:pointer;color:#ffc83d;font:800 20px/1 "Bricolage Grotesque",Arial,sans-serif;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.35),rgba(255,255,255,.06) 50%,rgba(255,200,61,.12));border:1px solid rgba(255,255,255,.3)}
+.pm-ref.spin{animation:dspin .8s linear infinite}
+.pm-l{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pm-l li{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center;padding:12px;border-radius:20px;background:rgba(255,241,230,.06);border:1px solid rgba(255,241,230,.12)}
+.pm-l li.nuevo{border-color:rgba(255,200,61,.6);background:linear-gradient(150deg,rgba(255,200,61,.2),rgba(255,200,61,.05))}
+.pm-num{grid-row:span 2;display:grid;place-items:center;min-width:76px;padding:8px 10px;border-radius:16px;background:rgba(10,0,0,.35);border:1px dashed rgba(255,200,61,.6);text-align:center}
+.pm-num small{display:block;font-size:9px;font-weight:800;letter-spacing:.14em;color:rgba(255,241,230,.6)}
+.pm-num b{display:block;font-size:22px;font-weight:800;color:#ffc83d;letter-spacing:.02em}
+.pm-nm{min-width:0;font-size:16px;font-weight:800;color:#fff1e6;overflow-wrap:anywhere}
+.pm-nm em{display:inline-block;white-space:nowrap;font-style:normal;margin-left:6px;padding:2px 8px;border-radius:999px;font-size:10px;letter-spacing:.1em;background:#ffc83d;color:#2a0606;vertical-align:2px}
+.pm-ac{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pm-ac small{font-size:12px;font-weight:600;color:rgba(255,241,230,.6);margin-right:4px}
+.pm-ac button{padding:6px 10px;border-radius:999px;border:1px solid rgba(255,241,230,.25);background:rgba(255,241,230,.08);color:#fff1e6;font:700 12px/1.1 "Bricolage Grotesque",Arial,sans-serif;cursor:pointer}
+.pm-ac button.wa{background:rgba(37,211,102,.25);border-color:rgba(125,255,168,.45)}
+.pm-more{margin-top:10px;width:100%;padding:10px;border-radius:999px;border:1px dashed rgba(255,200,61,.5);background:transparent;color:#ffc83d;font:800 14px/1 "Bricolage Grotesque",Arial,sans-serif;cursor:pointer}
+.pm-n{margin:12px 0 0;font-size:12px;font-weight:600;color:rgba(255,241,230,.6)}
+body.gerente .pm{background:linear-gradient(180deg,#1a2233,#0d131f);border-color:rgba(200,214,229,.35)}
+body.gerente .pm-num b{color:#9fc3ff}body.gerente .pm-num{border-color:rgba(159,195,255,.6)}
 /* ---------- Votación del próximo sabor (dueño y gerente) ---------- */
  .fc-ge{display:none}body.gerente .fc-ge{display:inline}body.gerente .fc-du{display:none}
 .vt{background:linear-gradient(180deg,#2a0606,#1a0203);border:1.5px solid rgba(255,200,61,.35);border-radius:20px;padding:16px}
@@ -2498,6 +2523,16 @@ html body.owner:not(.gerente) .onav button[aria-current="page"]:not(.dk-go){colo
         <div class="pg" data-a-pg></div>
       </section>
 
+      <section class="dsec" data-ot="clientes" data-pm aria-labelledby="t-pm">
+        <h3 class="dsec-t" id="t-pm"><span>Miembros Premium ⭐</span></h3>
+        <div class="pm">
+          <div class="pm-h"><div><div class="pm-k">Número de miembro para darle al cliente</div><b class="pm-tot" data-pm-tot>Cargando miembros…</b></div><button type="button" class="pm-ref" data-pm-ref aria-label="Actualizar miembros">↻</button></div>
+          <ol class="pm-l" data-pm-l></ol>
+          <button type="button" class="pm-more" data-pm-more hidden>Ver todos los miembros</button>
+          <p class="pm-n">El más nuevo sale primero. Toca <b>📲 Enviar pasos</b> para mandarle por WhatsApp su número, cómo entrar y cómo agregar la app a su inicio.</p>
+        </div>
+      </section>
+
       <section class="dsec" data-ot="clientes" aria-labelledby="t-cli">
         <h3 class="dsec-t" id="t-cli"><span>Buscar y sellar</span></h3>
         <div class="box dbox">
@@ -4239,7 +4274,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     var fd=new FormData(recF), tel=tel10(fd.get('whatsapp')), num=digits(fd.get('numero'));
     if(!tel||!num)return show(recMsg,'Escribe tu WhatsApp y tu número de miembro.');
     var btn=$('button[type=submit]',recF);btn.disabled=true;
-    api({accion:'recuperar',whatsapp:tel,numero:num}).then(function(d){
+    api({accion:'recuperar',whatsapp:tel,numero:(+num>=20?('000'+(+num-19)).slice(-Math.max(num.length,1)):num)}).then(function(d){
       if(!d||!d.ok)return show(recMsg,(d&&d.error)||'No encontramos esa membresía.');
       var m={nombre:d.nombre,numero:d.numero,fecha:d.fecha,whatsapp:d.whatsapp};save(K_PREM,m);paint(m);welcome(m,true);
     }).catch(function(err){show(recMsg,netErr(err))}).then(function(){btn.disabled=false});
@@ -4842,7 +4877,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   function lss(k,v){try{localStorage.setItem(k,v)}catch(e){}}
   function metaDia(){return Math.max(1,parseInt(lsg('pp-meta-dia','20'),10)||20)}
   function toast(t){var x=document.createElement('div');x.className='toastx';x.textContent=t;document.body.appendChild(x);setTimeout(function(){x.remove()},2600)}
-  window.ppClub={api:api,netErr:netErr,toast:toast,pin:function(){return A.pin}};
+  window.ppClub={api:api,netErr:netErr,toast:toast,pin:function(){return A.pin},ult:function(){return ULT}};
   function confeti(){
     if(calm)return;var cv=$('[data-confe]'),c=cv.getContext('2d'),dpr=Math.min(2,devicePixelRatio||1),W=innerWidth,H=innerHeight,P=[],t0=performance.now();
     cv.hidden=false;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';c.setTransform(dpr,0,0,dpr,0,0);
@@ -5619,6 +5654,58 @@ window.PP_ESTAMPAS=(function(){
     k=(k+1)%L.length;var nx=cur===a?b:a,img=new Image();
     img.onload=function(){pon(nx,k);requestAnimationFrame(function(){nx.classList.add('on');cur.classList.remove('on');cur=nx;tono(k)})};img.src=L[k];
   },12000);
+})();
+</script>
+<script>
+/* ===== Miembros Premium: lista con número de miembro (dueño y gerente) ===== */
+(function(){
+  var box=document.querySelector('[data-pm]');if(!box)return;
+  var $=function(q){return box.querySelector(q)},ul=$('[data-pm-l]'),tot=$('[data-pm-tot]'),ref=$('[data-pm-ref]'),more=$('[data-pm-more]');
+  var KEY='pp-off:premium',L=[],todo=false,cargando=false,ya=0;
+  try{L=JSON.parse(localStorage.getItem(KEY)||'[]')||[]}catch(e){L=[]}
+  var URL_PAG='https://jsdlp.github.io/ParadisePopCorn.com/';
+  function pad(n){return ('000'+n).slice(-4)}
+  function pasos(m){var nom=String(m.nombre||'').split(' ')[0];
+    return '¡Hola'+(nom?' '+nom:'')+'! 🍿 Ya está activa tu membresía Premium del Club Paradise ⭐\n\n'+
+      'Tu número de miembro es: *'+ppNum(m.numero)+'*\n\n'+
+      '*Para ver tu credencial:*\n1️⃣ Entra a '+URL_PAG+'\n2️⃣ Abre el Club Paradise\n3️⃣ Toca "¿Ya eres miembro? Recupera tu credencial"\n4️⃣ Escribe tu WhatsApp (10 dígitos) y tu número de miembro: '+ppNum(m.numero)+'\n5️⃣ Toca "Recuperar credencial" ¡y listo! 🎉\n\n'+
+      '*📲 Para tener la app en tu inicio:*\n• iPhone: abre la página en Safari, toca el botón Compartir (el cuadrito con flecha ↑) y elige "Agregar a inicio".\n• Android: abre la página en Chrome, toca los 3 puntitos ⋮ y elige "Agregar a la pantalla principal" o "Instalar app".\n\n'+
+      '¡Gracias por ser parte del Club Paradise! Sabor fuera de serie ✨'}
+  function pintar(){
+    var ord=L.slice().sort(function(a,b){return (+b.raw)-(+a.raw)}),max=ord.length?+ord[0].raw:0;
+    tot.textContent=ord.length?ord.length+(ord.length===1?' miembro Premium':' miembros Premium'):'Todavía no hay miembros Premium';
+    ul.innerHTML='';(todo?ord:ord.slice(0,8)).forEach(function(m){
+      var li=document.createElement('li');if(+m.raw===max)li.className='nuevo';
+      li.innerHTML='<div class="pm-num"><small>MIEMBRO No.</small><b></b></div><div class="pm-nm"></div><div class="pm-ac"><small></small><button type="button" class="cp">📋 Copiar número</button><button type="button" class="wa">📲 Enviar pasos</button></div>';
+      li.querySelector('b').textContent=ppNum(m.numero);var nm=li.querySelector('.pm-nm');nm.textContent=m.nombre||'Sin nombre';
+      if(+m.raw===max){var em=document.createElement('em');em.textContent='EL MÁS NUEVO';nm.appendChild(em)}
+      li.querySelector('.pm-ac small').textContent=m.fecha?'Desde '+m.fecha:'';
+      li.querySelector('.cp').onclick=function(){var t=ppNum(m.numero),b=this;
+        (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent='✅ Copiado'},function(){prompt('Número de miembro:',t)}).then(function(){setTimeout(function(){b.textContent='📋 Copiar número'},1500)})};
+      li.querySelector('.wa').onclick=function(){window.open('https://wa.me/?text='+encodeURIComponent(pasos(m)),'_blank')};
+      ul.appendChild(li)});
+    more.hidden=todo||ord.length<=8;
+  }
+  more.onclick=function(){todo=true;pintar()};
+  function uno(n){var P=window.ppClub;return P.api({accion:'verificar',numero:pad(n)}).then(function(d){return d&&d.ok&&d.valido?{raw:n,numero:d.numero||pad(n),nombre:d.nombre,fecha:d.fecha}:null},function(){return undefined})}
+  function cargar(){var P=window.ppClub;if(!P||cargando)return;cargando=true;ref.classList.add('spin');if(!L.length)tot.textContent='Buscando miembros…';
+    var u=P.ult&&P.ult(),meta=u&&u.premium!=null?+u.premium:null,conoc={};L.forEach(function(m){conoc[m.raw]=1});
+    var n=1,fallos=0,error=false,activos=0,limite=meta!=null?meta+3:400;
+    function sig(){
+      if(error||n>limite||fallos>=4||(meta!=null&&Object.keys(conoc).length>=meta&&n>meta)){if(!activos)fin();return}
+      var k=n++;if(conoc[k]&&n<=limite){sig();return}
+      activos++;uno(k).then(function(r){activos--;
+        if(r===undefined)error=true;else if(r){fallos=0;conoc[k]=1;L=L.filter(function(x){return +x.raw!==k});L.push(r);pintar()}else if(meta==null||k>meta)fallos++;
+        sig()})}
+    for(var i=0;i<4;i++)sig();
+    function fin(){cargando=false;ya=Date.now();ref.classList.remove('spin');try{localStorage.setItem(KEY,JSON.stringify(L))}catch(e){}pintar();
+      if(error&&!L.length)tot.textContent='No pudimos cargar los miembros. Toca ↻'}
+  }
+  ref.onclick=function(){L=[];cargar()};
+  if(L.length)pintar();
+  var panel=document.querySelector('[data-a-panel]');
+  function quizas(){if(panel&&!panel.hidden&&box.offsetParent&&Date.now()-ya>60000)cargar()}
+  if(panel)new MutationObserver(function(){setTimeout(quizas,60)}).observe(panel,{attributes:true,attributeFilter:['hidden','data-tab']});
 })();
 </script>
 <script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script></body>
