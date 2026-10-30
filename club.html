@@ -249,6 +249,87 @@ body.gerente .vt-bar i{background:linear-gradient(90deg,#5b7aa6,#9fc3ff)}
 body.gerente .vt-l li.win .vt-bar i{background:linear-gradient(90deg,#9fc3ff,#e8eef5)}
 body.gerente .vt-ideas{border-top-color:rgba(200,214,229,.3)}
 body.gerente .vt-ideas li{background:rgba(200,214,229,.08);color:#e8eef5}
+/* Ponerle sellos · estilo burbuja de cristal (modo dueño) */
+html body.owner:not(.gerente) .ed .dbox{position:relative;overflow:hidden;isolation:isolate;margin-top:16px;padding:20px 18px!important;border-radius:30px!important;
+  background:linear-gradient(160deg,rgba(255,241,230,.13),rgba(255,241,230,.03))!important;border:1px solid rgba(255,241,230,.22)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 24px 60px -24px rgba(0,0,0,.8)!important}
+html body.owner:not(.gerente) .ed .dbox::before,html body.owner:not(.gerente) .ed .dbox::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none;background-image:none;border:0;box-shadow:none;height:auto;mask:none;-webkit-mask:none}
+html body.owner:not(.gerente) .ed .dbox::before{width:220px;height:220px;left:-80px;top:-90px;background:radial-gradient(circle at 40% 40%,rgba(255,200,61,.30),transparent 70%)}
+html body.owner:not(.gerente) .ed .dbox::after{width:240px;height:240px;right:-100px;bottom:-110px;background:radial-gradient(circle at 40% 40%,rgba(209,15,31,.32),transparent 70%)}
+html body.owner:not(.gerente) .ed .dbox h2{margin:0 0 14px;color:#fff1e6!important;font-size:24px!important;font-weight:800;letter-spacing:-.01em;text-shadow:0 2px 12px rgba(0,0,0,.45)}
+html body.owner:not(.gerente) .ed .dbox h2::before{content:"🍿 "}
+html body.owner:not(.gerente) .ed .why-l{display:block;margin:0 0 8px;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,241,230,.7)!important}
+html body.owner:not(.gerente) .ed .why{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+html body.owner:not(.gerente) .ed .why button{padding:9px 14px;border-radius:999px;font:700 14px/1.1 "Bricolage Grotesque",Arial,sans-serif;cursor:pointer;
+  color:#fff1e6!important;background:rgba(255,241,230,.08)!important;border:1px solid rgba(255,241,230,.25)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.15)!important;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+html body.owner:not(.gerente) .ed .why button[aria-pressed="true"]{color:#2a0606!important;background:linear-gradient(150deg,#ffe08a,#ffc83d)!important;border-color:#ffc83d!important;box-shadow:0 6px 16px -6px rgba(255,200,61,.7),inset 0 1px 0 rgba(255,255,255,.6)!important}
+html body.owner:not(.gerente) .ed .qk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+html body.owner:not(.gerente) .ed .qk button{position:relative;overflow:hidden;min-height:76px;padding:12px;border-radius:22px!important;font:800 20px/1.1 "Bricolage Grotesque",Arial,sans-serif;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transform:none;
+  -webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%);transition:transform .15s,opacity .2s}
+html body.owner:not(.gerente) .ed .qk button small{font-size:13px;font-weight:600;opacity:.85}
+html body.owner:not(.gerente) .ed .qk button::after{content:"";position:absolute;left:8%;right:8%;top:3px;height:42%;border-radius:18px 18px 40px 40px;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0));pointer-events:none}
+html body.owner:not(.gerente) .ed .qk button:active{transform:scale(.97)}
+html body.owner:not(.gerente) .ed .qk .q1{color:#2a0606!important;background:linear-gradient(150deg,rgba(255,224,138,.92),rgba(255,200,61,.78))!important;border:1px solid rgba(255,240,190,.8)!important;box-shadow:0 12px 26px -12px rgba(255,200,61,.8)!important}
+html body.owner:not(.gerente) .ed .qk .q2{color:#fff!important;background:linear-gradient(150deg,rgba(255,92,102,.75),rgba(209,15,31,.7))!important;border:1px solid rgba(255,170,170,.6)!important;box-shadow:0 12px 26px -12px rgba(209,15,31,.85)!important}
+html body.owner:not(.gerente) .ed .qk .q3{color:#fff1e6!important;background:rgba(255,241,230,.12)!important;border:1px solid rgba(255,241,230,.3)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)!important}
+html body.owner:not(.gerente) .ed .qk .q4{color:#ffc83d!important;background:linear-gradient(150deg,rgba(255,200,61,.2),rgba(255,200,61,.06))!important;border:1.5px dashed rgba(255,200,61,.7)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)!important}
+html body.owner:not(.gerente) .ed .qk button:disabled{opacity:.42;filter:saturate(.6);cursor:not-allowed}
+html body.owner:not(.gerente) .ed .dbox .msg{margin:14px 0 0;padding:10px 14px;border-radius:16px;background:rgba(10,0,0,.35);border:1px solid rgba(255,241,230,.18);color:#fff1e6!important;font-weight:700}
+html body.owner:not(.gerente) .ed .dbox .msg.ok{border-color:rgba(125,255,168,.45);color:#c9ffd9!important}
+html body.owner:not(.gerente) .ed .adm-hint{margin:14px 0 0;text-align:center;font-size:12px;font-weight:600;color:rgba(255,241,230,.62)!important}
+html body.owner:not(.gerente) .ed .del-box{margin-top:16px;text-align:center}
+html body.owner:not(.gerente) .ed .del-btn{padding:12px 20px;border-radius:999px;font:800 15px/1 "Bricolage Grotesque",Arial,sans-serif;cursor:pointer;color:#ffb3a8!important;
+  background:rgba(209,15,31,.16)!important;border:1px solid rgba(255,140,120,.5)!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+/* Ponerle sellos v2 · al máximo */
+html body.owner:not(.gerente) .ed .dbox h2{display:none}
+.ps-head{display:none}
+html body.owner:not(.gerente) .ed .ps-head{display:flex;align-items:center;gap:14px;margin:0 0 18px}
+.ps-ic{flex:none;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;font-size:28px;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.55),rgba(255,255,255,.08) 45%,rgba(255,200,61,.22));border:1px solid rgba(255,255,255,.35);
+  box-shadow:inset 0 -8px 14px rgba(0,0,0,.2),0 10px 22px -10px rgba(0,0,0,.7);animation:psFlota 4s ease-in-out infinite alternate}
+@keyframes psFlota{to{transform:translateY(-4px) rotate(-4deg)}}
+.ps-t{flex:1;min-width:0}
+.ps-t b{display:block;font-size:24px;font-weight:800;color:#fff1e6;letter-spacing:-.01em;line-height:1.05}
+.ps-t span{display:block;margin-top:4px;font-size:14px;font-weight:700;color:rgba(255,241,230,.72);line-height:1.25}
+.ps-ring{--pp:0;flex:none;position:relative;width:76px;height:76px;border-radius:50%;
+  background:conic-gradient(#ffc83d calc(var(--pp)*1%),rgba(255,241,230,.14) 0);transition:--pp .8s;
+  box-shadow:0 10px 24px -12px rgba(255,200,61,.8)}
+.ps-ring::before{content:"";position:absolute;inset:7px;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(60,8,10,.95),rgba(20,2,3,.95));box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
+.ps-ring i{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;text-align:center;line-height:1}
+.ps-ring i b{display:block;font-size:24px;font-weight:800;color:#ffc83d}
+.ps-ring i small{display:block;font-size:10px;font-weight:800;letter-spacing:.1em;color:rgba(255,241,230,.7);margin-top:2px}
+.ps-ring.full{background:conic-gradient(#7dffa8 100%,transparent 0);box-shadow:0 0 24px rgba(125,255,168,.6)}
+.ps-ring.full i b{color:#7dffa8}
+@property --pp{syntax:'<number>';inherits:false;initial-value:0}
+html body.owner:not(.gerente) .ed .why-l{display:flex;align-items:center;gap:8px}
+html body.owner:not(.gerente) .ed .why-l::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(255,241,230,.35),transparent)}
+html body.owner:not(.gerente) .ed .why{gap:8px;padding:6px;border-radius:24px;background:rgba(10,0,0,.25);border:1px solid rgba(255,241,230,.12)}
+html body.owner:not(.gerente) .ed .why button{position:relative;overflow:hidden;flex:1 1 auto;transition:transform .2s,background .3s,color .3s}
+html body.owner:not(.gerente) .ed .why button:active{transform:scale(.95)}
+html body.owner:not(.gerente) .ed .why button[aria-pressed="true"]{transform:translateY(-1px)}
+html body.owner:not(.gerente) .ed .qk{grid-template-columns:1fr 1fr;grid-template-areas:"a a" "b c" "d d";gap:12px}
+html body.owner:not(.gerente) .ed .qk .q1{grid-area:a;min-height:104px;font-size:30px!important;border-radius:28px!important}
+html body.owner:not(.gerente) .ed .qk .q1 small{font-size:14px}
+html body.owner:not(.gerente) .ed .qk .q2{grid-area:b}
+html body.owner:not(.gerente) .ed .qk .q3{grid-area:c}
+html body.owner:not(.gerente) .ed .qk .q4{grid-area:d;min-height:70px;flex-direction:row;gap:10px}
+html body.owner:not(.gerente) .ed .qk .q4 small{margin-left:4px}
+html body.owner:not(.gerente) .ed .qk .q1::before{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;transform:skewX(-20deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:psBrillo 3.2s ease-in-out infinite;pointer-events:none}
+@keyframes psBrillo{0%,55%{left:-60%}100%{left:130%}}
+html body.owner:not(.gerente) .ed .qk .q1:disabled::before{display:none}
+html body.owner:not(.gerente) .ed .qk .q4:not(:disabled){color:#2a0606!important;background:linear-gradient(120deg,#ffe08a,#ffc83d 40%,#fff1c2 55%,#ffc83d 70%)!important;background-size:220% 100%!important;
+  border:1.5px solid #fff1c2!important;animation:psCanje 2.4s ease-in-out infinite;box-shadow:0 0 0 0 rgba(255,200,61,.6),0 14px 30px -12px rgba(255,200,61,.9)!important}
+@keyframes psCanje{0%,100%{background-position:100% 0;box-shadow:0 0 0 0 rgba(255,200,61,.55),0 14px 30px -12px rgba(255,200,61,.9)}50%{background-position:0 0;box-shadow:0 0 0 10px rgba(255,200,61,0),0 14px 30px -12px rgba(255,200,61,.9)}}
+.ps-rip{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.45);transform:scale(0);animation:psRip .6s ease-out forwards}
+@keyframes psRip{to{transform:scale(4);opacity:0}}
+html body.owner:not(.gerente) .ed .dbox .msg{display:flex;gap:8px;align-items:center;animation:psMsg .4s cubic-bezier(.2,1.3,.4,1)}
+@keyframes psMsg{from{opacity:0;transform:translateY(8px) scale(.97)}}
+html body.owner:not(.gerente) .ed .dbox .msg[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.ps-ic,html body.owner:not(.gerente) .ed .qk .q1::before,html body.owner:not(.gerente) .ed .qk .q4:not(:disabled){animation:none!important}}
 /* Votación en modo dueño: cristal transparente como los récords */
 body.owner:not(.gerente) .vt{position:relative;overflow:hidden;isolation:isolate;border-radius:30px;padding:18px;
   background:linear-gradient(160deg,rgba(255,241,230,.12),rgba(255,241,230,.03));border:1px solid rgba(255,241,230,.2);
@@ -2589,7 +2670,8 @@ html body.owner:not(.gerente) .onav button[aria-current="page"]:not(.dk-go){colo
         </div>
         <div class="box dbox">
           <h2 style="font-size:22px">Ponerle sellos</h2>
-          <span class="why-l">Motivo</span>
+          <div class="ps-head" aria-hidden="true"><span class="ps-ic">🍿</span><div class="ps-t"><b>Ponerle sellos</b><span data-ps-who>—</span></div><div class="ps-ring" data-ps-ring><i><span><b data-ps-n>0</b><small data-ps-m>DE 10</small></span></i></div></div>
+          <span class="why-l">¿Por qué le das el sello?</span>
           <div class="why" data-a-why>
             <button type="button" aria-pressed="true" data-m="Compra">🍿 Compra</button>
             <button type="button" aria-pressed="false" data-m="Jumbo / Gourmet">⭐ Jumbo / Gourmet</button>
@@ -4512,7 +4594,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     $$('.slot',aSlots).forEach(function(s,i){var on=i<c.sellos;s.classList.toggle('on',on);s.setAttribute('aria-label','Dejar en '+(i+1)+' sellos'+(on?' (marcado)':''))});
     $('[data-a-bar]').style.setProperty('--p',(c.sellos*100/M)+'%');var f=M-c.sellos;
     $('[data-a-txt]').innerHTML=c.sellos>=M?'¡Tarjeta completa! <span>Ya puede canjear 🎉</span>':'Lleva <span>'+c.sellos+' de '+M+'</span> · le '+(f===1?'falta 1':'faltan '+f);
-    $('[data-a-sc]').classList.toggle('full',c.sellos>=M);
+    $('[data-a-sc]').classList.toggle('full',c.sellos>=M);if(window.ppPsHead)ppPsHead(c,M);
     $('[data-a-canje]').disabled=c.sellos<M;$('[data-a-add="1"]').disabled=c.sellos>=M;$('[data-a-add="2"]').disabled=c.sellos>=M;$('[data-a-add="-1"]').disabled=c.sellos<=0;
     if(anim&&anim>0){for(var k=Math.max(0,c.sellos-anim);k<c.sellos;k++){var s=$$('.slot',aSlots)[k];if(s){s.classList.remove('slam');void s.offsetWidth;s.classList.add('slam')}}burst($$('.slot',aSlots)[c.sellos-1],10)}
   }
@@ -5773,6 +5855,20 @@ window.PP_ESTAMPAS=(function(){
   var panel=document.querySelector('[data-a-panel]');
   function quizas(){if(panel&&!panel.hidden&&box.offsetParent&&Date.now()-ya>60000)cargar()}
   if(panel)new MutationObserver(function(){setTimeout(quizas,60)}).observe(panel,{attributes:true,attributeFilter:['hidden','data-tab']});
+})();
+</script>
+<script>
+/* Ponerle sellos: anillo de progreso, ondas al tocar y vibración */
+(function(){
+  var ring=document.querySelector('[data-ps-ring]');if(!ring)return;
+  window.ppPsHead=function(c,M){var n=+c.sellos||0;ring.style.setProperty('--pp',Math.min(100,n*100/M));ring.classList.toggle('full',n>=M);
+    document.querySelector('[data-ps-n]').textContent=n;document.querySelector('[data-ps-m]').textContent='DE '+M;
+    var f=M-n;document.querySelector('[data-ps-who]').textContent=(c.nombre||'Cliente')+' · '+(n>=M?'¡lista para canjear! 🎉':(f===1?'le falta 1':'le faltan '+f));};
+  document.querySelectorAll('.ed .dbox .qk button, .ed .dbox .why button').forEach(function(b){
+    b.addEventListener('pointerdown',function(e){if(b.disabled||!document.body.classList.contains('owner'))return;var r=b.getBoundingClientRect(),d=Math.max(r.width,r.height),sp=document.createElement('span');
+      sp.className='ps-rip';sp.style.width=sp.style.height=d+'px';sp.style.left=(e.clientX-r.left-d/2)+'px';sp.style.top=(e.clientY-r.top-d/2)+'px';b.appendChild(sp);setTimeout(function(){sp.remove()},650);
+      try{navigator.vibrate&&navigator.vibrate(b.closest('.qk')?18:8)}catch(x){}});
+  });
 })();
 </script>
 <script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script></body>
