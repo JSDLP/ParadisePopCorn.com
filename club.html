@@ -174,6 +174,13 @@
 .pm-n{margin:12px 0 0;font-size:12px;font-weight:600;color:rgba(255,241,230,.6)}
 body.gerente .pm{background:linear-gradient(180deg,#1a2233,#0d131f);border-color:rgba(200,214,229,.35)}
 body.gerente .pm-num b{color:#9fc3ff}body.gerente .pm-num{border-color:rgba(159,195,255,.6)}
+.pm-f{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+.pm-f button{padding:7px 12px;border-radius:999px;border:1px solid rgba(255,241,230,.25);background:rgba(255,241,230,.06);color:#fff1e6;font:800 12px/1 "Bricolage Grotesque",Arial,sans-serif;cursor:pointer}
+.pm-f button[aria-pressed="true"]{background:#ffc83d;color:#2a0606;border-color:#ffc83d}
+.pm-q{width:100%;box-sizing:border-box;margin:0 0 12px;padding:11px 14px;border-radius:14px;border:1px solid rgba(255,241,230,.2);background:rgba(10,0,0,.35);color:#fff1e6;font:600 15px/1.2 "Bricolage Grotesque",Arial,sans-serif}
+.pm-num.sin{border-style:solid;border-color:rgba(255,241,230,.2)}
+.pm-num.sin b{font-size:13px;color:rgba(255,241,230,.75)}
+.pm-tel{display:block;font-size:12px;font-weight:600;color:rgba(255,241,230,.6);margin-top:2px}
 /* ---------- Votación del próximo sabor (dueño y gerente) ---------- */
  .fc-ge{display:none}body.gerente .fc-ge{display:inline}body.gerente .fc-du{display:none}
 .vt{background:linear-gradient(180deg,#2a0606,#1a0203);border:1.5px solid rgba(255,200,61,.35);border-radius:20px;padding:16px}
@@ -2524,12 +2531,14 @@ html body.owner:not(.gerente) .onav button[aria-current="page"]:not(.dk-go){colo
       </section>
 
       <section class="dsec" data-ot="clientes" data-pm aria-labelledby="t-pm">
-        <h3 class="dsec-t" id="t-pm"><span>Miembros Premium ⭐</span></h3>
+        <h3 class="dsec-t" id="t-pm"><span>Miembros del Club ⭐</span></h3>
         <div class="pm">
-          <div class="pm-h"><div><div class="pm-k">Número de miembro para darle al cliente</div><b class="pm-tot" data-pm-tot>Cargando miembros…</b></div><button type="button" class="pm-ref" data-pm-ref aria-label="Actualizar miembros">↻</button></div>
+          <div class="pm-h"><div><div class="pm-k">Todos tus clientes, Premium o no</div><b class="pm-tot" data-pm-tot>Cargando miembros…</b></div><button type="button" class="pm-ref" data-pm-ref aria-label="Actualizar miembros">↻</button></div>
+          <div class="pm-f" data-pm-f><button type="button" data-f="todos" aria-pressed="true">Todos</button><button type="button" data-f="premium" aria-pressed="false">⭐ Premium</button><button type="button" data-f="normal" aria-pressed="false">Sin Premium</button></div>
+          <input class="pm-q" data-pm-q type="search" placeholder="Buscar por nombre o teléfono" aria-label="Buscar miembro">
           <ol class="pm-l" data-pm-l></ol>
           <button type="button" class="pm-more" data-pm-more hidden>Ver todos los miembros</button>
-          <p class="pm-n">El más nuevo sale primero. Toca <b>📲 Enviar pasos</b> para mandarle por WhatsApp su número, cómo entrar y cómo agregar la app a su inicio.</p>
+          <p class="pm-n">Los Premium tienen número de miembro (desde el 0020). Los que no son Premium tienen su tarjeta de sellos con su teléfono. Toca <b>📲 Enviar pasos</b> y se abre WhatsApp directo con ese cliente.</p>
         </div>
       </section>
 
@@ -4459,7 +4468,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     aEmpty.textContent=(A.lista||[]).length?'Ningún cliente en este filtro.':(A.q?'No encontramos clientes con "'+A.q+'".':'Todavía no hay tarjetas de sellos.');
     r.forEach(function(c){c.meta=c.meta||A.meta;var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='rowb';if(c.sellos>=c.meta)li.className='full';
       var av=document.createElement('span');av.className='av';av.setAttribute('aria-hidden','true');av.textContent=iniciales(c.nombre);
-      var nb=document.createElement('b');nb.textContent=c.nombre||'Sin nombre';if(c.premium){var pm=document.createElement('i');pm.className='pm';pm.textContent='★ #'+c.premium;nb.appendChild(pm)}
+      var nb=document.createElement('b');nb.textContent=c.nombre||'Sin nombre';if(c.premium){var pm=document.createElement('i');pm.className='pm';pm.textContent='★ No. '+ppNum(c.premium);nb.appendChild(pm)}
       var sm=document.createElement('small');sm.textContent=c.sellos>=c.meta?'¡Completa! Ya puede canjear':fmtTel(c.whatsapp)+(c.ultimo?' · '+c.ultimo:'');
       var br=document.createElement('span');br.className='bar2';var bi=document.createElement('i');bi.style.setProperty('--w',Math.min(100,c.sellos*100/c.meta)+'%');br.appendChild(bi);
       var ct=document.createElement('span');ct.className='cnt';ct.innerHTML=c.sellos+'/'+c.meta+'<i>'+(c.sellos>=c.meta?'¡Completa!':'sellos')+'</i>';
@@ -4479,7 +4488,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   var aSlots=$('[data-a-slots]');
   armarSlots(aSlots,10,true);
   function pintarEd(c,anim){
-    A.sel=c;var M=c.meta||A.meta;aEd.hidden=false;if(+aSlots.getAttribute('data-n')!==M)armarSlots(aSlots,M,true);var alv=$('[data-a-level]');if(alv)alv.textContent=nivelTxt(c.canjes)+' · meta '+M;
+    A.sel=c;var M=c.meta||A.meta;aEd.hidden=false;if(+aSlots.getAttribute('data-n')!==M)armarSlots(aSlots,M,true);var alv=$('[data-a-level]');if(alv)alv.textContent=nivelTxt(c.canjes)+' · meta '+M+(c.premium?' · ⭐ Miembro No. '+ppNum(c.premium):'');
     $('[data-a-name]').textContent=c.nombre||'Sin nombre';$('[data-a-tel]').textContent=fmtTel(c.whatsapp);$('[data-a-canjes]').textContent=c.canjes||0;
     $$('.slot',aSlots).forEach(function(s,i){var on=i<c.sellos;s.classList.toggle('on',on);s.setAttribute('aria-label','Dejar en '+(i+1)+' sellos'+(on?' (marcado)':''))});
     $('[data-a-bar]').style.setProperty('--p',(c.sellos*100/M)+'%');var f=M-c.sellos;
@@ -4494,7 +4503,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     params.accion='ajustar';params.pin=A.pin;params.whatsapp=A.sel.whatsapp;params.motivo=A.motivo;
     api(params).then(function(d){
       if(!d||!d.ok){if(!salir(d&&d.error))show(aOk,(d&&d.error)||'No se pudo guardar.');aOk.className='msg';return}
-      var c={nombre:d.nombre,whatsapp:d.whatsapp,sellos:d.sellos,canjes:d.canjes,meta:d.meta};
+      var c={nombre:d.nombre,whatsapp:d.whatsapp,sellos:d.sellos,canjes:d.canjes,meta:d.meta,premium:d.premium||(A.sel&&A.sel.premium)};
       pintarEd(c,d.sellos-d.antes);show(aOk,okTxt(d),true);sonido(params.modo==='canjear'?'canje':'sello');
       if(params.modo==='canjear')rain(30);
       resumen();
@@ -5657,51 +5666,60 @@ window.PP_ESTAMPAS=(function(){
 })();
 </script>
 <script>
-/* ===== Miembros Premium: lista con número de miembro (dueño y gerente) ===== */
+/* ===== Miembros del Club: todos los clientes, con número de miembro si son Premium ===== */
 (function(){
   var box=document.querySelector('[data-pm]');if(!box)return;
-  var $=function(q){return box.querySelector(q)},ul=$('[data-pm-l]'),tot=$('[data-pm-tot]'),ref=$('[data-pm-ref]'),more=$('[data-pm-more]');
-  var KEY='pp-off:premium',L=[],todo=false,cargando=false,ya=0;
+  var $=function(q){return box.querySelector(q)},ul=$('[data-pm-l]'),tot=$('[data-pm-tot]'),ref=$('[data-pm-ref]'),more=$('[data-pm-more]'),qin=$('[data-pm-q]');
+  var KEY='pp-off:miembros',L=[],todo=false,cargando=false,ya=0,fil='todos';
   try{L=JSON.parse(localStorage.getItem(KEY)||'[]')||[]}catch(e){L=[]}
   var URL_PAG='https://jsdlp.github.io/ParadisePopCorn.com/';
-  function pad(n){return ('000'+n).slice(-4)}
-  function pasos(m){var nom=String(m.nombre||'').split(' ')[0];
-    return '¡Hola'+(nom?' '+nom:'')+'! 🍿 Ya está activa tu membresía Premium del Club Paradise ⭐\n\n'+
-      'Tu número de miembro es: *'+ppNum(m.numero)+'*\n\n'+
-      '*Para ver tu credencial:*\n1️⃣ Entra a '+URL_PAG+'\n2️⃣ Abre el Club Paradise\n3️⃣ Toca "¿Ya eres miembro? Recupera tu credencial"\n4️⃣ Escribe tu WhatsApp (10 dígitos) y tu número de miembro: '+ppNum(m.numero)+'\n5️⃣ Toca "Recuperar credencial" ¡y listo! 🎉\n\n'+
-      '*📲 Para tener la app en tu inicio:*\n• iPhone: abre la página en Safari, toca el botón Compartir (el cuadrito con flecha ↑) y elige "Agregar a inicio".\n• Android: abre la página en Chrome, toca los 3 puntitos ⋮ y elige "Agregar a la pantalla principal" o "Instalar app".\n\n'+
-      '¡Gracias por ser parte del Club Paradise! Sabor fuera de serie ✨'}
+  function tel(t){t=String(t||'');return t.slice(0,2)+' '+t.slice(2,6)+' '+t.slice(6)}
+  var INICIO='\n\n*📲 Para tener la app en tu inicio:*\n• iPhone: abre la página en Safari, toca Compartir (cuadrito con flecha ↑) → "Agregar a inicio" → "Agregar".\n• Android: abre la página en Chrome, toca los 3 puntitos ⋮ → "Agregar a la pantalla principal" o "Instalar app".\n\n¡Gracias por ser parte del Club Paradise! Sabor fuera de serie ✨';
+  function pasos(m){var nom=String(m.nombre||'').split(' ')[0],h='¡Hola'+(nom?' '+nom:'')+'! 🍿 Te escribimos de Paradise Pop Corn.\n\n';
+    if(m.premium)return h+'Ya está activa tu membresía Premium del Club Paradise ⭐\nTu número de miembro es: *'+ppNum(m.premium)+'*\n\n*Para ver tu credencial:*\n1️⃣ Entra a '+URL_PAG+'\n2️⃣ Abre el Club Paradise\n3️⃣ Toca "¿Ya eres miembro? Recupera tu credencial"\n4️⃣ Escribe tu WhatsApp (10 dígitos) y tu número de miembro: '+ppNum(m.premium)+'\n5️⃣ Toca "Recuperar credencial" ¡y listo! 🎉\n\n🍿 Cada vez que nos compres, del monto que sea, te sumamos un sello. Solo di en caja tu teléfono y tu nombre.'+INICIO;
+    return h+'Ya tienes tu tarjeta de sellos del Club Paradise 🍿 Llevas *'+(+m.sellos||0)+' de '+(m.meta||10)+'* sellos.\n\n*Para ver tus sellos:*\n1️⃣ Entra a '+URL_PAG+'\n2️⃣ Abre el Club Paradise\n3️⃣ En "Mis sellos" escribe tu WhatsApp: '+tel(m.whatsapp)+'\n¡Y listo! Ahí ves cuántos llevas. 🎉\n\n🍿 Cada vez que nos compres, del monto que sea, te sumamos un sello. Solo di en caja tu teléfono y tu nombre.'+INICIO}
+  function norm(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
   function pintar(){
-    var ord=L.slice().sort(function(a,b){return (+b.raw)-(+a.raw)}),max=ord.length?+ord[0].raw:0;
-    tot.textContent=ord.length?ord.length+(ord.length===1?' miembro Premium':' miembros Premium'):'Todavía no hay miembros Premium';
-    ul.innerHTML='';(todo?ord:ord.slice(0,8)).forEach(function(m){
-      var li=document.createElement('li');if(+m.raw===max)li.className='nuevo';
-      li.innerHTML='<div class="pm-num"><small>MIEMBRO No.</small><b></b></div><div class="pm-nm"></div><div class="pm-ac"><small></small><button type="button" class="cp">📋 Copiar número</button><button type="button" class="wa">📲 Enviar pasos</button></div>';
-      li.querySelector('b').textContent=ppNum(m.numero);var nm=li.querySelector('.pm-nm');nm.textContent=m.nombre||'Sin nombre';
-      if(+m.raw===max){var em=document.createElement('em');em.textContent='EL MÁS NUEVO';nm.appendChild(em)}
-      li.querySelector('.pm-ac small').textContent=m.fecha?'Desde '+m.fecha:'';
-      li.querySelector('.cp').onclick=function(){var t=ppNum(m.numero),b=this;
-        (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent='✅ Copiado'},function(){prompt('Número de miembro:',t)}).then(function(){setTimeout(function(){b.textContent='📋 Copiar número'},1500)})};
-      li.querySelector('.wa').onclick=function(){window.open('https://wa.me/?text='+encodeURIComponent(pasos(m)),'_blank')};
+    var q=norm(qin.value.trim()),dq=q.replace(/\D/g,'');
+    var pre=L.filter(function(m){return m.premium}).sort(function(a,b){return (+b.premium)-(+a.premium)}),nor=L.filter(function(m){return !m.premium}).reverse();
+    var ord=(fil==='premium'?pre:fil==='normal'?nor:pre.concat(nor)).filter(function(m){return !q||norm(m.nombre).indexOf(q)>=0||(dq&&String(m.whatsapp).indexOf(dq)>=0)||(dq&&String(ppNum(m.premium||'')).indexOf(dq)>=0)});
+    var maxP=pre.length?+pre[0].premium:0;
+    tot.textContent=L.length?L.length+(L.length===1?' miembro':' miembros')+' · '+pre.length+' Premium':'Todavía no hay miembros';
+    ul.innerHTML='';(todo||q?ord:ord.slice(0,10)).forEach(function(m){
+      var li=document.createElement('li');if(m.premium&&+m.premium===maxP)li.className='nuevo';
+      li.innerHTML='<div class="pm-num"><small></small><b></b></div><div class="pm-nm"></div><div class="pm-ac"><small></small><button type="button" class="cp"></button><button type="button" class="wa">📲 Enviar pasos</button></div>';
+      var nb=li.querySelector('.pm-num'),nm=li.querySelector('.pm-nm');
+      if(m.premium){nb.querySelector('small').textContent='MIEMBRO No.';nb.querySelector('b').textContent=ppNum(m.premium)}
+      else{nb.classList.add('sin');nb.querySelector('small').textContent='TARJETA';nb.querySelector('b').textContent=(+m.sellos||0)+'/'+(m.meta||10)+' sellos'}
+      nm.textContent=m.nombre||'Sin nombre';
+      if(m.premium&&+m.premium===maxP){var em=document.createElement('em');em.textContent='EL MÁS NUEVO';nm.appendChild(em)}
+      var tl=document.createElement('span');tl.className='pm-tel';tl.textContent='📱 '+tel(m.whatsapp)+(m.premium?' · ⭐ Premium':' · Sin Premium');nm.appendChild(tl);
+      li.querySelector('.pm-ac small').textContent=m.premium&&m.fecha?'Desde '+m.fecha:'';
+      var cp=li.querySelector('.cp'),txt=m.premium?ppNum(m.premium):String(m.whatsapp);cp.textContent=m.premium?'📋 Copiar número':'📋 Copiar teléfono';
+      cp.onclick=function(){var b=this,lb=b.textContent;(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(function(){b.textContent='✅ Copiado'},function(){prompt('Copia:',txt)}).then(function(){setTimeout(function(){b.textContent=lb},1500)})};
+      li.querySelector('.wa').onclick=function(){window.open('https://wa.me/52'+String(m.whatsapp).replace(/\D/g,'').slice(-10)+'?text='+encodeURIComponent(pasos(m)),'_blank')};
       ul.appendChild(li)});
-    more.hidden=todo||ord.length<=8;
+    if(!ord.length&&L.length){var li=document.createElement('li');li.textContent='Nadie coincide con tu búsqueda.';ul.appendChild(li)}
+    more.hidden=todo||!!q||ord.length<=10;
   }
   more.onclick=function(){todo=true;pintar()};
-  function uno(n){var P=window.ppClub;return P.api({accion:'verificar',numero:pad(n)}).then(function(d){return d&&d.ok&&d.valido?{raw:n,numero:d.numero||pad(n),nombre:d.nombre,fecha:d.fecha}:null},function(){return undefined})}
-  function cargar(){var P=window.ppClub;if(!P||cargando)return;cargando=true;ref.classList.add('spin');if(!L.length)tot.textContent='Buscando miembros…';
-    var u=P.ult&&P.ult(),meta=u&&u.premium!=null?+u.premium:null,conoc={};L.forEach(function(m){conoc[m.raw]=1});
-    var n=1,fallos=0,error=false,activos=0,limite=meta!=null?meta+3:400;
-    function sig(){
-      if(error||n>limite||fallos>=4||(meta!=null&&Object.keys(conoc).length>=meta&&n>meta)){if(!activos)fin();return}
-      var k=n++;if(conoc[k]&&n<=limite){sig();return}
-      activos++;uno(k).then(function(r){activos--;
-        if(r===undefined)error=true;else if(r){fallos=0;conoc[k]=1;L=L.filter(function(x){return +x.raw!==k});L.push(r);pintar()}else if(meta==null||k>meta)fallos++;
-        sig()})}
-    for(var i=0;i<4;i++)sig();
-    function fin(){cargando=false;ya=Date.now();ref.classList.remove('spin');try{localStorage.setItem(KEY,JSON.stringify(L))}catch(e){}pintar();
-      if(error&&!L.length)tot.textContent='No pudimos cargar los miembros. Toca ↻'}
+  qin.addEventListener('input',pintar);
+  [].forEach.call(box.querySelectorAll('[data-pm-f] button'),function(b){b.onclick=function(){fil=b.getAttribute('data-f');[].forEach.call(box.querySelectorAll('[data-pm-f] button'),function(x){x.setAttribute('aria-pressed',String(x===b))});todo=false;pintar()}});
+  function fechas(){ // fecha de alta de los Premium (opcional, con verificar)
+    var P=window.ppClub,f=L.filter(function(m){return m.premium&&!m.fecha}).slice(0,25),i=0;
+    function sig(){if(i>=f.length){try{localStorage.setItem(KEY,JSON.stringify(L))}catch(e){}pintar();return}var m=f[i++];
+      P.api({accion:'verificar',numero:('000'+(+m.premium)).slice(-4)}).then(function(d){if(d&&d.ok&&d.valido&&d.fecha)m.fecha=d.fecha},function(){}).then(sig)}
+    sig();sig();
   }
-  ref.onclick=function(){L=[];cargar()};
+  function cargar(){var P=window.ppClub;if(!P||cargando||!P.pin())return;cargando=true;ref.classList.add('spin');if(!L.length)tot.textContent='Cargando miembros…';
+    P.api({accion:'buscar',pin:P.pin(),q:''}).then(function(d){
+      if(!d||!d.ok){if(!L.length)tot.textContent=(d&&d.error)||'No pudimos cargar los miembros.';return}
+      var viejas={};L.forEach(function(m){if(m.fecha)viejas[m.whatsapp]=m.fecha});
+      L=(d.resultados||[]).map(function(c){return {nombre:c.nombre,whatsapp:c.whatsapp,premium:c.premium||null,sellos:c.sellos,meta:c.meta||d.meta||10,fecha:viejas[c.whatsapp]||c.fecha||''}});
+      ya=Date.now();try{localStorage.setItem(KEY,JSON.stringify(L))}catch(e){}pintar();fechas();
+    }).catch(function(){if(!L.length)tot.textContent='No pudimos cargar los miembros. Toca ↻'}).then(function(){cargando=false;ref.classList.remove('spin')});
+  }
+  ref.onclick=cargar;
   if(L.length)pintar();
   var panel=document.querySelector('[data-a-panel]');
   function quizas(){if(panel&&!panel.hidden&&box.offsetParent&&Date.now()-ya>60000)cargar()}
