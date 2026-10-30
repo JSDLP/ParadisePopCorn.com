@@ -2556,8 +2556,7 @@ html body.owner:not(.gerente) .onav button[aria-current="page"]:not(.dk-go){colo
           <input class="pm-q" data-pm-q type="search" placeholder="Buscar por nombre o teléfono" aria-label="Buscar miembro">
           <ol class="pm-l" data-pm-l></ol>
           <button type="button" class="pm-more" data-pm-more hidden>Ver todos los miembros</button>
-          <details class="pm-cods" data-pm-cods><summary>🎟️ Mis códigos Premium · <span data-pm-cn>0</span> disponibles</summary><p>Pega aquí tus códigos Premium (uno por renglón, como PPC-XXXXXX). Cuando crees una tarjeta o actives Premium, uso el siguiente código libre de esta lista y lo marco como gastado. Se guarda en este teléfono.</p><textarea data-pm-ct placeholder="PPC-AB12CD&#10;PPC-EF34GH"></textarea><button type="button" data-pm-cs>Guardar códigos</button> <span data-pm-cmsg></span></details>
-          <p class="pm-n">Los Premium tienen número de miembro (desde el 0020). Los que no son Premium tienen su tarjeta de sellos con su teléfono. Toca <b>📲 Enviar pasos</b> y se abre WhatsApp directo con ese cliente.</p>
+          <p class="pm-n">Cada cliente con tarjeta tiene su número de miembro (desde el 0020). Toca <b>📲 Enviar pasos</b> y se abre WhatsApp directo con ese cliente.</p>
         </div>
       </section>
 
@@ -2572,8 +2571,6 @@ html body.owner:not(.gerente) .onav button[aria-current="page"]:not(.dk-go){colo
           <form class="rec" data-a-nform hidden novalidate>
             <label class="fld"><span>Nombre</span><input name="nombre" maxlength="40" placeholder="Ej. Ana López"></label>
             <label class="fld"><span>WhatsApp</span><input name="whatsapp" type="tel" inputmode="numeric" maxlength="14" placeholder="55 1234 5678"></label>
-            <label class="pmchk"><input type="checkbox" name="premium" checked><span>⭐ Activar también su <b>Premium</b> (gasta 1 código y le da su número de miembro)</span></label>
-            <label class="fld" data-nf-cod><span>Código Premium <small>(opcional: si lo dejas vacío uso uno de tu lista de códigos)</small></span><input name="codigo" maxlength="12" placeholder="PPC-XXXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
             <button class="go red" type="submit">Crear tarjeta</button>
             <p class="msg" data-a-nmsg hidden></p>
           </form>
@@ -2582,7 +2579,6 @@ html body.owner:not(.gerente) .onav button[aria-current="page"]:not(.dk-go){colo
       </section>
 
       <div class="ed" data-ot="clientes" data-a-ed hidden>
-        <div class="pm-act" data-a-pmact hidden><button type="button" data-a-pmbtn>⭐ Activar Premium a este cliente <small>(gasta 1 código)</small></button><input data-a-pmcod maxlength="12" placeholder="Código (opcional)" autocapitalize="characters" autocomplete="off"><p class="msg" data-a-pmmsg hidden></p><div class="pm-res" data-a-pmres hidden></div></div>
         <div class="sc" data-a-sc>
           <div class="sc-awn"></div>
           <div class="sc-head"><h2>Tarjeta de sellos<small>Toca un círculo para dejar esa cantidad</small></h2><img class="sc-pops" alt="" data-img="POPS"></div>
@@ -4258,8 +4254,8 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   stage.addEventListener('pointerup',function(e){if(e.pointerType!=='mouse')reset();if(!moved)flip()});
 
   /* ---------- QR ---------- */
-  /* Número de miembro: se muestra a partir del 20 (el 1 en Google = 0020) */
-  window.ppNum=function(n){var x=parseInt(String(n==null?'':n).replace(/\D/g,''),10);if(isNaN(x))return n;return ('000'+(x+19)).slice(-Math.max(4,String(x+19).length))};
+  /* Número de miembro (Google ya los da desde el 0020) */
+  window.ppNum=function(n){var x=parseInt(String(n==null?'':n).replace(/\D/g,''),10);if(isNaN(x))return n;return ('000'+x).slice(-Math.max(4,String(x).length))};
   function verifyURL(num){return P.origin+P.pathname+'?miembro='+num}
   function qrModel(text){try{var q=new PPQR.QRCode(-1,PPQR.L.M);q.addData(text);q.make();return q}catch(e){return null}}
   function qrSVG(text){var q=qrModel(text);if(!q)return '';var n=q.getModuleCount(),d='';
@@ -4306,7 +4302,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     var fd=new FormData(recF), tel=tel10(fd.get('whatsapp')), num=digits(fd.get('numero'));
     if(!tel||!num)return show(recMsg,'Escribe tu WhatsApp y tu número de miembro.');
     var btn=$('button[type=submit]',recF);btn.disabled=true;
-    api({accion:'recuperar',whatsapp:tel,numero:(+num>=20?('000'+(+num-19)).slice(-Math.max(num.length,1)):num)}).then(function(d){
+    api({accion:'recuperar',whatsapp:tel,numero:num}).then(function(d){
       if(!d||!d.ok)return show(recMsg,(d&&d.error)||'No encontramos esa membresía.');
       var m={nombre:d.nombre,numero:d.numero,fecha:d.fecha,whatsapp:d.whatsapp};save(K_PREM,m);paint(m);welcome(m,true);
     }).catch(function(err){show(recMsg,netErr(err))}).then(function(){btn.disabled=false});
@@ -4512,7 +4508,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   armarSlots(aSlots,10,true);
   function pintarEd(c,anim){
     A.sel=c;var M=c.meta||A.meta;aEd.hidden=false;if(+aSlots.getAttribute('data-n')!==M)armarSlots(aSlots,M,true);var alv=$('[data-a-level]');if(alv)alv.textContent=nivelTxt(c.canjes)+' · meta '+M+(c.premium?' · ⭐ Miembro No. '+ppNum(c.premium):'');
-    $('[data-a-name]').textContent=c.nombre||'Sin nombre';var pma=$('[data-a-pmact]');if(pma){if(pma.getAttribute('data-w')!==String(c.whatsapp)){pma.setAttribute('data-w',String(c.whatsapp));$('[data-a-pmres]').hidden=true;$('[data-a-pmmsg]').hidden=true}var pr=$('[data-a-pmres]');$('[data-a-pmbtn]').hidden=!!c.premium;$('[data-a-pmcod]').hidden=!!c.premium;pma.hidden=!!c.premium&&pr.hidden}$('[data-a-tel]').textContent=fmtTel(c.whatsapp);$('[data-a-canjes]').textContent=c.canjes||0;
+    $('[data-a-name]').textContent=c.nombre||'Sin nombre';$('[data-a-tel]').textContent=fmtTel(c.whatsapp);$('[data-a-canjes]').textContent=c.canjes||0;
     $$('.slot',aSlots).forEach(function(s,i){var on=i<c.sellos;s.classList.toggle('on',on);s.setAttribute('aria-label','Dejar en '+(i+1)+' sellos'+(on?' (marcado)':''))});
     $('[data-a-bar]').style.setProperty('--p',(c.sellos*100/M)+'%');var f=M-c.sellos;
     $('[data-a-txt]').innerHTML=c.sellos>=M?'¡Tarjeta completa! <span>Ya puede canjear 🎉</span>':'Lleva <span>'+c.sellos+' de '+M+'</span> · le '+(f===1?'falta 1':'faltan '+f);
@@ -4550,13 +4546,10 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   $('[data-a-nform]').addEventListener('submit',function(e){e.preventDefault();var f=this,m=$('[data-a-nmsg]'),fd=new FormData(f),tel=tel10(fd.get('whatsapp')),nom=String(fd.get('nombre')||'').trim();show(m,'');
     if(nom.length<2)return show(m,'Escribe el nombre del cliente.');if(!tel)return show(m,'WhatsApp a 10 dígitos.');
     api({accion:'nueva',pin:A.pin,whatsapp:tel,nombre:nom}).then(function(d){if(!d||!d.ok){if(!salir(d&&d.error))show(m,(d&&d.error)||'No se pudo crear.');return}
-      var quiere=f.elements.premium&&f.elements.premium.checked,cod=String(f.elements.codigo&&f.elements.codigo.value||'').trim(),cli={nombre:d.nombre,whatsapp:d.whatsapp,sellos:d.sellos,canjes:d.canjes,meta:d.meta};
+      var cli={nombre:d.nombre,whatsapp:d.whatsapp,sellos:d.sellos,canjes:d.canjes,meta:d.meta,premium:d.premium||''};
       f.reset();f.hidden=true;buscar(tel);resumen();editar(cli);
-      if(quiere&&window.ppPremium){var nr=$('[data-a-nres]');nr.hidden=false;nr.textContent='⭐ Activando Premium…';
-        ppPremium.activar(d.nombre||nom,d.whatsapp||tel,cod).then(function(r){ppPremium.pintarRes(nr,r,{nombre:d.nombre||nom,whatsapp:d.whatsapp||tel});if(r.ok){cli.premium=r.numero;if(A.sel&&String(A.sel.whatsapp)===String(cli.whatsapp)){A.sel.premium=r.numero;pintarEd(A.sel)}buscar(tel)}})}
+      var nr=$('[data-a-nres]');if(d.premium&&window.ppPremium){ppPremium.pintarRes(nr,{ok:true,numero:d.premium,codigo:''},cli)}else{nr.hidden=true}
     }).catch(function(err){show(m,netErr(err))});});
-  (function(){var b=$('[data-a-pmbtn]');if(!b)return;b.addEventListener('click',function(){var c=A.sel;if(!c||!window.ppPremium)return;var msg=$('[data-a-pmmsg]'),res=$('[data-a-pmres]');b.disabled=true;show(msg,'⭐ Activando Premium…',true);
-    ppPremium.activar(c.nombre,c.whatsapp,String($('[data-a-pmcod]').value||'').trim()).then(function(r){msg.hidden=true;ppPremium.pintarRes(res,r,c);if(r.ok){c.premium=r.numero;$('[data-a-pmcod]').value='';pintarEd(c);(A.lista||[]).forEach(function(x){if(String(x.whatsapp)===String(c.whatsapp))x.premium=r.numero});pintarLista()}}).then(function(){b.disabled=false})})})();
 
 
   /* ---------- Entrada del dueño y tablero ---------- */
@@ -5222,7 +5215,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   $$('[data-reopen]').forEach(function(a){a.addEventListener('click',function(e){if(!EMB)return;e.preventDefault();try{PW.history.replaceState(null,'',P.pathname)}catch(x){}PW.ppClubOpen('premium')})});
   if(vnum){
     $('#p-ver').hidden=false;$('[data-tabs]').hidden=true;$('#p-premium').hidden=true;$('#p-sellos').hidden=true;
-    api({accion:'verificar',numero:(+vnum>=20?('000'+(+vnum-19)).slice(-Math.max(vnum.length,1)):vnum)}).then(function(d){
+    api({accion:'verificar',numero:vnum}).then(function(d){
       var ok=d&&d.ok&&d.valido;$('[data-ver]').classList.toggle('valid',!!ok);
       $('[data-ver-ico]').textContent=ok?'✅':'❌';
       $('[data-ver-t]').textContent=ok?'Miembro Premium válido':'Membresía no encontrada';
@@ -5750,14 +5743,13 @@ window.PP_ESTAMPAS=(function(){
   }
   ref.onclick=cargar;
   /* --- Códigos Premium guardados en este teléfono --- */
-  var KC='pp-codigos',ct=$('[data-pm-ct]'),cn=$('[data-pm-cn]');
+  var KC='pp-codigos';
   function cods(){try{return JSON.parse(localStorage.getItem(KC)||'{"libres":[],"usados":[]}')}catch(e){return {libres:[],usados:[]}}}
   function guardarC(c){try{localStorage.setItem(KC,JSON.stringify(c))}catch(e){}pintarC()}
   function normC(t){var x=String(t||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(x.indexOf('PPC')===0)x=x.slice(3);return x.length>=4?'PPC-'+x:''}
   function libres(){var c=cods();return c.libres.filter(function(x){return c.usados.indexOf(x)<0})}
-  function pintarC(){var l=libres();cn.textContent=l.length;ct.value=l.join('\n')}
-  $('[data-pm-cs]').onclick=function(){var c=cods(),n=[];ct.value.split(/[\s,;]+/).forEach(function(t){var k=normC(t);if(k&&n.indexOf(k)<0)n.push(k)});c.libres=n;c.usados=c.usados.filter(function(x){return n.indexOf(x)<0});guardarC(c);$('[data-pm-cmsg]').textContent='✅ '+n.length+' códigos guardados'};
-  pintarC();
+  function pintarC(){}
+  void function(){var c=cods(),n=[];ct.value.split(/[\s,;]+/).forEach(function(t){var k=normC(t);if(k&&n.indexOf(k)<0)n.push(k)});c.libres=n;c.usados=c.usados.filter(function(x){return n.indexOf(x)<0});guardarC(c);$('[data-pm-cmsg]').textContent='✅ '+n.length+' códigos guardados'};
   window.ppPremium={
     pasos:pasos,
     activar:function(nombre,whatsapp,manual){var P=window.ppClub,lista=manual?[normC(manual)||manual.toUpperCase()]:libres().slice(0,6),i=0;
@@ -5772,8 +5764,8 @@ window.PP_ESTAMPAS=(function(){
     pintarRes:function(el,r,cli){el.hidden=false;el.className='pm-res'+(r.ok?'':' err');el.innerHTML='';
       if(!r.ok){el.textContent='⚠️ '+r.error;return}
       var m={nombre:cli.nombre,whatsapp:cli.whatsapp,premium:r.numero,fecha:r.fecha};
-      el.innerHTML='<div>⭐ ¡Premium activado! Su número de miembro es:</div><b class="big"></b><small></small><div class="acts"><button type="button" class="cp">📋 Copiar número</button><button type="button" class="wa">📲 Enviarle sus pasos</button></div>';
-      el.querySelector('.big').textContent=ppNum(r.numero);el.querySelector('small').textContent='Se usó el código '+r.codigo;
+      el.innerHTML='<div>⭐ ¡Listo! Su número de miembro es:</div><b class="big"></b><small></small><div class="acts"><button type="button" class="cp">📋 Copiar número</button><button type="button" class="wa">📲 Enviarle sus pasos</button></div>';
+      el.querySelector('.big').textContent=ppNum(r.numero);el.querySelector('small').textContent=r.codigo?'Se usó el código '+r.codigo:'Ya quedó guardado. Ya puede ver su credencial con su WhatsApp y este número.';
       el.querySelector('.cp').onclick=function(){var t=ppNum(r.numero);(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){},function(){prompt('Número de miembro:',t)})};
       el.querySelector('.wa').onclick=function(){window.open('https://wa.me/52'+String(cli.whatsapp).replace(/\D/g,'').slice(-10)+'?text='+encodeURIComponent(pasos(m)),'_blank')}}
   };
