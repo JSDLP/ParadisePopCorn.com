@@ -1,0 +1,16 @@
+{
+  "id": "./dueno.html",
+  "name": "Paradise Pop Corn Owner",
+  "short_name": "PP Owner",
+  "lang": "es-MX",
+  "start_url": "./dueno.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    { "src": "icon-dueno-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "icon-dueno-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
