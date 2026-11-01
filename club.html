@@ -1900,6 +1900,19 @@ body:not(.owner) .foot{margin-top:28px}
 .fg-bk img.lit{position:absolute;left:0;top:0;clip-path:inset(calc(100% - var(--p,0%)) 0 0 0);transition:clip-path 1.4s cubic-bezier(.2,.8,.2,1)}
 
 
+
+/* ===== Membresías pausadas ===== */
+.pm-l li.paus{opacity:.78}
+.pm-l li.paus .pm-num{border-color:rgba(255,241,230,.35)}.pm-l li.paus .pm-num b{color:rgba(255,241,230,.55);text-decoration:line-through}
+.pm-nm em.pz{background:rgba(255,241,230,.15);color:#fff1e6;border:1px solid rgba(255,241,230,.35)}
+.pm-ac button.ps{background:rgba(255,200,61,.14);border-color:rgba(255,200,61,.5);color:#ffc83d}
+.pm-ac button.ps.on{background:rgba(61,220,132,.2);border-color:rgba(61,220,132,.55);color:#bff5d3}
+.pm-ac button.ps:disabled{opacity:.6}
+body.gerente .pm-ac button.ps{display:none}
+.pz-ban{display:flex;flex-direction:column;gap:4px;margin:0 0 12px;padding:12px 14px;border-radius:18px;text-align:center;color:#fff1e6;
+ background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.25);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.pz-ban b{font-size:15px}.pz-ban span{font-size:13px;opacity:.85}
+.paused{filter:grayscale(1) brightness(.7);pointer-events:none}
 /* ===== Botes de cada mes · efecto iPhone ===== */
 .mb{position:relative;overflow:hidden;border-radius:26px;padding:16px 14px 14px;isolation:isolate;
  background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 45%,rgba(255,255,255,.08));
@@ -5399,8 +5412,9 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     api({accion:'verificar',numero:vnum}).then(function(d){
       var ok=d&&d.ok&&d.valido;$('[data-ver]').classList.toggle('valid',!!ok);
       $('[data-ver-ico]').textContent=ok?'✅':'❌';
-      $('[data-ver-t]').textContent=ok?'Miembro Premium válido':'Membresía no encontrada';
-      $('[data-ver-d]').textContent=ok?(d.nombre+' · Miembro No. '+ppNum(d.numero)+' · desde '+d.fecha):'No encontramos el miembro No. '+vnum+'. Revisa la credencial.';
+      var pz=d&&d.suspendida;if(pz)$('[data-ver-ico]').textContent='⏸️';
+      $('[data-ver-t]').textContent=ok?'Miembro Premium válido':pz?'Membresía pausada':'Membresía no encontrada';
+      $('[data-ver-d]').textContent=ok?(d.nombre+' · Miembro No. '+ppNum(d.numero)+' · desde '+d.fecha):pz?(d.nombre+' · Miembro No. '+ppNum(d.numero)+' · Esta membresía está pausada temporalmente.'):'No encontramos el miembro No. '+vnum+'. Revisa la credencial.';
       if(ok)rain(30);
     }).catch(function(err){$('[data-ver-ico]').textContent='⚠️';$('[data-ver-t]').textContent='No pudimos verificar';$('[data-ver-d]').textContent=netErr(err)});
     return;
@@ -5408,6 +5422,13 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
 
   /* ---------- Inicio ---------- */
   paint(load(K_PREM));
+  (function(){var m=load(K_PREM);if(!m||!m.whatsapp||!m.numero)return;
+    var bn=document.createElement('div');bn.className='pz-ban';bn.hidden=true;bn.innerHTML='<b>⏸️ Tu membresía Premium está pausada</b><span>Por ahora no puedes usar tu credencial. Pregunta en sucursal para reactivarla. Tus sellos siguen guardados.</span>';
+    cred.parentNode.insertBefore(bn,cred);
+    function marca(p){bn.hidden=!p;cred.classList.toggle('paused',p);try{localStorage.setItem('pp-prem-pausa',p?'1':'')}catch(e){}}
+    try{if(localStorage.getItem('pp-prem-pausa')==='1')marca(true)}catch(e){}
+    api({accion:'recuperar',whatsapp:m.whatsapp,numero:digits(m.numero)}).then(function(d){if(d&&d.suspendida)marca(true);else if(d&&d.ok)marca(false)}).catch(function(){});
+  })();
   function marcaMiembro(){document.body.classList.toggle('member',!!(load(K_PREM)||load(K_SELLOS)))}marcaMiembro();setInterval(marcaMiembro,2000);
   var s0=load(K_SELLOS);if(s0&&s0.whatsapp){$('[name=whatsapp]',sF).value=s0.whatsapp;fetchCard(s0.whatsapp)}
   var pm=load(K_PREM);if(pm&&!s0){$('[name=whatsapp]',sF).value=pm.whatsapp}
@@ -5901,6 +5922,11 @@ window.PP_ESTAMPAS=(function(){
       var cp=li.querySelector('.cp'),txt=m.premium?ppNum(m.premium):String(m.whatsapp);cp.textContent=m.premium?'📋 Copiar número':'📋 Copiar teléfono';
       cp.onclick=function(){var b=this,lb=b.textContent;(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(function(){b.textContent='✅ Copiado'},function(){prompt('Copia:',txt)}).then(function(){setTimeout(function(){b.textContent=lb},1500)})};
       li.querySelector('.wa').onclick=function(){window.open('https://wa.me/52'+String(m.whatsapp).replace(/\D/g,'').slice(-10)+'?text='+encodeURIComponent(pasos(m)),'_blank')};
+      if(m.premium){
+        if(m.suspendido){li.classList.add('paus');var pe=document.createElement('em');pe.className='pz';pe.textContent='⏸️ PAUSADA';nm.insertBefore(pe,tl);tl.textContent='📱 '+tel(m.whatsapp)+' · Membresía pausada'}
+        var ps=document.createElement('button');ps.type='button';ps.className='ps'+(m.suspendido?' on':'');ps.textContent=m.suspendido?'▶️ Reactivar':'⏸️ Pausar';
+        ps.onclick=function(){pausar(m,ps)};li.querySelector('.pm-ac').appendChild(ps);
+      }
       ul.appendChild(li)});
     if(!ord.length&&L.length){var li=document.createElement('li');li.textContent='Nadie coincide con tu búsqueda.';ul.appendChild(li)}
     more.hidden=todo||!!q||ord.length<=10;
@@ -5918,11 +5944,20 @@ window.PP_ESTAMPAS=(function(){
     P.api({accion:'buscar',pin:P.pin(),q:''}).then(function(d){
       if(!d||!d.ok){if(!L.length)tot.textContent=(d&&d.error)||'No pudimos cargar los miembros.';return}
       var viejas={};L.forEach(function(m){if(m.fecha)viejas[m.whatsapp]=m.fecha});
-      L=(d.resultados||[]).map(function(c){return {nombre:c.nombre,whatsapp:c.whatsapp,premium:c.premium||null,sellos:c.sellos,meta:c.meta||d.meta||10,fecha:viejas[c.whatsapp]||c.fecha||''}});
+      L=(d.resultados||[]).map(function(c){return {nombre:c.nombre,whatsapp:c.whatsapp,premium:c.premium||null,suspendido:!!c.suspendido,sellos:c.sellos,meta:c.meta||d.meta||10,fecha:viejas[c.whatsapp]||c.fecha||''}});
       ya=Date.now();try{localStorage.setItem(KEY,JSON.stringify(L))}catch(e){}pintar();fechas();
     }).catch(function(){if(!L.length)tot.textContent='No pudimos cargar los miembros. Toca ↻'}).then(function(){cargando=false;ref.classList.remove('spin')});
   }
   ref.onclick=cargar;
+  function pausar(m,btn){var P=window.ppClub;if(!P||!P.pin())return;var poner=!m.suspendido,nom=String(m.nombre||'este cliente');
+    if(!confirm(poner?'¿Pausar la membresía Premium de '+nom+' (No. '+ppNum(m.premium)+')?\n\nNo podrá usar su credencial hasta que la reactives. Sus sellos no se pierden.':'¿Reactivar la membresía Premium de '+nom+'?'))return;
+    btn.disabled=true;btn.textContent='Guardando…';
+    P.api({accion:'suspender',pin:P.pin(),whatsapp:m.whatsapp,pausar:poner?'1':'0'}).then(function(d){
+      if(!d||!d.ok){P.toast((d&&d.error)||'No se pudo guardar. Actualiza el código de Google.');pintar();return}
+      m.suspendido=!!d.suspendido;try{localStorage.setItem(KEY,JSON.stringify(L))}catch(e){}pintar();
+      P.toast(m.suspendido?'⏸️ Membresía de '+nom+' pausada':'▶️ Membresía de '+nom+' reactivada');
+    }).catch(function(err){P.toast(P.netErr?P.netErr(err):'Sin conexión');pintar()});
+  }
   /* --- Códigos Premium guardados en este teléfono --- */
   var KC='pp-codigos';
   function cods(){try{return JSON.parse(localStorage.getItem(KC)||'{"libres":[],"usados":[]}')}catch(e){return {libres:[],usados:[]}}}
