@@ -1899,6 +1899,62 @@ body:not(.owner) .foot{margin-top:28px}
 .fg-bk img.dim{filter:grayscale(1) brightness(.42);opacity:.9}
 .fg-bk img.lit{position:absolute;left:0;top:0;clip-path:inset(calc(100% - var(--p,0%)) 0 0 0);transition:clip-path 1.4s cubic-bezier(.2,.8,.2,1)}
 
+
+/* ===== Botes de cada mes · efecto iPhone ===== */
+.mb{position:relative;overflow:hidden;border-radius:26px;padding:16px 14px 14px;isolation:isolate;
+ background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.04) 45%,rgba(255,255,255,.08));
+ -webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);
+ border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -1px 0 rgba(255,255,255,.06),0 18px 40px rgba(0,0,0,.35)}
+.mb-bub{position:absolute;border-radius:50%;z-index:-1;pointer-events:none;filter:blur(2px);
+ background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.35),rgba(255,200,61,.12) 45%,transparent 70%)}
+.mb-bub.b1{width:220px;height:220px;right:-60px;top:-80px}.mb-bub.b2{width:140px;height:140px;left:-40px;bottom:30px;opacity:.7}.mb-bub.b3{width:90px;height:90px;left:45%;top:-30px;opacity:.5}
+.mb-head{display:flex;justify-content:space-between;align-items:flex-end;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.mb-k{font-size:11px;font-weight:800;letter-spacing:.24em;color:#ffc83d}
+.mb h4{margin:2px 0 0;font-size:22px;font-weight:800;color:#fff1e6;letter-spacing:-.01em}
+.mb-sub{font-size:12px;color:rgba(255,241,230,.7)}
+.mb-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.mb-st{border-radius:16px;padding:10px 10px 9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.25);
+ -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);min-width:0}
+.mb-st small{display:block;font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,241,230,.7)}
+.mb-st b{display:block;font-size:18px;font-weight:800;color:#fff1e6;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mb-st span{display:block;font-size:11px;color:#ffc83d;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mb-st.gold{background:linear-gradient(160deg,rgba(255,215,106,.32),rgba(255,178,31,.12));border-color:rgba(255,200,61,.55)}
+.mb-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 12px;margin:0 -2px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.mb-track::-webkit-scrollbar{display:none}
+.mb-c{position:relative;flex:0 0 172px;scroll-snap-align:start;border-radius:24px;padding:14px 12px 12px;text-align:center;overflow:hidden;isolation:isolate;
+ background:linear-gradient(170deg,rgba(255,255,255,.18),rgba(255,255,255,.05) 50%,rgba(255,255,255,.09));
+ -webkit-backdrop-filter:blur(16px) saturate(170%);backdrop-filter:blur(16px) saturate(170%);
+ border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 12px 26px rgba(0,0,0,.35);
+ animation:mbIn .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d,0s)}
+.mb-c::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(120px 90px at 50% 38%,rgba(255,200,61,var(--g,.15)),transparent 70%)}
+.mb-c::after{content:"";position:absolute;left:-30%;top:-60%;width:80%;height:120%;z-index:1;pointer-events:none;transform:rotate(25deg);
+ background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent)}
+@keyframes mbIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+.mb-c.now{border-color:rgba(255,200,61,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 0 2px rgba(255,200,61,.35),0 14px 30px rgba(0,0,0,.4)}
+.mb-c.ok{background:linear-gradient(170deg,rgba(255,215,106,.34),rgba(255,178,31,.10) 55%,rgba(255,255,255,.08));border-color:rgba(255,200,61,.65)}
+.mb-m{font-size:15px;font-weight:800;color:#fff1e6;text-transform:capitalize;letter-spacing:.01em}
+.mb-y{font-size:10.5px;font-weight:800;letter-spacing:.2em;color:rgba(255,241,230,.6)}
+.mb-tops{display:flex;justify-content:center;gap:5px;min-height:20px;margin-bottom:6px}
+.mb-crown{position:relative;z-index:2;font-size:10px;font-weight:800;letter-spacing:.08em;color:#2a0606;background:linear-gradient(135deg,#fff1b8,#ffc83d);border-radius:999px;padding:3px 8px;box-shadow:0 3px 8px rgba(0,0,0,.3)}
+.mb-live{position:relative;z-index:2;display:flex;align-items:center;gap:4px;font-size:9.5px;font-weight:800;letter-spacing:.1em;color:#fff1e6;background:rgba(0,0,0,.35);border-radius:999px;padding:3px 7px}
+.mb-live i{width:6px;height:6px;border-radius:50%;background:#3ddc84;box-shadow:0 0 8px #3ddc84;animation:mbPulse 1.4s ease-in-out infinite}
+@keyframes mbPulse{50%{opacity:.35}}
+.mb-c .fg-bk{display:block;width:104px;margin:10px auto 10px}
+.mb-pct{position:absolute;right:12px;top:96px;z-index:3;width:50px;height:50px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#2a0606;transform:rotate(-8deg);
+ background:radial-gradient(circle at 35% 30%,#fff1b8,#ffc83d 45%,#c98a0a);box-shadow:0 0 0 2px #2a0306,0 0 0 4px #ffc83d,0 8px 14px rgba(0,0,0,.5)}
+.mb-pct b{font-size:15px;font-weight:800;line-height:1}.mb-pct small{font-size:7.5px;font-weight:800;letter-spacing:.12em}
+.mb-amt{font-size:21px;font-weight:800;color:#fff1e6;letter-spacing:-.02em;line-height:1.05}
+.mb-of{font-size:11px;color:rgba(255,241,230,.7);margin-top:2px}
+.mb-bar{position:relative;height:7px;border-radius:999px;background:rgba(255,255,255,.14);margin:9px 2px 8px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.35)}
+.mb-bar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:999px;background:linear-gradient(90deg,#ffb21f,#ffe58a);box-shadow:0 0 10px rgba(255,200,61,.7);transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.mb-tag{display:inline-block;font-size:11px;font-weight:800;border-radius:999px;padding:4px 10px;background:rgba(255,255,255,.12);color:#fff1e6;border:1px solid rgba(255,255,255,.18)}
+.mb-tag.ok{background:linear-gradient(135deg,#fff1b8,#ffc83d);color:#2a0606;border-color:transparent}
+.mb-tag.live{background:rgba(61,220,132,.18);border-color:rgba(61,220,132,.45)}
+.mb-d{display:block;font-size:10.5px;color:rgba(255,241,230,.55);margin-top:6px}
+.mb-note{margin:2px 2px 0;font-size:11px;color:rgba(255,241,230,.55)}
+.mb-empty{padding:18px;text-align:center;color:rgba(255,241,230,.75);font-size:14px;width:100%}
+@media (max-width:420px){.mb-stats{grid-template-columns:1fr 1fr}.mb-stats .mb-st:first-child{grid-column:1/-1}.mb-c{flex-basis:156px}}
+@media (prefers-reduced-motion:reduce){.mb-c{animation:none}.mb-live i{animation:none}}
 /* bote meta: el bote se llena por dentro y las palomitas aparecen arriba al final */
 .fg-bk img.dim{clip-path:none;filter:grayscale(.85) brightness(.5)}
 .fg-bk img.lit{clip-path:inset(calc(100% * (1 - var(--pv,0))) 0 0 0)}
@@ -2455,6 +2511,13 @@ html body.owner:not(.gerente) .onav button[aria-current="page"]:not(.dk-go){colo
               <div class="fh-sucs" data-fh-sucs></div>
             </div>
           </div>
+          <section class="mb" data-mb aria-label="Botes de cada mes">
+            <span class="mb-bub b1" aria-hidden="true"></span><span class="mb-bub b2" aria-hidden="true"></span><span class="mb-bub b3" aria-hidden="true"></span>
+            <div class="mb-head"><div><span class="mb-k">BOTES DE CADA MES</span><h4>Tu temporada en taquilla</h4></div><span class="mb-sub" data-mb-sub>Desliza para ver cada mes</span></div>
+            <div class="mb-stats" data-mb-stats></div>
+            <div class="mb-track" data-mb-track></div>
+            <p class="mb-note">Cada mes guarda la meta que tenías en ese momento. Los meses anteriores a hoy usan tu meta actual.</p>
+          </section>
           <div class="fd-grid">
             <div class="fd-film">
               <div class="fd-fh"><h4>Taquilla día por día</h4><span>Últimos 7 días · <b data-fd-sem>$0</b></span></div>
@@ -4816,6 +4879,40 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       if(mm)d.appendChild(fdEl('span','','Mejor mes: '+MESN[+mm.slice(5,7)-1]+' '+mm.slice(0,4)+' ('+ctMoney(porMes[mm])+')'));
       var br=fdEl('div','fh-bar'),bi=fdEl('i');bi.style.width=(tot?t/tot*100:0)+'%';br.appendChild(bi);d.appendChild(br);box.appendChild(d)});
   }
+
+  function mbPintar(L,hoy){
+    var box=$('[data-mb-track]');if(!box)return;
+    var K='pp-metas-mes',MM={};try{MM=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){MM={}}
+    var mesHoy=hoy.slice(0,7);if(CT.meta>0&&MM[mesHoy]!==CT.meta){MM[mesHoy]=CT.meta;try{localStorage.setItem(K,JSON.stringify(MM))}catch(e){}}
+    var tot={},dias={};L.forEach(function(c){var m=c.fecha.slice(0,7);tot[m]=(tot[m]||0)+c.monto;(dias[m]=dias[m]||{})[c.fecha]=1});
+    var ks=Object.keys(tot).sort();box.innerHTML='';var stats=$('[data-mb-stats]');stats.innerHTML='';
+    if(!ks.length){box.appendChild(fdEl('div','mb-empty','Cuando registres tus cortes, aquí aparecerá el bote de cada mes 🍿'));return}
+    var meses=[],y=+ks[0].slice(0,4),m=+ks[0].slice(5,7),yE=+mesHoy.slice(0,4),mE=+mesHoy.slice(5,7);
+    while(y<yE||(y===yE&&m<=mE)){meses.push(y+'-'+(m<10?'0':'')+m);m++;if(m>12){m=1;y++}}
+    meses.reverse();
+    var best=null,cump=0,cerr=0,suma=0;meses.forEach(function(k){var t=tot[k]||0;suma+=t;if(!best||t>(tot[best]||0))best=k;if(k!==mesHoy){cerr++;var mt=MM[k]||CT.meta;if(mt>0&&t>=mt)cump++}});
+    function st(cls,l,b,s){var d=fdEl('div','mb-st '+cls);d.appendChild(fdEl('small','',l));d.appendChild(fdEl('b','',b));if(s)d.appendChild(fdEl('span','',s));stats.appendChild(d)}
+    st('gold','👑 Mejor mes',ctMoney(tot[best]||0),MESN[+best.slice(5,7)-1]+' '+best.slice(0,4));
+    st('','Metas cumplidas',cerr?cump+' de '+cerr:'—',cerr?'meses cerrados':'aún no cierra un mes');
+    st('','Promedio por mes',ctMoney(suma/meses.length),meses.length+(meses.length===1?' mes':' meses'));
+    $('[data-mb-sub]').textContent=meses.length>1?'Desliza para ver cada mes →':'Tu primer mes en taquilla';
+    meses.forEach(function(k,i){
+      var t=tot[k]||0,mt=MM[k]||CT.meta||0,pct=mt>0?Math.round(t/mt*100):null,pv=pct==null?(t>0?100:0):Math.min(100,pct),now=k===mesHoy,ok=pct!=null&&pct>=100;
+      var c=fdEl('div','mb-c'+(now?' now':'')+(ok?' ok':''));c.style.setProperty('--d',(i*70)+'ms');c.style.setProperty('--g',(.08+pv/100*.35).toFixed(2));
+      var tp=fdEl('div','mb-tops');if(k===best&&t>0)tp.appendChild(fdEl('span','mb-crown','👑 MEJOR'));
+      if(now){var lv=fdEl('span','mb-live');lv.appendChild(fdEl('i'));lv.appendChild(document.createTextNode('EN CURSO'));tp.appendChild(lv)}c.appendChild(tp);
+      c.appendChild(fdEl('div','mb-m',MESN[+k.slice(5,7)-1]));c.appendChild(fdEl('div','mb-y',k.slice(0,4)));
+      var bk=fdEl('span','fg-bk');['dim','lit','heap'].forEach(function(cl){var im=document.createElement('img');im.className=cl;im.alt='';im.src=BK_FULL;bk.appendChild(im)});
+      bk.style.setProperty('--pv',0);c.appendChild(bk);
+      var sl=fdEl('span','mb-pct');sl.appendChild(fdEl('b','',pct==null?'—':pct+'%'));sl.appendChild(fdEl('small','',ok?'¡LLENO!':'LLENO'));c.appendChild(sl);
+      c.appendChild(fdEl('div','mb-amt',ctMoney(t)));c.appendChild(fdEl('div','mb-of',mt>0?'de '+ctMoney(mt):'sin meta'));
+      var br=fdEl('div','mb-bar'),bi=fdEl('i');br.appendChild(bi);c.appendChild(br);
+      var tg=ok?fdEl('span','mb-tag ok','🏆 ¡Meta cumplida!'):now?fdEl('span','mb-tag live',mt>0?'Faltan '+ctMoney(mt-t):'Mes en curso'):fdEl('span','mb-tag',mt>0?'Faltaron '+ctMoney(mt-t):'Sin meta');
+      c.appendChild(tg);var nd=dias[k]?Object.keys(dias[k]).length:0;c.appendChild(fdEl('span','mb-d',nd?nd+(nd===1?' día con corte':' días con corte'):'Sin cortes'));
+      box.appendChild(c);
+      setTimeout(function(){bk.style.setProperty('--pv',pv/100);bi.style.width=pv+'%'},120+i*90);
+    });
+  }
   function fdPintar(){
     if(A.rol==='gerente'||!$('[data-fd]'))return;
     var hoy=CT.hoy||ctHoy(),L=CT.lista||[],dia={};L.forEach(function(c){dia[c.fecha]=(dia[c.fecha]||0)+c.monto});
@@ -4841,6 +4938,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       var dt=new Date(v[0]+'T12:00:00'),dl=fdEl('span',v[0]===hoy?'h':'',v[0]===hoy?'HOY':DIA3[dt.getDay()]);dl.appendChild(fdEl('em','',(+v[0].slice(8))+' '+MESN[+v[0].slice(5,7)-1].slice(0,3)));dd.appendChild(dl)});
     var sc=$('[data-fd-scroll]');if(sc)requestAnimationFrame(function(){sc.scrollLeft=sc.scrollWidth});
     fdHist(L,hoy);
+    try{mbPintar(L,hoy)}catch(e){}
     var mes=hoy.slice(0,7),tm=L.filter(function(c){return c.fecha.slice(0,7)===mes}).reduce(function(a,c){return a+c.monto},0);
     $('[data-fd-gk]').textContent='BOTE DE '+MESN[+mes.slice(5,7)-1].toUpperCase();
     var pct=CT.meta>0?Math.round(tm/CT.meta*100):null;
