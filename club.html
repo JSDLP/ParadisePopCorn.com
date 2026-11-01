@@ -2516,7 +2516,7 @@ html body.owner:not(.gerente) .onav button[aria-current="page"]:not(.dk-go){colo
             <div class="mb-head"><div><span class="mb-k">BOTES DE CADA MES</span><h4>Tu temporada en taquilla</h4></div><span class="mb-sub" data-mb-sub>Desliza para ver cada mes</span></div>
             <div class="mb-stats" data-mb-stats></div>
             <div class="mb-track" data-mb-track></div>
-            <p class="mb-note">Cada mes guarda la meta que tenías en ese momento. Los meses anteriores a hoy usan tu meta actual.</p>
+            <p class="mb-note">Tus primeros dos meses tienen meta de $40,000. Desde ahí, cada mes guarda la meta que tenías en ese momento.</p>
           </section>
           <div class="fd-grid">
             <div class="fd-film">
@@ -4889,6 +4889,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     if(!ks.length){box.appendChild(fdEl('div','mb-empty','Cuando registres tus cortes, aquí aparecerá el bote de cada mes 🍿'));return}
     var meses=[],y=+ks[0].slice(0,4),m=+ks[0].slice(5,7),yE=+mesHoy.slice(0,4),mE=+mesHoy.slice(5,7);
     while(y<yE||(y===yE&&m<=mE)){meses.push(y+'-'+(m<10?'0':'')+m);m++;if(m>12){m=1;y++}}
+    var FIJA=40000;meses.slice(0,2).forEach(function(k){MM[k]=FIJA});
     meses.reverse();
     var best=null,cump=0,cerr=0,suma=0;meses.forEach(function(k){var t=tot[k]||0;suma+=t;if(!best||t>(tot[best]||0))best=k;if(k!==mesHoy){cerr++;var mt=MM[k]||CT.meta;if(mt>0&&t>=mt)cump++}});
     function st(cls,l,b,s){var d=fdEl('div','mb-st '+cls);d.appendChild(fdEl('small','',l));d.appendChild(fdEl('b','',b));if(s)d.appendChild(fdEl('span','',s));stats.appendChild(d)}
