@@ -207,6 +207,10 @@ textarea::placeholder{color:var(--muted)}
 .v-card p{font-size:19px;line-height:1.35;min-height:52px}
 .v-card p em{font-style:normal;color:var(--muted)}
 .v-card small{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:10px}
+.v-dict{width:100%;max-width:460px;margin-top:12px;display:flex;gap:8px}
+.v-dict input{flex:1;border:1px solid var(--line2);background:rgba(255,255,255,.06);border-radius:16px;padding:14px;font-size:16px;outline:0;color:var(--cream)}
+.v-dict button{width:50px;border-radius:16px;background:linear-gradient(135deg,#ffd76a,#e8a317);display:grid;place-items:center}
+.v-dict svg{width:20px;height:20px}
 .wave{display:flex;align-items:center;gap:4px;height:48px;margin-top:22px}
 .wave i{width:4px;border-radius:4px;background:linear-gradient(var(--goldtxt),var(--gold2));height:8px;transition:height .12s}
 .v-btns{margin-top:auto;display:flex;gap:28px;align-items:center}
@@ -323,6 +327,7 @@ textarea::placeholder{color:var(--muted)}
   <div class="orb-wrap"><div class="ring"></div><div class="ring r2"></div><div class="orb pops-big"></div></div>
   <div class="v-lbl" id="vLbl">TOCA EL MICRÓFONO</div>
   <div class="v-card"><p id="vText"><em>Pregúntale algo a Pops…</em></p><small><span id="vWho">Tú</span><span>Español (MX)</span></small></div>
+  <div class="v-dict" id="vDict" hidden><input id="vInput" placeholder="Toca aquí y usa el 🎤 del teclado…" enterkeyhint="send" autocomplete="off"><button id="vSend" aria-label="Enviar"><svg viewBox="0 0 24 24" fill="none" stroke="#2a1a00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button></div>
   <div class="wave" id="wave"></div>
   <div class="v-btns">
     <button class="mic" id="vMic" aria-label="Hablar">
@@ -778,26 +783,57 @@ const Reco=window.SpeechRecognition||window.webkitSpeechRecognition; let reco=nu
 (function(){const w=$('#wave');for(let i=0;i<26;i++)w.appendChild(document.createElement('i'))})();
 function onda(on){clearInterval(waveT);const bars=$('#wave').children;if(!on){[...bars].forEach(b=>b.style.height='8px');return}waveT=setInterval(()=>[...bars].forEach((b,i)=>b.style.height=(8+Math.abs(Math.sin(Date.now()/180+i))*34*Math.random())+'px'),120)}
 function vEstado(t,cls){$('#vEstado').textContent=t;const v=$('#voice');v.classList.remove('listening','speaking');if(cls)v.classList.add(cls)}
-function abrirVoz(){cerrarPop();$('#voice').classList.add('show');pintarAvatares($('#voice'));if(!Reco){$('#vText').innerHTML='<em>Tu navegador no permite dictado aquí. Prueba en Safari actualizado o usa el teclado.</em>';return}escuchar()}
-function cerrarVoz(){try{reco&&reco.abort()}catch(e){}speechSynthesis.cancel();escuchando=false;onda(false);$('#vMic').classList.remove('on');$('#voice').classList.remove('show')}
+function abrirVoz(){cerrarPop();$('#voice').classList.add('show');pintarAvatares($('#voice'));desbloquearVoz();
+  if(!Reco){mostrarDictado('Tu navegador no deja usar el micrófono aquí. Toca el cuadro de abajo y usa el 🎤 del teclado.');return}
+  escuchar()}
+let vozLista=false;
+function cerrarVoz(){$('#vDict').hidden=true;try{reco&&reco.abort()}catch(e){}try{speechSynthesis.cancel()}catch(e){}escuchando=false;onda(false);$('#vMic').classList.remove('on');$('#voice').classList.remove('show')}
+function desbloquearVoz(){ // iPhone/iPad solo dejan hablar si la primera voz se activa con un toque
+  if(vozLista||!('speechSynthesis' in window))return;
+  try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u);vozLista=true}catch(e){}
+}
+function mostrarDictado(msg){
+  $('#vDict').hidden=false; if(msg){$('#vText').innerHTML='<em>'+esc(msg)+'</em>'}
+  $('#vLbl').textContent='DICTA O ESCRIBE'; vEstado('Usa el teclado');
+}
+async function preguntarVoz(texto){
+  texto=(texto||'').trim(); if(!texto){vEstado('Listo');$('#vLbl').textContent='TOCA EL MICRÓFONO';return}
+  $('#vText').textContent='“'+texto+'”';
+  vEstado('Pensando…');$('#vLbl').textContent='POPS ESTÁ PENSANDO';
+  if(!actual){actual={id:Date.now().toString(36),titulo:texto.slice(0,48),proy:adivinarProy(texto),creado:Date.now(),act:Date.now(),msgs:[]};chats.unshift(actual)}
+  actual.msgs.push({role:'user',text:texto,files:[],t:Date.now()});
+  const res=await responder(texto);
+  const dicho=res.error||textoPlano(res.text||'');
+  $('#vText').textContent=dicho.length>220?dicho.slice(0,220)+'…':dicho;$('#vWho').textContent='Pops';
+  hablar(dicho);
+}
+const ERR_VOZ={
+  'not-allowed':'Safari no tiene permiso del micrófono. Toca "aA" en la barra de direcciones → Configuración del sitio web → Micrófono → Permitir.',
+  'service-not-allowed':'Activa el Dictado: Ajustes → General → Teclado → Activar dictado. Mientras, usa el 🎤 del teclado aquí abajo.',
+  'audio-capture':'No encontré el micrófono. Revisa que nada más lo esté usando.',
+  'network':'Se necesita internet para entenderte. Revisa tu conexión.',
+  'no-speech':'No te escuché. Toca el micrófono y habla cerquita.'
+};
 function escuchar(){
-  if(!Reco) return; speechSynthesis.cancel();
-  reco=new Reco();reco.lang='es-MX';reco.interimResults=true;reco.continuous=false;
-  let final='';const t0=Date.now();
-  reco.onstart=()=>{escuchando=true;$('#vMic').classList.add('on');$('#vLbl').textContent='POPS TE ESCUCHA';vEstado('Escuchando…','listening');$('#vWho').textContent='Tú · ahora';onda(true)};
-  reco.onresult=e=>{let tmp='';for(const r of e.results){if(r.isFinal)final+=r[0].transcript;else tmp+=r[0].transcript}$('#vText').innerHTML=`“${esc(final)}<em>${esc(tmp)}</em>”`};
-  reco.onerror=e=>{vEstado(e.error==='not-allowed'?'Permite el micrófono':'No te escuché bien');};
-  reco.onend=async()=>{escuchando=false;$('#vMic').classList.remove('on');onda(false);
-    if(!final.trim()){vEstado('Listo');$('#vLbl').textContent='TOCA EL MICRÓFONO';return}
-    vEstado('Pensando…');$('#vLbl').textContent='POPS ESTÁ PENSANDO';
-    if(!actual){actual={id:Date.now().toString(36),titulo:final.slice(0,48),proy:adivinarProy(final),creado:Date.now(),act:Date.now(),msgs:[]};chats.unshift(actual)}
-    actual.msgs.push({role:'user',text:final.trim(),files:[],t:Date.now()});
-    const res=await responder(final);
-    const dicho=res.error||textoPlano(res.text||'');
-    $('#vText').textContent=dicho.length>220?dicho.slice(0,220)+'…':dicho;$('#vWho').textContent='Pops';
-    hablar(dicho);
+  if(!Reco){mostrarDictado();return}
+  desbloquearVoz(); try{speechSynthesis.cancel()}catch(e){}
+  try{reco&&reco.abort()}catch(e){}
+  reco=new Reco();reco.lang='es-MX';reco.interimResults=true;reco.continuous=true;
+  let final='',tmp='',errorVoz=null,silencio=null,tope=null;
+  const cortar=()=>{try{reco.stop()}catch(e){}};
+  reco.onstart=()=>{escuchando=true;$('#vMic').classList.add('on');$('#vLbl').textContent='POPS TE ESCUCHA';vEstado('Escuchando…','listening');$('#vWho').textContent='Tú · ahora';$('#vText').innerHTML='<em>Habla ahora…</em>';onda(true);tope=setTimeout(cortar,20000)};
+  reco.onresult=e=>{final='';tmp='';for(const r of e.results){if(r.isFinal)final+=r[0].transcript;else tmp+=r[0].transcript}
+    $('#vText').innerHTML=`“${esc(final)}<em>${esc(tmp)}</em>”`;
+    clearTimeout(silencio);silencio=setTimeout(cortar,1600)}; // si te callas 1.6 s, se manda
+  reco.onerror=e=>{errorVoz=e.error};
+  reco.onend=()=>{escuchando=false;clearTimeout(silencio);clearTimeout(tope);$('#vMic').classList.remove('on');onda(false);
+    const texto=(final+' '+tmp).trim();
+    if(texto){preguntarVoz(texto);return}
+    if(errorVoz&&errorVoz!=='aborted'){mostrarDictado(ERR_VOZ[errorVoz]||('No pude usar el micrófono ('+errorVoz+'). Usa el 🎤 del teclado aquí abajo.'));return}
+    $('#vText').innerHTML='<em>No te escuché. Toca el micrófono y habla, o usa el cuadro de abajo.</em>';$('#vDict').hidden=false;
+    vEstado('Listo');$('#vLbl').textContent='TOCA EL MICRÓFONO';
   };
-  try{reco.start()}catch(e){}
+  try{reco.start()}catch(e){mostrarDictado('No pude encender el micrófono. Usa el 🎤 del teclado aquí abajo.')}
 }
 function hablar(t){
   if(!('speechSynthesis' in window)){vEstado('Listo');return}
@@ -805,7 +841,8 @@ function hablar(t){
   const voz=speechSynthesis.getVoices().find(v=>v.lang==='es-MX')||speechSynthesis.getVoices().find(v=>v.lang.startsWith('es'));if(voz)u.voice=voz;
   u.onstart=()=>{vEstado('Pops está hablando','speaking');$('#vLbl').textContent='POPS RESPONDE';onda(true)};
   u.onend=()=>{onda(false);vEstado('Listo');$('#vLbl').textContent='TOCA EL MICRÓFONO'};
-  speechSynthesis.speak(u);
+  u.onerror=()=>{onda(false);vEstado('Listo');$('#vLbl').textContent='TOCA EL MICRÓFONO'};
+  try{speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){vEstado('Listo')}
 }
 
 /* ---------- Configuración ---------- */
@@ -845,7 +882,10 @@ $('#popMenu').onclick=e=>{const a=e.target.closest('button')?.dataset.act;cerrar
   if(a==='panel')irPanel();
   if(a==='borrar'&&confirm('¿Borrar todas las conversaciones del asistente?')){chats=[];actual=null;guardarChats();pintar()}};
 $('#vClose').onclick=cerrarVoz; $('#vClose2').onclick=cerrarVoz;
-$('#vKey').onclick=()=>{cerrarVoz();input.focus()};
+$('#vKey').onclick=()=>{try{reco&&reco.abort()}catch(e){}mostrarDictado();$('#vInput').focus()};
+function mandarDictado(){desbloquearVoz();const t=$('#vInput').value;$('#vInput').value='';$('#vInput').blur();preguntarVoz(t)}
+$('#vSend').onclick=mandarDictado;
+$('#vInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();mandarDictado()}});
 $('#vMic').onclick=()=>{if(escuchando){try{reco.stop()}catch(e){}}else escuchar()};
 $('#modal').onclick=e=>{if(e.target.id==='modal'&&cfg.url)$('#modal').classList.remove('show')};
 
