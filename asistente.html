@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#0b0806">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Asistente Paradise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0806; --bg2:#14100c; --card:#1b1510; --card2:#231b14;
+  --line:rgba(245,197,66,.16); --line2:rgba(245,197,66,.32);
+  --gold:#f5c542; --gold2:#e8a317; --goldtxt:#ffd76a;
+  --cream:#f6efe4; --muted:#9d907f; --red:#c8102e; --red2:#7a0a1c; --green:#25d366;
+  --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'Bricolage Grotesque',system-ui,sans-serif;overflow:hidden}
+button,input,textarea{font-family:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.app{position:relative;height:100%;max-width:760px;margin:0 auto;display:flex;flex-direction:column;
+  background:radial-gradient(120% 60% at 50% -10%,rgba(232,163,23,.18),transparent 60%),radial-gradient(80% 50% at 100% 100%,rgba(200,16,46,.10),transparent 60%),var(--bg)}
+/* ---------- Header ---------- */
+.top{display:flex;align-items:center;gap:12px;padding:calc(var(--safe-t) + 12px) 16px 12px;border-bottom:1px solid var(--line);
+  background:rgba(11,8,6,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:5}
+.icon-btn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);flex:none}
+.icon-btn svg{width:20px;height:20px}
+.avatar{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff7d6,#f5c542 60%,#c98a0c);display:grid;place-items:center;overflow:hidden;flex:none;box-shadow:0 0 0 2px rgba(245,197,66,.35)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.avatar span{font-size:24px}
+.ttl{flex:1;min-width:0}
+.ttl b{display:block;font-size:17px;font-weight:700;line-height:1.15}
+.ttl small{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px}
+.dot{width:8px;height:8px;border-radius:50%;background:#3ddc84;box-shadow:0 0 8px #3ddc84}
+.dot.off{background:#777;box-shadow:none}
+/* ---------- Feed ---------- */
+.feed{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 24px;scroll-behavior:smooth}
+.day{text-align:center;color:var(--gold);font-size:11px;letter-spacing:.22em;font-weight:600;margin:6px 0 16px;opacity:.85}
+.msg-u{display:flex;flex-direction:column;align-items:flex-end;margin:0 0 18px}
+.bub-u{max-width:82%;background:linear-gradient(135deg,#ffd76a,#f5c542 50%,#e8a317);color:#2a1a00;padding:12px 16px 8px;border-radius:20px 20px 6px 20px;font-size:16px;line-height:1.4;box-shadow:0 6px 24px rgba(245,197,66,.25)}
+.bub-u .meta{text-align:right;font-size:11px;opacity:.6;margin-top:4px}
+.file-chip{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:14px;padding:6px 12px 6px 6px;margin-bottom:8px;max-width:82%}
+.file-chip img{width:40px;height:40px;border-radius:9px;object-fit:cover}
+.file-chip b{font-size:13px;display:block}.file-chip small{font-size:11px;color:var(--muted)}
+.msg-a{display:flex;gap:10px;margin:0 0 22px}
+.msg-a .avatar{width:32px;height:32px}
+.msg-a .avatar span{font-size:17px}
+.body-a{flex:1;min-width:0}
+.think{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);color:var(--goldtxt);font-size:12px;font-weight:600;border-radius:999px;padding:5px 11px;margin-bottom:10px;background:rgba(245,197,66,.06)}
+.think.loading::after{content:'';width:10px;height:10px;border-radius:50%;border:2px solid var(--gold);border-right-color:transparent;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.txt{font-size:16px;line-height:1.5;color:var(--cream)}
+.txt b,.txt strong{color:var(--goldtxt)}
+.txt ul{margin:6px 0 6px 20px}.txt li{margin:3px 0}
+.txt p+p{margin-top:8px}
+.cursor{display:inline-block;width:9px;height:18px;background:var(--gold);vertical-align:-3px;margin-left:2px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.acts{display:flex;gap:6px;margin-top:10px}
+.acts button{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:var(--muted)}
+.acts button:active{background:rgba(255,255,255,.08)}
+.acts button.on{color:var(--gold)}
+.acts svg{width:17px;height:17px}
+.err{color:#ff8a8a;font-size:14px;border:1px solid rgba(255,90,90,.3);background:rgba(255,60,60,.07);border-radius:12px;padding:10px 12px}
+/* ---------- Cards ---------- */
+.card{border-radius:20px;overflow:hidden;border:1px solid var(--line2);margin:12px 0;background:var(--card)}
+.promo-top{position:relative;padding:16px 16px 18px;background:radial-gradient(120% 120% at 100% 0%,#e0263f,var(--red) 40%,var(--red2));min-height:132px}
+.tag{display:inline-block;background:var(--gold);color:#3a2300;font-size:10px;font-weight:800;letter-spacing:.14em;padding:4px 10px;border-radius:999px}
+.promo-top h3{font-size:24px;line-height:1.05;margin-top:10px;max-width:62%;font-weight:800}
+.promo-top p{font-size:12px;color:rgba(255,255,255,.75);margin-top:6px;max-width:62%}
+.promo-art{position:absolute;right:10px;bottom:-6px;width:110px;height:120px;display:grid;place-items:center;font-size:76px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.4))}
+.promo-art img{max-width:100%;max-height:100%;object-fit:contain}
+.promo-bot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px}
+.precio{font-size:30px;font-weight:800;color:var(--gold)}
+.promo-bot s{color:var(--muted);font-size:14px;margin-left:6px}
+.promo-bot small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.btn-gold{background:linear-gradient(135deg,#ffd76a,#f5c542 55%,#e8a317);color:#2a1a00;font-weight:700;border-radius:999px;padding:10px 18px;font-size:14px;white-space:nowrap;box-shadow:0 4px 16px rgba(245,197,66,.3)}
+.wa-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.wa-ic{width:36px;height:36px;border-radius:10px;background:var(--green);display:grid;place-items:center;flex:none}
+.wa-ic svg{width:20px;height:20px;fill:#fff}
+.wa-head>div:not(.wa-ic){flex:1}.wa-head b{font-size:15px;display:block}.wa-head small{font-size:12px;color:var(--muted)}
+.pill{border:1px solid var(--line2);color:var(--goldtxt);font-size:13px;font-weight:600;border-radius:999px;padding:6px 12px;display:inline-flex;align-items:center;gap:6px}
+.wa-body{padding:14px;font-size:15px;line-height:1.5;white-space:pre-wrap;outline:none}
+.wa-body[contenteditable=true]{background:rgba(245,197,66,.05);box-shadow:inset 0 0 0 1px var(--line2)}
+.wa-btns{display:grid;grid-template-columns:1fr 1.3fr;gap:10px;padding:0 14px 14px}
+.btn-soft{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;font-weight:600;font-size:14px}
+.btn-wa{background:linear-gradient(135deg,#3ae374,#1fb85a);color:#fff;border-radius:14px;padding:12px;font-weight:700;font-size:14px}
+.v-pad{padding:14px}
+.v-pad h4{font-size:15px;margin-bottom:10px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.stat{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.stat small{font-size:10px;letter-spacing:.14em;color:var(--muted);font-weight:600;text-transform:uppercase}
+.stat b{display:block;font-size:22px;margin-top:3px}
+.up{color:#3ddc84;font-size:12px;font-weight:700}.down{color:#ff6b6b;font-size:12px;font-weight:700}
+.chart{margin-top:10px;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:10px}
+.legend{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px}
+.legend i{display:inline-block;width:12px;height:3px;border-radius:2px;background:var(--gold);vertical-align:middle;margin-right:5px}
+.legend i.p{background:#8a7a66}
+.chart svg{width:100%;height:auto;display:block}
+.branch{margin-top:12px}
+.branch-bar{display:flex;height:8px;border-radius:999px;overflow:hidden;background:#3a2c20}
+.branch-bar span:first-child{background:linear-gradient(90deg,#ffd76a,var(--gold2))}
+.branch-bar span:last-child{background:#ff6b7a}
+.branch-lb{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-top:6px}
+.branch-lb span:first-child{color:var(--goldtxt)}.branch-lb span:last-child{color:#ff8a95}
+/* ---------- Home (pantalla vacía) ---------- */
+.home{animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hello{padding:8px 4px 18px;display:flex;gap:14px;align-items:center}
+.hello .avatar{width:64px;height:64px}.hello .avatar span{font-size:36px}
+.hello small{font-size:11px;letter-spacing:.2em;color:var(--gold);font-weight:700}
+.hello h1{font-size:28px;line-height:1.08;font-weight:800;margin-top:4px}
+.kpis{display:grid;grid-template-columns:1.3fr 1fr 1fr;border:1px solid var(--line2);border-radius:20px;background:linear-gradient(160deg,rgba(245,197,66,.10),rgba(255,255,255,.02));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);margin-bottom:14px}
+.kpi{padding:14px}
+.kpi+.kpi{border-left:1px solid var(--line)}
+.kpi small{font-size:10px;letter-spacing:.16em;color:var(--muted);font-weight:600}
+.kpi b{display:block;font-size:24px;font-weight:800;margin-top:4px}
+.kpi em{font-style:normal;font-size:12px}
+.shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.sc{position:relative;text-align:left;border-radius:20px;padding:14px;min-height:112px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.sc::after{content:'↗';position:absolute;top:12px;right:14px;color:var(--muted);font-size:14px}
+.sc .ic{position:absolute;top:12px;left:12px;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:20px}
+.sc b{font-size:15px;font-weight:700}.sc small{font-size:12px;color:var(--muted);margin-top:2px}
+.ic.y{background:linear-gradient(135deg,#ffd76a,#e8a317)}.ic.g{background:linear-gradient(135deg,#3ae374,#1fb85a)}
+.ic.r{background:linear-gradient(135deg,#ff5a6e,#c8102e)}.ic.p{background:linear-gradient(135deg,#a98bff,#6a4bd8)}
+.sec-t{font-size:11px;letter-spacing:.2em;color:var(--muted);font-weight:700;margin:18px 4px 8px}
+.rec{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);margin-bottom:8px}
+.rec span{flex:1;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rec small{color:var(--muted);font-size:12px}
+.tip{margin-top:14px;text-align:center;font-size:12px;color:var(--muted)}
+/* ---------- Chips + input ---------- */
+.chips{display:flex;gap:8px;overflow-x:auto;padding:0 16px 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none}
+.composer{padding:0 12px calc(var(--safe-b) + 12px)}
+.box{border:1px solid var(--line2);border-radius:24px;background:rgba(27,21,16,.85);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:10px 10px 10px 16px}
+.attach-prev{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.attach-prev div{position:relative}
+.attach-prev img{width:56px;height:56px;border-radius:12px;object-fit:cover;border:1px solid var(--line2)}
+.attach-prev button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:#000;border:1px solid var(--line2);font-size:12px}
+textarea{width:100%;border:0;outline:0;background:none;resize:none;font-size:16px;line-height:1.4;max-height:140px;min-height:26px;padding:4px 0}
+textarea::placeholder{color:var(--muted)}
+.row{display:flex;align-items:center;gap:8px;margin-top:6px}
+.circ{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.circ svg{width:18px;height:18px}
+.tono{font-size:13px;font-weight:600;border-radius:999px;padding:8px 12px;border:1px solid rgba(255,255,255,.1);color:var(--muted)}
+.tono.on{border-color:var(--line2);color:var(--goldtxt);background:rgba(245,197,66,.08)}
+.send{margin-left:auto;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#ffd76a,#e8a317);box-shadow:0 4px 16px rgba(245,197,66,.35)}
+.send svg{width:20px;height:20px;stroke:#2a1a00}
+.send:disabled{opacity:.4}
+.disc{text-align:center;font-size:11px;color:var(--muted);margin-top:8px}
+/* ---------- Drawer ---------- */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:.25s;z-index:20}
+.scrim.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:min(340px,86vw);z-index:21;transform:translateX(-102%);transition:transform .3s cubic-bezier(.2,.8,.2,1);
+  background:linear-gradient(180deg,rgba(60,8,18,.92),rgba(20,6,8,.96));backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;padding:calc(var(--safe-t) + 18px) 16px calc(var(--safe-b) + 14px)}
+.drawer.show{transform:none}
+.dr-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.dr-brand small{font-size:10px;letter-spacing:.2em;color:var(--gold);font-weight:700}
+.dr-brand b{display:block;font-size:17px}
+.new-btn{width:100%;display:flex;align-items:center;gap:10px;justify-content:center;font-size:16px}
+.search{display:flex;align-items:center;gap:8px;margin:12px 0 4px;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 12px;background:rgba(255,255,255,.04)}
+.search input{flex:1;border:0;outline:0;background:none;font-size:15px}
+.search input::placeholder{color:var(--muted)}
+.projs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.proj{text-align:left;border-radius:14px;padding:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.proj.sel{border-color:var(--gold);background:rgba(245,197,66,.08)}
+.proj .ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:14px;margin-bottom:8px}
+.proj b{font-size:14px;display:block}.proj small{font-size:11px;color:var(--muted)}
+.hist{flex:1;overflow-y:auto;margin-top:4px}
+.h-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:11px 10px;border-radius:12px;font-size:14px}
+.h-item.cur{background:rgba(245,197,66,.1);border:1px solid var(--line2)}
+.h-item span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.h-item small{color:var(--muted);font-size:11px}
+.h-item .del{opacity:.5;font-size:14px;padding:0 4px}
+.me{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:16px;padding:10px;background:rgba(255,255,255,.04);margin-top:10px}
+.me .jr{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#ffd76a,#e8a317);color:#2a1a00;font-weight:800;font-size:14px}
+.me b{font-size:14px;display:block}.me small{font-size:12px;color:var(--muted)}
+.me a{margin-left:auto;color:var(--goldtxt);font-size:13px;text-decoration:none}
+/* ---------- Menú ⋯ ---------- */
+.pop{position:absolute;top:calc(var(--safe-t) + 62px);right:14px;z-index:22;min-width:230px;border-radius:16px;border:1px solid var(--line2);background:rgba(27,21,16,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:6px;display:none;box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.pop.show{display:block}
+.pop button{display:block;width:100%;text-align:left;padding:11px 12px;border-radius:10px;font-size:15px}
+.pop button:active{background:rgba(255,255,255,.06)}
+.pop .danger{color:#ff8a8a}
+/* ---------- Voz ---------- */
+.voice{position:fixed;inset:0;z-index:30;display:none;flex-direction:column;align-items:center;padding:calc(var(--safe-t) + 16px) 20px calc(var(--safe-b) + 24px);
+  background:radial-gradient(70% 45% at 50% 38%,rgba(232,140,23,.35),transparent 70%),linear-gradient(180deg,#1a0a05,#090504)}
+.voice.show{display:flex}
+.v-top{width:100%;max-width:520px;display:flex;align-items:center;justify-content:space-between}
+.v-top div{text-align:center}.v-top b{font-size:18px;display:block}.v-top small{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;justify-content:center}
+.orb-wrap{position:relative;margin-top:7vh;width:260px;height:260px;display:grid;place-items:center}
+.ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(245,197,66,.25)}
+.ring.r2{inset:-30px;border-color:rgba(245,197,66,.12)}
+.orb{width:190px;height:190px;border-radius:50%;background:radial-gradient(circle at 38% 30%,#fff3c4,#f5c542 45%,#c77a08 80%,#7a3b00);display:grid;place-items:center;overflow:hidden;
+  box-shadow:0 0 60px rgba(245,197,66,.55),0 0 140px rgba(232,120,23,.35);transition:transform .2s}
+.orb img{width:82%;height:82%;object-fit:contain}
+.orb span{font-size:110px}
+.voice.listening .orb{animation:breathe 1.6s ease-in-out infinite}
+.voice.speaking .orb{animation:breathe .7s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.06)}}
+.v-lbl{margin-top:30px;color:var(--gold);letter-spacing:.24em;font-size:12px;font-weight:800}
+.v-card{width:100%;max-width:460px;margin-top:16px;border-radius:20px;border:1px solid var(--line2);background:rgba(255,255,255,.05);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:16px}
+.v-card p{font-size:19px;line-height:1.35;min-height:52px}
+.v-card p em{font-style:normal;color:var(--muted)}
+.v-card small{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:10px}
+.wave{display:flex;align-items:center;gap:4px;height:48px;margin-top:22px}
+.wave i{width:4px;border-radius:4px;background:linear-gradient(var(--goldtxt),var(--gold2));height:8px;transition:height .12s}
+.v-btns{margin-top:auto;display:flex;gap:28px;align-items:center}
+.v-btns button{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+.v-btns button svg{width:24px;height:24px}
+.v-btns .x{width:72px;height:72px;background:linear-gradient(135deg,#ff4d5e,#c8102e);border:0;box-shadow:0 8px 30px rgba(200,16,46,.5)}
+.v-btns .mic.on{background:rgba(245,197,66,.2);border-color:var(--gold)}
+/* ---------- Config ---------- */
+.modal{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.sheet{width:100%;max-width:420px;border-radius:24px;border:1px solid var(--line2);background:linear-gradient(180deg,#1f1811,#120d09);padding:22px}
+.sheet .avatar{width:64px;height:64px;margin:0 auto 12px}.sheet .avatar span{font-size:36px}
+.sheet h2{text-align:center;font-size:22px}
+.sheet p{text-align:center;color:var(--muted);font-size:14px;margin:6px 0 16px;line-height:1.4}
+.sheet label{font-size:12px;letter-spacing:.12em;color:var(--muted);font-weight:700;display:block;margin:12px 0 6px}
+.sheet input{width:100%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);border-radius:14px;padding:13px 14px;font-size:16px;outline:0}
+.sheet input:focus{border-color:var(--gold)}
+.sheet .btn-gold{width:100%;margin-top:18px;padding:14px;font-size:16px}
+.sheet .msg{text-align:center;font-size:13px;margin-top:10px;min-height:18px;color:#ff8a8a}
+.toast{position:fixed;left:50%;bottom:calc(var(--safe-b) + 110px);transform:translateX(-50%) translateY(20px);background:rgba(27,21,16,.95);border:1px solid var(--line2);padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:.25s;z-index:50;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- Encabezado -->
+  <header class="top">
+    <button class="icon-btn" id="btnMenu" aria-label="Menú">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h16"/></svg>
+    </button>
+    <div class="avatar pops"></div>
+    <div class="ttl">
+      <b>Paradise Pop Corn<br>Asistente</b>
+      <small><i class="dot" id="estadoDot"></i><span id="estadoTxt">En línea</span></small>
+    </div>
+    <button class="icon-btn" id="btnMas" aria-label="Más opciones">
+      <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+    </button>
+  </header>
+
+  <div class="pop" id="popMenu">
+    <button data-act="nueva">✏️ Nueva conversación</button>
+    <button data-act="voz">🎙️ Modo voz con Pops</button>
+    <button data-act="tono">✨ Tono Paradise: <span id="tonoLbl">activado</span></button>
+    <button data-act="config">🔑 Conexión y PIN</button>
+    <button data-act="panel">← Volver al panel del dueño</button>
+    <button data-act="borrar" class="danger">🗑️ Borrar todo el historial</button>
+  </div>
+
+  <!-- Conversación -->
+  <main class="feed" id="feed"></main>
+
+  <div class="chips" id="chips"></div>
+
+  <!-- Caja de texto -->
+  <div class="composer">
+    <div class="box">
+      <div class="attach-prev" id="attachPrev"></div>
+      <textarea id="input" rows="1" placeholder="Pregúntale lo que sea a tu asistente…"></textarea>
+      <div class="row">
+        <button class="circ" id="btnAdd" aria-label="Adjuntar foto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <button class="circ" id="btnCam" aria-label="Tomar foto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+        </button>
+        <button class="circ" id="btnMic" aria-label="Modo voz">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+        </button>
+        <button class="tono on" id="btnTono">✨ Tono Paradise</button>
+        <button class="send" id="btnSend" aria-label="Enviar">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="disc">El asistente puede equivocarse. Revisa precios antes de publicar.</div>
+  </div>
+  <input type="file" id="fileAdd" accept="image/*" multiple hidden>
+  <input type="file" id="fileCam" accept="image/*" capture="environment" hidden>
+</div>
+
+<!-- Menú lateral -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer">
+  <div class="dr-brand">
+    <div class="avatar logo"></div>
+    <div><small>ASISTENTE</small><b>Paradise Pop Corn</b></div>
+  </div>
+  <button class="btn-gold new-btn" id="drNueva">✏️ Nueva conversación</button>
+  <div class="search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9d907f" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="buscar" placeholder="Buscar en tus chats">
+  </div>
+  <div class="sec-t">PROYECTOS</div>
+  <div class="projs" id="projs"></div>
+  <div class="hist" id="hist"></div>
+  <div class="me">
+    <div class="jr">JR</div>
+    <div><b>J/R DLP</b><small>Dueño · Paradise Pop Corn</small></div>
+    <a href="#" id="drPanel">Panel →</a>
+  </div>
+</aside>
+
+<!-- Modo voz -->
+<section class="voice" id="voice">
+  <div class="v-top">
+    <button class="icon-btn" id="vClose2" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <div><b>Modo voz</b><small><i class="dot"></i><span id="vEstado">Listo</span></small></div>
+    <span style="width:40px"></span>
+  </div>
+  <div class="orb-wrap"><div class="ring"></div><div class="ring r2"></div><div class="orb pops-big"></div></div>
+  <div class="v-lbl" id="vLbl">TOCA EL MICRÓFONO</div>
+  <div class="v-card"><p id="vText"><em>Pregúntale algo a Pops…</em></p><small><span id="vWho">Tú</span><span>Español (MX)</span></small></div>
+  <div class="wave" id="wave"></div>
+  <div class="v-btns">
+    <button class="mic" id="vMic" aria-label="Hablar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+    </button>
+    <button class="x" id="vClose" aria-label="Salir">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <button id="vKey" aria-label="Escribir">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- Conexión -->
+<div class="modal" id="modal">
+  <div class="sheet">
+    <div class="avatar pops"></div>
+    <h2>Conecta tu asistente</h2>
+    <p>Pega el enlace de tu Apps Script y escribe tu PIN. Tu clave de Gemini se queda escondida en Google.</p>
+    <label>ENLACE DE APPS SCRIPT</label>
+    <input id="cfgUrl" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off">
+    <label>PIN</label>
+    <input id="cfgPin" type="password" inputmode="numeric" placeholder="••••" autocomplete="off">
+    <button class="btn-gold" id="cfgSave">Conectar</button>
+    <div class="msg" id="cfgMsg"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   AJUSTES — si ya sabes tu enlace, puedes pegarlo aquí
+   ========================================================= */
+const APPS_SCRIPT_URL = '';            // opcional; si lo dejas vacío, se pide en pantalla
+let IMG_POPS = 'pops.png';            // nombre de la imagen de Pops en tu GitHub
+let IMG_LOGO = 'logo.png';            // nombre del logo de Paradise en tu GitHub
+const IMG_PROMO = '';                   // opcional: foto de producto para las tarjetas de promo
+
+/* ---------- Información del negocio (para que el asistente no invente) ---------- */
+const NEGOCIO = `
+NEGOCIO: Paradise Pop Corn — palomitas gourmet. Lema: "Sabor fuera de serie" / "Out of this world flavor". Est. 2026. Mascota: Pops (palomita amarilla).
+DUEÑO: J/R DLP. Hay un gerente con acceso a clientes y estadísticas.
+SUCURSALES: #1 Calle Pez Vela, Colonia del Mar, Tláhuac. #2 Rosario Castellanos, CTM Culhuacán Sección 8 (Coyoacán) — ¡ya abrió!
+HORARIO: lunes a domingo de 1:00 p.m. a 9:00 p.m.
+PEDIDOS: WhatsApp +52 55 2338 6765 (piden y pasan a recoger en sucursal). Próximamente Rappi, DiDi y Uber.
+REDES: Instagram @paradisepopcorn.mx · TikTok @paradise_pop_corn.mx
+PAGOS: efectivo, transferencia, tarjeta, link o QR de pago.
+TAMAÑOS: CH (Chico), M (Mediano), G (Grande), J (Jumbo).
+PRECIOS: Saladas y Tradicionales CH $20, M $30, G $50, J $75. Caramelo CH $35, M $65, G $130, J $200. Gourmet al mismo precio que Caramelo (promo por tiempo limitado: "La misma receta. El mismo tamaño.").
+SABORES ESTRELLA: Mantequilla, Caramelo y Esquites.
+SALADAS Y TRADICIONALES: Takis Fuego, Takis Azul, Chips Fuego, Mantequilla, Limón y Sal, Limón y Chile, Queso, Pizzerola, Salsas Negras, Churrumaíz, Esquites, Jalapeño, Ruffles, Queso Jalapeño, Habanero, Crema y Especias, Rancheritos, Doritos, Chipotle, Salsa Valentina.
+CARAMELO: Caramelo, Tutti Frutti, Naranja, Cereza, Fresa, Manzana Verde, Mora Azul, Mango, Uva, Sandía, Chicle, Piña, Pika Piña, Tocino Caramelizado, Manzana Cósmica.
+GOURMET: Piña Colada, Chocolate Abuelita, Chocoreta, Pica Fresa, Mango Habanero, Unicornio, Habanero, Algodón de Azúcar, Chicago Double Crunch.
+PROMOS FIJAS: 2x1 los martes en todos los tamaños, solo sabor Mantequilla.
+CLUB PARADISE PREMIUM: membresía con compra mínima de $200 (el gerente da el código). Niveles Bronce, Plata, Oro, Diamante. Tarjeta de lealtad: 10 sellos = 1 mediana gratis (la siguiente pide 5 sellos más: 15, 20…). Mandar foto con sus palomitas = 1 sello. Álbum de Pops: 12 estampas (1 por compra), completo = 1 Jumbo gratis.
+PAQUETE EMPRENDEDOR: para revendedores y pedidos para eventos.
+VOTACIÓN "Vota por el próximo sabor": Chipotle, Salsa Valentina, Fritos sabor Chorizo, Doritos, Crema y Especias, Maruchan.
+`;
+
+/* ---------- Estado ---------- */
+const LS = {chats:'asistente_paradise_chats', cfg:'asistente_paradise_cfg', tono:'asistente_paradise_tono'};
+const leer = (k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const guardar = (k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){toast('Memoria llena: borra chats viejos')}};
+let chats = leer(LS.chats, []);
+let cfg = leer(LS.cfg, {url:APPS_SCRIPT_URL, pin:''});
+let tonoOn = leer(LS.tono, true);
+let actual = null;          // conversación abierta
+let adjuntos = [];          // {name,size,mime,data,thumb}
+let enviando = false;
+let filtroProy = null;
+
+const PROYECTOS = {
+  promos:{n:'Promociones', i:'⚡', c:'y'},
+  clientes:{n:'Clientes', i:'💬', c:'g'},
+  ventas:{n:'Ventas', i:'📊', c:'p'},
+  general:{n:'General', i:'🍿', c:'r'}
+};
+
+const $ = s=>document.querySelector(s);
+const feed = $('#feed'), input = $('#input');
+
+/* ---------- Imágenes de Pops / logo con respaldo ---------- */
+function ponerImg(el, src, emoji){
+  const img = new Image();
+  img.onload = ()=>{el.innerHTML='';el.appendChild(img)};
+  img.onerror = ()=>{el.innerHTML='<span>'+emoji+'</span>'};
+  el.innerHTML='<span>'+emoji+'</span>';
+  if(src) img.src = src;
+}
+function pintarAvatares(root=document){
+  root.querySelectorAll('.pops:not([data-ok])').forEach(el=>{el.dataset.ok=1;ponerImg(el,IMG_POPS,'🍿')});
+  root.querySelectorAll('.pops-big:not([data-ok])').forEach(el=>{el.dataset.ok=1;ponerImg(el,IMG_POPS,'🍿')});
+  root.querySelectorAll('.logo:not([data-ok])').forEach(el=>{el.dataset.ok=1;ponerImg(el,IMG_LOGO,'🍿')});
+}
+
+/* ---------- Utilidades ---------- */
+const esc = s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hora = t=>new Date(t).toLocaleTimeString('es-MX',{hour:'numeric',minute:'2-digit'});
+const dinero = n=>'$'+Number(n||0).toLocaleString('es-MX',{maximumFractionDigits:0});
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),1800)}
+async function copiar(t){try{await navigator.clipboard.writeText(t);toast('Copiado ✓')}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();toast('Copiado ✓')}}
+function saludo(){const h=new Date().getHours();return h<12?'BUENOS DÍAS':h<19?'BUENAS TARDES':'BUENAS NOCHES'}
+
+/* ---------- Datos que manda el modo dueño (club.html) ---------- */
+const EMBED = window.parent !== window;
+let EXT = null;
+window.addEventListener('message', e=>{
+  if(e.origin!==location.origin||!e.data||e.data.tipo!=='pp-datos') return;
+  EXT = e.data.datos||null;
+  const im=e.data.imgs||{};
+  if(im.pops) IMG_POPS=im.pops; if(im.logo) IMG_LOGO=im.logo;
+  document.querySelectorAll('[data-ok]').forEach(el=>el.removeAttribute('data-ok'));
+  pintarAvatares(); if(!actual||!actual.msgs.length) pintar();
+});
+function irPanel(){ if(EMBED) parent.postMessage({tipo:'pp-cerrar'},location.origin); else location.href='club.html'; }
+
+/* ---------- Leer datos del panel del dueño (misma página, mismo navegador) ---------- */
+const CLAVE_DATOS = /corte|venta|sello|cliente|club|voto|top|negocio|pedido|tarjeta|miembro|emprendedor|ganancia/i;
+const CLAVE_PRIVADA = /pin|pass|clave|token|key|secret|asistente_paradise/i;
+function datosPanel(){
+  if(EXT) return EXT;
+  const out={}; 
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!CLAVE_DATOS.test(k)||CLAVE_PRIVADA.test(k)) continue;
+      const raw=localStorage.getItem(k); let v; try{v=JSON.parse(raw)}catch(e){v=raw}
+      out[k]=v;
+    }
+  }catch(e){}
+  return out;
+}
+function recorrer(v,fn,d=0){if(d>6||v==null)return;if(Array.isArray(v)){v.forEach(x=>recorrer(x,fn,d+1))}else if(typeof v==='object'){fn(v);Object.values(v).forEach(x=>recorrer(x,fn,d+1))}}
+function numeros(){
+  const datos=datosPanel(); const hoy=new Date(); const iso=hoy.getFullYear()+'-'+String(hoy.getMonth()+1).padStart(2,'0')+'-'+String(hoy.getDate()).padStart(2,'0');
+  const loc=hoy.toLocaleDateString('es-MX'); let ventasHoy=null, clientes=new Set(), sellos=0;
+  Object.values(datos).forEach(v=>recorrer(v,o=>{
+    const f=o.fecha||o.date||o.dia||o.day; const m=o.total??o.monto??o.importe??o.venta??o.ventas??o.ganancia;
+    if(f && m!=null && !isNaN(parseFloat(m))){const fs=String(f); if(fs.startsWith(iso)||fs===loc||fs.includes(loc)){ventasHoy=(ventasHoy||0)+parseFloat(m)}}
+    if(o.nombre && (o.sellos!=null||o.whatsapp||o.telefono)){clientes.add(o.nombre+'|'+(o.whatsapp||o.telefono||'')); if(!isNaN(parseFloat(o.sellos)))sellos+=parseFloat(o.sellos)}
+  }));
+  let sellosHoy=null;
+  if(EXT){
+    if(EXT.resumen&&EXT.resumen.sellosHoy!=null) sellosHoy=+EXT.resumen.sellosHoy||0;
+    if(EXT.clientes&&EXT.clientes.total) clientes=new Set(Array.from({length:EXT.clientes.total},(_, i)=>i));
+    if(EXT.cortes&&EXT.cortes.hoy){ventasHoy=null;(EXT.cortes.lista||[]).forEach(c=>{if(String(c.fecha||'').startsWith(EXT.cortes.hoy)&&!isNaN(parseFloat(c.monto)))ventasHoy=(ventasHoy||0)+parseFloat(c.monto)})}
+  }
+  return {ventasHoy, clientes:clientes.size, sellos, sellosHoy, hayDatos:Object.keys(datos).length>0, datos};
+}
+function resumenDatos(){
+  const d=datosPanel(); let s=JSON.stringify(d); if(s.length>9000) s=s.slice(0,9000)+'…(recortado)';
+  return Object.keys(d).length? s : 'No hay datos del panel guardados en este dispositivo.';
+}
+function estadoTienda(){
+  const n=new Date(), h=n.getHours()+n.getMinutes()/60;
+  if(h>=13&&h<21){const r=21-h;return {abierto:true,txt:(r>=1?Math.floor(r)+' h':Math.round(r*60)+' min')}}
+  return {abierto:false,txt:'Cerrado'};
+}
+
+/* ---------- Instrucciones para Gemini ---------- */
+function sistema(){
+  const ahora=new Date().toLocaleString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'numeric',minute:'2-digit'});
+  return `Eres "Asistente Paradise", el asistente personal del dueño de Paradise Pop Corn, y hablas como Pops, la mascota (amable, entusiasta, breve). Responde SIEMPRE en español de México.
+Fecha y hora actual: ${ahora}.
+${tonoOn?'TONO PARADISE ACTIVADO: usa un tono alegre y de marca, con algunos emojis (🍿✨🎬) y frases como "Sabor fuera de serie".':'Tono neutral y profesional, sin emojis.'}
+
+${NEGOCIO}
+
+DATOS DEL PANEL DEL DUEÑO (JSON tal como está guardado; úsalos para ventas, clientes, sellos, cortes):
+${resumenDatos()}
+
+REGLAS:
+- Nunca inventes cifras de ventas. Si no hay datos, dilo y sugiere registrar el "Corte del día" en el panel.
+- Respuestas cortas y útiles. Usa **negritas** para lo importante.
+- No cambies precios oficiales salvo que el dueño pida una promoción.
+
+FORMATOS ESPECIALES (la app los convierte en tarjetas; escríbelos EXACTAMENTE así, con JSON válido):
+1) Cuando propongas una promoción, incluye:
+\`\`\`promo
+{"titulo":"Nombre corto","subtitulo":"Cuándo y dónde aplica","precio":75,"antes":80,"detalle":"Qué incluye","emoji":"🍿"}
+\`\`\`
+Después pregunta: "¿Te armo el mensaje para tus clientes?"
+2) Cuando escribas un mensaje para clientes (WhatsApp, Instagram, TikTok), incluye:
+\`\`\`mensaje
+{"canal":"WhatsApp","texto":"El mensaje completo listo para enviar"}
+\`\`\`
+3) Cuando analices ventas y tengas datos reales, incluye:
+\`\`\`ventas
+{"titulo":"Esta semana","stats":[{"label":"Esta semana","valor":"$12,480","cambio":"+14%"},{"label":"Mejor día","valor":"Sábado"}],"grafica":{"labels":["L","M","M","J","V","S","D"],"actual":[0,0,0,0,0,0,0],"pasada":[0,0,0,0,0,0,0]},"sucursales":[{"nombre":"Coyoacán","pct":58},{"nombre":"Tláhuac","pct":42}]}
+\`\`\`
+Puedes omitir "grafica" o "sucursales" si no hay datos para ellas.
+- Si el dueño manda una foto (cartel, producto, vitrina), descríbela brevemente y úsala para lo que pida.`;
+}
+
+/* ---------- Render de texto con formato ---------- */
+function mdHtml(t){
+  const lineas=esc(t.trim()).split('\n'); let html='', enLista=false;
+  lineas.forEach(l=>{
+    l=l.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>');
+    if(/^\s*([-•*]|\d+\.)\s+/.test(l)){ if(!enLista){html+='<ul>';enLista=true} html+='<li>'+l.replace(/^\s*([-•*]|\d+\.)\s+/,'')+'</li>'; }
+    else { if(enLista){html+='</ul>';enLista=false} if(l.trim()) html+='<p>'+l+'</p>'; }
+  });
+  if(enLista) html+='</ul>';
+  return html;
+}
+function partir(texto){
+  const piezas=[]; const re=/```(promo|mensaje|ventas)\s*([\s\S]*?)```/g; let ult=0,m;
+  while((m=re.exec(texto))){
+    if(m.index>ult) piezas.push({t:'txt',v:texto.slice(ult,m.index)});
+    try{piezas.push({t:m[1],v:JSON.parse(m[2].trim())})}catch(e){piezas.push({t:'txt',v:m[2]})}
+    ult=re.lastIndex;
+  }
+  if(ult<texto.length) piezas.push({t:'txt',v:texto.slice(ult)});
+  return piezas;
+}
+function textoPlano(texto){
+  return partir(texto).map(p=>p.t==='txt'?p.v:p.t==='mensaje'?p.v.texto:p.t==='promo'?`${p.v.titulo}: ${p.v.subtitulo||''} ${p.v.precio?dinero(p.v.precio):''}`:'').join('\n').replace(/\*\*/g,'').trim();
+}
+
+/* ---------- Tarjetas ---------- */
+const WA_SVG='<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.6 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.6 2.1 1.1 1 2.1 1.3 2.4 1.4.3.2.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.1 1.4z"/></svg>';
+function cardPromo(p){
+  const d=document.createElement('div'); d.className='card';
+  const arte = IMG_PROMO? `<img src="${esc(IMG_PROMO)}" alt="">` : esc(p.emoji||'🍿');
+  d.innerHTML=`<div class="promo-top"><span class="tag">PROMO SUGERIDA</span><h3>${esc(p.titulo)}</h3><p>${esc(p.subtitulo||'')}</p><div class="promo-art">${arte}</div></div>
+  <div class="promo-bot"><div>${p.precio!=null?`<span class="precio">${dinero(p.precio)}</span>`:''}${p.antes?`<s>${dinero(p.antes)}</s>`:''}<small>${esc(p.detalle||'')}</small></div><button class="btn-gold">Usar promo</button></div>`;
+  d.querySelector('button').onclick=()=>enviar(`Usaré la promo "${p.titulo}" (${p.subtitulo||''}, ${p.precio!=null?dinero(p.precio):''}). Escríbeme el mensaje para mis clientes por WhatsApp.`);
+  return d;
+}
+function cardMensaje(m){
+  const d=document.createElement('div'); d.className='card';
+  d.innerHTML=`<div class="wa-head"><div class="wa-ic">${WA_SVG}</div><div><b>Mensaje para clientes</b><small>${esc(m.canal||'WhatsApp')} · <span class="cnt">${(m.texto||'').length}</span> caracteres</small></div><button class="pill cp">⧉ Copiar</button></div>
+  <div class="wa-body">${esc(m.texto||'')}</div>
+  <div class="wa-btns"><button class="btn-soft ed">✏️ Editar</button><button class="btn-wa sd">Enviar por WhatsApp</button></div>`;
+  const body=d.querySelector('.wa-body'), ed=d.querySelector('.ed');
+  body.oninput=()=>d.querySelector('.cnt').textContent=body.innerText.length;
+  d.querySelector('.cp').onclick=()=>copiar(body.innerText);
+  ed.onclick=()=>{const on=body.contentEditable!=='true';body.contentEditable=on;ed.textContent=on?'✓ Listo':'✏️ Editar';if(on){body.focus()}};
+  d.querySelector('.sd').onclick=()=>window.open('https://wa.me/?text='+encodeURIComponent(body.innerText),'_blank');
+  return d;
+}
+function grafica(g){
+  const W=300,H=110,p=8; const a=(g.actual||[]).map(Number), b=(g.pasada||[]).map(Number);
+  const max=Math.max(1,...a,...b); const n=Math.max(a.length,b.length,2);
+  const pt=(arr)=>arr.map((v,i)=>[p+i*(W-2*p)/(n-1), H-18-(v/max)*(H-30)]);
+  const path=arr=>pt(arr).map((q,i)=>(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join(' ');
+  const pa=pt(a); const area=a.length?path(a)+` L${pa[pa.length-1][0]} ${H-18} L${pa[0][0]} ${H-18} Z`:'';
+  const labels=(g.labels||[]).map((l,i)=>`<text x="${p+i*(W-2*p)/(n-1)}" y="${H-3}" fill="#9d907f" font-size="9" text-anchor="middle">${esc(l)}</text>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}"><defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f5c542" stop-opacity=".45"/><stop offset="1" stop-color="#f5c542" stop-opacity="0"/></linearGradient></defs>
+  ${area?`<path d="${area}" fill="url(#ga)"/>`:''}${b.length?`<path d="${path(b)}" fill="none" stroke="#8a7a66" stroke-width="1.6" stroke-dasharray="4 4"/>`:''}${a.length?`<path d="${path(a)}" fill="none" stroke="#f5c542" stroke-width="2.4" stroke-linejoin="round"/>`:''}${labels}</svg>`;
+}
+function cardVentas(v){
+  const d=document.createElement('div'); d.className='card';
+  const stats=(v.stats||[]).map(s=>{const c=String(s.cambio||'');const cls=c.startsWith('-')?'down':'up';return `<div class="stat"><small>${esc(s.label)}</small><b>${esc(s.valor)} ${c?`<span class="${cls}">${c.startsWith('-')?'▼':'▲'}${esc(c.replace(/^[+-]/,''))}</span>`:''}</b></div>`}).join('');
+  const g=v.grafica?`<div class="chart"><div class="legend"><span><i></i>Esta semana</span><span><i class="p"></i>Pasada</span></div>${grafica(v.grafica)}</div>`:'';
+  let br=''; if(v.sucursales&&v.sucursales.length>=2){const[s1,s2]=v.sucursales;br=`<div class="branch"><div class="branch-bar"><span style="width:${+s1.pct||50}%"></span><span style="width:${+s2.pct||50}%"></span></div><div class="branch-lb"><span>${esc(s1.nombre)} ${+s1.pct||0}%</span><span>${esc(s2.nombre)} ${+s2.pct||0}%</span></div></div>`}
+  d.innerHTML=`<div class="v-pad">${v.titulo?`<h4>${esc(v.titulo)}</h4>`:''}<div class="stats">${stats}</div>${g}${br}</div>`;
+  return d;
+}
+
+/* ---------- Pintar conversación ---------- */
+function pintar(){
+  feed.innerHTML='';
+  if(!actual||!actual.msgs.length){pintarInicio();pintarChips();return}
+  const dia=document.createElement('div');dia.className='day';
+  dia.textContent=(new Date(actual.creado).toDateString()===new Date().toDateString()?'HOY':new Date(actual.creado).toLocaleDateString('es-MX',{day:'numeric',month:'short'}).toUpperCase())+' · '+hora(actual.creado).toUpperCase();
+  feed.appendChild(dia);
+  actual.msgs.forEach((m,i)=>feed.appendChild(m.role==='user'?nodoUser(m):nodoAsis(m,i)));
+  pintarChips(); abajo();
+}
+function nodoUser(m){
+  const w=document.createElement('div');w.className='msg-u';
+  (m.files||[]).forEach(f=>{const c=document.createElement('div');c.className='file-chip';c.innerHTML=`${f.thumb?`<img src="${f.thumb}">`:'🖼️'}<div><b>${esc(f.name)}</b><small>Imagen · ${(f.size/1048576).toFixed(1)} MB</small></div>`;w.appendChild(c)});
+  if(m.text){const b=document.createElement('div');b.className='bub-u';b.innerHTML=esc(m.text).replace(/\n/g,'<br>')+`<div class="meta">${hora(m.t)} ✓✓</div>`;w.appendChild(b)}
+  return w;
+}
+function nodoAsis(m,i){
+  const w=document.createElement('div');w.className='msg-a';
+  w.innerHTML='<div class="avatar pops"></div><div class="body-a"></div>';
+  const b=w.querySelector('.body-a');
+  if(m.loading){b.innerHTML='<span class="think loading">Pensando en tu negocio</span>';pintarAvatares(w);return w}
+  if(m.secs) b.innerHTML=`<span class="think">✨ ${esc(m.etiqueta||'Pensó en tu negocio')} · ${m.secs} s</span>`;
+  if(m.error){b.insertAdjacentHTML('beforeend',`<div class="err">${esc(m.error)}</div>`)}
+  else partir(m.text).forEach(p=>{
+    if(p.t==='txt'){const d=document.createElement('div');d.className='txt';d.innerHTML=mdHtml(p.v);b.appendChild(d)}
+    else if(p.t==='promo') b.appendChild(cardPromo(p.v));
+    else if(p.t==='mensaje') b.appendChild(cardMensaje(p.v));
+    else if(p.t==='ventas') b.appendChild(cardVentas(p.v));
+  });
+  const a=document.createElement('div');a.className='acts';
+  a.innerHTML=`<button title="Copiar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button>
+  <button title="Otra respuesta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
+  <button title="Me gusta" class="${m.like?'on':''}"><svg viewBox="0 0 24 24" fill="${m.like?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M7 10v11H3V10zM7 10l4-8a3 3 0 0 1 3 3v4h6a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 18.6 21H7"/></svg></button>
+  <button title="Compartir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6"/></svg></button>`;
+  const [bc,br,bl,bs]=a.querySelectorAll('button');
+  bc.onclick=()=>copiar(textoPlano(m.text||''));
+  br.onclick=()=>regenerar(i);
+  bl.onclick=()=>{m.like=!m.like;guardarChats();pintar()};
+  bs.onclick=async()=>{const t=textoPlano(m.text||'');if(navigator.share){try{await navigator.share({text:t})}catch(e){}}else copiar(t)};
+  if(!m.error) b.appendChild(a);
+  pintarAvatares(w);
+  return w;
+}
+function abajo(){requestAnimationFrame(()=>feed.scrollTop=feed.scrollHeight)}
+
+/* ---------- Pantalla de inicio ---------- */
+const ATAJOS=[
+  {ic:'⚡',c:'y',t:'Idea de promoción',s:'Para este fin de semana',p:'promos',q:'Dame una idea de promoción para este fin de semana. Usa la tarjeta de promo.'},
+  {ic:'💬',c:'g',t:'Mensaje a clientes',s:'Listo para WhatsApp',p:'clientes',q:'Escríbeme un mensaje corto y alegre para mandar hoy a mis clientes por WhatsApp.'},
+  {ic:'🗳️',c:'r',t:'Sabor del mes',s:'Según tus votos',p:'promos',q:'Con base en la votación "Vota por el próximo sabor" y mis datos, ¿qué sabor debería ser el sabor del mes y cómo lo lanzo?'},
+  {ic:'📊',c:'p',t:'Analiza mis ventas',s:'Con tus cortes',p:'ventas',q:'¿Cómo me fue esta semana vs. la pasada? Analiza mis cortes y sucursales con la tarjeta de ventas.'}
+];
+function pintarInicio(){
+  const n=numeros(), est=estadoTienda();
+  const h=document.createElement('div');h.className='home';
+  h.innerHTML=`<div class="hello"><div class="avatar pops"></div><div><small>${saludo()}, J/R</small><h1>¿Qué creamos hoy para Paradise?</h1></div></div>
+  <div class="kpis">
+    <div class="kpi"><small>VENTAS HOY</small><b>${n.ventasHoy!=null?dinero(n.ventasHoy):'—'}</b><em style="color:var(--muted)">${n.ventasHoy!=null?'Corte del día':'Sin corte aún'}</em></div>
+    <div class="kpi"><small>${n.sellosHoy!=null?'SELLOS':n.sellos?'SELLOS':'CLUB'}</small><b>${n.sellosHoy!=null?n.sellosHoy:(n.sellos||n.clientes||'—')}</b><em style="color:var(--muted)">${n.sellosHoy!=null?'hoy':n.sellos?'en tarjetas':'miembros'}</em></div>
+    <div class="kpi"><small>${est.abierto?'ABIERTO':'HORARIO'}</small><b style="color:${est.abierto?'#3ddc84':'var(--cream)'}">${est.abierto?est.txt:'1–9 pm'}</b><em style="color:var(--muted)">${est.abierto?'para cerrar':'Cerrado ahora'}</em></div>
+  </div>
+  <div class="shortcuts">${ATAJOS.map((a,i)=>`<button class="sc" data-i="${i}"><span class="ic ${a.c}">${a.ic}</span><b>${a.t}</b><small>${a.s}</small></button>`).join('')}</div>`;
+  const rec=chats.slice(0,4);
+  if(rec.length){h.insertAdjacentHTML('beforeend','<div class="sec-t">RECIENTES</div>'+rec.map(c=>`<button class="rec" data-id="${c.id}">${PROYECTOS[c.proy]?.i||'🍿'}<span>${esc(c.titulo)}</span><small>${cuando(c.act)}</small></button>`).join(''))}
+  h.insertAdjacentHTML('beforeend',`<div class="tip">${EXT?'Leo tus números del modo dueño en vivo 🔒':n.hayDatos?'Leo tus datos del panel del dueño de este dispositivo 🔒':'Abre el asistente desde tu panel del dueño para que lea tus ventas y clientes.'}</div>`);
+  h.querySelectorAll('.sc').forEach(b=>b.onclick=()=>{const a=ATAJOS[b.dataset.i];enviar(a.q,a.p)});
+  h.querySelectorAll('.rec').forEach(b=>b.onclick=()=>abrir(b.dataset.id));
+  feed.appendChild(h); pintarAvatares(h);
+}
+function cuando(t){const d=new Date(t),h=new Date();if(d.toDateString()===h.toDateString())return hora(t);const dif=(h-d)/864e5;if(dif<7)return d.toLocaleDateString('es-MX',{weekday:'short'});return d.toLocaleDateString('es-MX',{day:'numeric',month:'short'})}
+
+/* ---------- Chips rápidos ---------- */
+function pintarChips(){
+  const c=$('#chips'); c.innerHTML='';
+  const last=actual&&actual.msgs[actual.msgs.length-1];
+  let items;
+  if(!last) items=[['🎙️ Habla con Pops',()=>abrirVoz()],['🏆 Top 5 de la semana',()=>enviar('¿Qué 5 sabores debería poner en "Lo más vendido" esta semana y por qué?','ventas')],['💎 Mensaje al Club',()=>enviar('Escribe un mensaje para los miembros del Club Paradise Premium.','clientes')],['🎒 Paquete Emprendedor',()=>enviar('Ayúdame a mejorar la descripción y precios del Paquete Emprendedor.','promos')]];
+  else if(last.role==='model'&&!last.loading) items=[['💬 Escribir mensaje',()=>enviar('Conviértelo en un mensaje para mis clientes por WhatsApp.')],['✨ Otra idea',()=>enviar('Dame otra idea diferente.')],['⧉ Copiar',()=>copiar(textoPlano(last.text||''))],['📸 Post para Instagram',()=>enviar('Hazlo un texto para post de Instagram con hashtags.')]];
+  else items=[];
+  items.forEach(([t,f])=>{const b=document.createElement('button');b.className='pill';b.textContent=t;b.onclick=f;c.appendChild(b)});
+}
+
+/* ---------- Conversaciones ---------- */
+function guardarChats(){
+  const lim=chats.slice(0,60).map(c=>({...c,msgs:c.msgs.filter(m=>!m.loading).map(m=>({...m,files:(m.files||[]).map(f=>({name:f.name,size:f.size,thumb:f.thumb}))}))}));
+  guardar(LS.chats,lim);
+}
+function nueva(){actual=null;adjuntos=[];pintarAdj();pintar();cerrarDrawer();input.focus()}
+function abrir(id){actual=chats.find(c=>c.id===id)||null;pintar();cerrarDrawer()}
+function adivinarProy(t){t=t.toLowerCase();if(/venta|corte|gan|sucursal|semana|vend/.test(t))return'ventas';if(/promo|descuento|2x1|oferta|lanz/.test(t))return'promos';if(/mensaje|cliente|club|whats|sello|miembro/.test(t))return'clientes';return'general'}
+
+/* ---------- Enviar a Gemini ---------- */
+async function llamar(contents){
+  if(!cfg.url||!cfg.pin){abrirConfig();throw new Error('Conecta tu asistente primero.')}
+  const r=await fetch(cfg.url,{method:'POST',body:JSON.stringify({pin:cfg.pin,system:sistema(),contents})});
+  const j=await r.json(); if(j.error) throw new Error(j.error); return j.text||'';
+}
+function armarContents(){
+  return actual.msgs.filter(m=>!m.loading&&!m.error).map((m,idx,arr)=>{
+    const parts=[]; if(m.text) parts.push({text:m.text});
+    if(idx===arr.length-1&&m.role==='user') (m.files||[]).forEach(f=>{if(f.data)parts.push({inline_data:{mime_type:f.mime,data:f.data}})});
+    if(!parts.length) parts.push({text:'(foto)'});
+    return {role:m.role,parts};
+  });
+}
+async function enviar(texto, proy){
+  texto=(texto??input.value).trim();
+  if(enviando||(!texto&&!adjuntos.length)) return;
+  if(!actual){actual={id:Date.now().toString(36),titulo:(texto||'Foto').slice(0,48),proy:proy||adivinarProy(texto),creado:Date.now(),act:Date.now(),msgs:[]};chats.unshift(actual)}
+  actual.msgs.push({role:'user',text:texto,files:adjuntos.slice(),t:Date.now()});
+  input.value='';autoAlto();adjuntos=[];pintarAdj();
+  await responder(texto);
+}
+async function responder(texto){
+  enviando=true; $('#btnSend').disabled=true;
+  const ph={role:'model',loading:true}; actual.msgs.push(ph); pintar();
+  const t0=Date.now();
+  const etiqueta=/venta|corte|semana|gan|sucursal|sello|cliente/i.test(texto||'')?'Pensó en tus ventas':'Pensó en tu negocio';
+  let res;
+  try{const txt=await llamar(armarContents().filter(c=>c!==undefined));res={role:'model',text:txt,secs:Math.max(1,Math.round((Date.now()-t0)/1000)),etiqueta,t:Date.now()}}
+  catch(e){res={role:'model',error:'No pude responder: '+e.message,t:Date.now()}}
+  actual.msgs.splice(actual.msgs.indexOf(ph),1);
+  actual.msgs.push(res); actual.act=Date.now();
+  chats=[actual,...chats.filter(c=>c!==actual)];
+  guardarChats(); enviando=false; $('#btnSend').disabled=false;
+  if(res.text) await escribirAnimado(res); else pintar();
+  pintarHist();
+  return res;
+}
+async function escribirAnimado(m){
+  // efecto de escritura solo para el texto normal (las tarjetas aparecen completas)
+  pintar(); const nodo=feed.lastElementChild; const txts=nodo.querySelectorAll('.txt');
+  if(!txts.length) return;
+  const orig=[...txts].map(t=>t.innerHTML);
+  txts.forEach(t=>t.style.visibility='hidden');
+  for(let k=0;k<txts.length;k++){
+    const el=txts[k]; el.style.visibility='visible'; const full=el.textContent; el.textContent='';
+    const cur=document.createElement('span');cur.className='cursor';
+    for(let i=0;i<full.length;i+=4){el.textContent=full.slice(0,i);el.appendChild(cur);if(i%40===0)abajo();await new Promise(r=>setTimeout(r,8))}
+    el.innerHTML=orig[k];
+  }
+  abajo();
+}
+async function regenerar(i){
+  if(enviando) return;
+  actual.msgs.splice(i,1);
+  const ultU=[...actual.msgs].reverse().find(m=>m.role==='user');
+  await responder(ultU?ultU.text:'');
+}
+
+/* ---------- Fotos ---------- */
+function reducir(file){
+  return new Promise((ok,no)=>{
+    const fr=new FileReader(); fr.onerror=no;
+    fr.onload=()=>{const img=new Image();img.onerror=no;img.onload=()=>{
+      const max=1280, s=Math.min(1,max/Math.max(img.width,img.height));
+      const c=document.createElement('canvas');c.width=img.width*s;c.height=img.height*s;c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      const data=c.toDataURL('image/jpeg',.82);
+      const t=document.createElement('canvas');const ts=80/Math.max(img.width,img.height);t.width=img.width*ts;t.height=img.height*ts;t.getContext('2d').drawImage(img,0,0,t.width,t.height);
+      ok({name:file.name||'foto.jpg',size:file.size,mime:'image/jpeg',data:data.split(',')[1],thumb:t.toDataURL('image/jpeg',.7)});
+    };img.src=fr.result};
+    fr.readAsDataURL(file);
+  });
+}
+async function agregarArchivos(files){
+  for(const f of files){if(adjuntos.length>=4)break;try{adjuntos.push(await reducir(f))}catch(e){toast('No pude abrir esa imagen')}}
+  pintarAdj();
+}
+function pintarAdj(){
+  const p=$('#attachPrev');p.innerHTML='';
+  adjuntos.forEach((a,i)=>{const d=document.createElement('div');d.innerHTML=`<img src="${a.thumb}"><button>✕</button>`;d.querySelector('button').onclick=()=>{adjuntos.splice(i,1);pintarAdj()};p.appendChild(d)});
+}
+
+/* ---------- Menú lateral ---------- */
+function abrirDrawer(){pintarHist();$('#drawer').classList.add('show');$('#scrim').classList.add('show')}
+function cerrarDrawer(){$('#drawer').classList.remove('show');$('#scrim').classList.remove('show')}
+function pintarHist(){
+  const pj=$('#projs');pj.innerHTML='';
+  Object.entries(PROYECTOS).forEach(([k,p])=>{const n=chats.filter(c=>c.proy===k).length;const b=document.createElement('button');b.className='proj'+(filtroProy===k?' sel':'');b.innerHTML=`<div class="ic ${p.c}" style="background:${{y:'linear-gradient(135deg,#ffd76a,#e8a317)',g:'linear-gradient(135deg,#3ae374,#1fb85a)',p:'linear-gradient(135deg,#a98bff,#6a4bd8)',r:'linear-gradient(135deg,#ff5a6e,#c8102e)'}[p.c]}">${p.i}</div><b>${p.n}</b><small>${n} chat${n===1?'':'s'}</small>`;b.onclick=()=>{filtroProy=filtroProy===k?null:k;pintarHist()};pj.appendChild(b)});
+  const q=$('#buscar').value.trim().toLowerCase();
+  const lista=chats.filter(c=>(!filtroProy||c.proy===filtroProy)&&(!q||c.titulo.toLowerCase().includes(q)||c.msgs.some(m=>(m.text||'').toLowerCase().includes(q))));
+  const grupos={'HOY':[],'ESTA SEMANA':[],'ANTES':[]}; const hoy=new Date().toDateString();
+  lista.forEach(c=>{const d=new Date(c.act);if(d.toDateString()===hoy)grupos['HOY'].push(c);else if((Date.now()-c.act)<7*864e5)grupos['ESTA SEMANA'].push(c);else grupos['ANTES'].push(c)});
+  const h=$('#hist');h.innerHTML='';
+  Object.entries(grupos).forEach(([g,arr])=>{if(!arr.length)return;h.insertAdjacentHTML('beforeend',`<div class="sec-t">${g}</div>`);arr.forEach(c=>{const b=document.createElement('div');b.className='h-item'+(actual&&actual.id===c.id?' cur':'');b.innerHTML=`<span style="flex:none">${PROYECTOS[c.proy]?.i||'🍿'}</span><span>${esc(c.titulo)}</span><small>${cuando(c.act)}</small><button class="del" aria-label="Borrar">✕</button>`;b.onclick=e=>{if(e.target.classList.contains('del')){chats=chats.filter(x=>x!==c);if(actual===c)actual=null;guardarChats();pintarHist();pintar();return}abrir(c.id)};h.appendChild(b)})});
+  if(!lista.length) h.innerHTML='<div class="tip">'+(q?'Sin resultados':'Aún no hay conversaciones')+'</div>';
+}
+
+/* ---------- Modo voz ---------- */
+const Reco=window.SpeechRecognition||window.webkitSpeechRecognition; let reco=null, escuchando=false, waveT=null;
+(function(){const w=$('#wave');for(let i=0;i<26;i++)w.appendChild(document.createElement('i'))})();
+function onda(on){clearInterval(waveT);const bars=$('#wave').children;if(!on){[...bars].forEach(b=>b.style.height='8px');return}waveT=setInterval(()=>[...bars].forEach((b,i)=>b.style.height=(8+Math.abs(Math.sin(Date.now()/180+i))*34*Math.random())+'px'),120)}
+function vEstado(t,cls){$('#vEstado').textContent=t;const v=$('#voice');v.classList.remove('listening','speaking');if(cls)v.classList.add(cls)}
+function abrirVoz(){cerrarPop();$('#voice').classList.add('show');pintarAvatares($('#voice'));if(!Reco){$('#vText').innerHTML='<em>Tu navegador no permite dictado aquí. Prueba en Safari actualizado o usa el teclado.</em>';return}escuchar()}
+function cerrarVoz(){try{reco&&reco.abort()}catch(e){}speechSynthesis.cancel();escuchando=false;onda(false);$('#vMic').classList.remove('on');$('#voice').classList.remove('show')}
+function escuchar(){
+  if(!Reco) return; speechSynthesis.cancel();
+  reco=new Reco();reco.lang='es-MX';reco.interimResults=true;reco.continuous=false;
+  let final='';const t0=Date.now();
+  reco.onstart=()=>{escuchando=true;$('#vMic').classList.add('on');$('#vLbl').textContent='POPS TE ESCUCHA';vEstado('Escuchando…','listening');$('#vWho').textContent='Tú · ahora';onda(true)};
+  reco.onresult=e=>{let tmp='';for(const r of e.results){if(r.isFinal)final+=r[0].transcript;else tmp+=r[0].transcript}$('#vText').innerHTML=`“${esc(final)}<em>${esc(tmp)}</em>”`};
+  reco.onerror=e=>{vEstado(e.error==='not-allowed'?'Permite el micrófono':'No te escuché bien');};
+  reco.onend=async()=>{escuchando=false;$('#vMic').classList.remove('on');onda(false);
+    if(!final.trim()){vEstado('Listo');$('#vLbl').textContent='TOCA EL MICRÓFONO';return}
+    vEstado('Pensando…');$('#vLbl').textContent='POPS ESTÁ PENSANDO';
+    if(!actual){actual={id:Date.now().toString(36),titulo:final.slice(0,48),proy:adivinarProy(final),creado:Date.now(),act:Date.now(),msgs:[]};chats.unshift(actual)}
+    actual.msgs.push({role:'user',text:final.trim(),files:[],t:Date.now()});
+    const res=await responder(final);
+    const dicho=res.error||textoPlano(res.text||'');
+    $('#vText').textContent=dicho.length>220?dicho.slice(0,220)+'…':dicho;$('#vWho').textContent='Pops';
+    hablar(dicho);
+  };
+  try{reco.start()}catch(e){}
+}
+function hablar(t){
+  if(!('speechSynthesis' in window)){vEstado('Listo');return}
+  const u=new SpeechSynthesisUtterance(t.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu,''));u.lang='es-MX';u.rate=1.05;
+  const voz=speechSynthesis.getVoices().find(v=>v.lang==='es-MX')||speechSynthesis.getVoices().find(v=>v.lang.startsWith('es'));if(voz)u.voice=voz;
+  u.onstart=()=>{vEstado('Pops está hablando','speaking');$('#vLbl').textContent='POPS RESPONDE';onda(true)};
+  u.onend=()=>{onda(false);vEstado('Listo');$('#vLbl').textContent='TOCA EL MICRÓFONO'};
+  speechSynthesis.speak(u);
+}
+
+/* ---------- Configuración ---------- */
+function abrirConfig(){cerrarPop();$('#cfgUrl').value=cfg.url||'';$('#cfgPin').value='';$('#cfgMsg').textContent='';$('#modal').classList.add('show');pintarAvatares($('#modal'))}
+$('#cfgSave').onclick=async()=>{
+  const url=$('#cfgUrl').value.trim(), pin=$('#cfgPin').value.trim(), msg=$('#cfgMsg');
+  if(!/^https:\/\/script\.google\.com\/.+\/exec/.test(url)){msg.textContent='El enlace debe terminar en /exec';return}
+  if(!pin){msg.textContent='Escribe tu PIN';return}
+  msg.style.color='var(--muted)';msg.textContent='Conectando…';
+  try{const r=await fetch(url,{method:'POST',body:JSON.stringify({pin,ping:true})});const j=await r.json();
+    if(j.ok){cfg={url,pin};guardar(LS.cfg,cfg);$('#modal').classList.remove('show');estado(true);toast('¡Conectado! 🍿')}
+    else{msg.style.color='#ff8a8a';msg.textContent=j.error||'No se pudo conectar'}}
+  catch(e){msg.style.color='#ff8a8a';msg.textContent='No se pudo conectar. Revisa que la implementación sea "Cualquier usuario".'}
+};
+function estado(ok){$('#estadoDot').classList.toggle('off',!ok);$('#estadoTxt').textContent=ok?'En línea':'Sin conectar'}
+
+/* ---------- Eventos ---------- */
+function autoAlto(){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,140)+'px'}
+input.addEventListener('input',autoAlto);
+input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!/iPad|iPhone/.test(navigator.userAgent)){e.preventDefault();enviar()}});
+$('#btnSend').onclick=()=>enviar();
+$('#btnAdd').onclick=()=>$('#fileAdd').click();
+$('#btnCam').onclick=()=>$('#fileCam').click();
+$('#fileAdd').onchange=e=>{agregarArchivos([...e.target.files]);e.target.value=''};
+$('#fileCam').onchange=e=>{agregarArchivos([...e.target.files]);e.target.value=''};
+$('#btnMic').onclick=abrirVoz;
+function pintarTono(){$('#btnTono').classList.toggle('on',tonoOn);$('#tonoLbl').textContent=tonoOn?'activado':'apagado'}
+$('#btnTono').onclick=()=>{tonoOn=!tonoOn;guardar(LS.tono,tonoOn);pintarTono();toast(tonoOn?'Tono Paradise activado ✨':'Tono neutral')};
+$('#btnMenu').onclick=abrirDrawer; $('#scrim').onclick=cerrarDrawer; $('#drNueva').onclick=nueva;
+$('#buscar').oninput=pintarHist;
+$('#drPanel').onclick=e=>{e.preventDefault();cerrarDrawer();irPanel()};
+function cerrarPop(){$('#popMenu').classList.remove('show')}
+$('#btnMas').onclick=e=>{e.stopPropagation();$('#popMenu').classList.toggle('show')};
+document.addEventListener('click',e=>{if(!e.target.closest('#popMenu'))cerrarPop()});
+$('#popMenu').onclick=e=>{const a=e.target.closest('button')?.dataset.act;cerrarPop();
+  if(a==='nueva')nueva(); if(a==='voz')abrirVoz(); if(a==='tono')$('#btnTono').click(); if(a==='config')abrirConfig();
+  if(a==='panel')irPanel();
+  if(a==='borrar'&&confirm('¿Borrar todas las conversaciones del asistente?')){chats=[];actual=null;guardarChats();pintar()}};
+$('#vClose').onclick=cerrarVoz; $('#vClose2').onclick=cerrarVoz;
+$('#vKey').onclick=()=>{cerrarVoz();input.focus()};
+$('#vMic').onclick=()=>{if(escuchando){try{reco.stop()}catch(e){}}else escuchar()};
+$('#modal').onclick=e=>{if(e.target.id==='modal'&&cfg.url)$('#modal').classList.remove('show')};
+
+/* ---------- Inicio ---------- */
+if(EMBED){const b=document.createElement('button');b.className='icon-btn';b.setAttribute('aria-label','Volver al panel');b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>';b.onclick=irPanel;document.querySelector('.top').prepend(b);}
+pintarAvatares(); pintarTono(); estado(!!(cfg.url&&cfg.pin)); pintar();
+if(!cfg.url||!cfg.pin) setTimeout(abrirConfig,400);
+if('speechSynthesis' in window) speechSynthesis.getVoices();
+</script>
+</body>
+</html>
