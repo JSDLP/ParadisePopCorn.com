@@ -5914,7 +5914,7 @@ body.pp-asis-open .pp-asis-btn{display:none!important}
     document.body.classList.add('pp-asis-open');ov.classList.add('show');ov.setAttribute('aria-hidden','false');
     juntar().then(function(d){datos=d;enviar()});
   }
-  function cerrar(){ov.classList.remove('show');ov.setAttribute('aria-hidden','true');document.body.classList.remove('pp-asis-open')}
+  function cerrar(){if(!ov.classList.contains('show')&&!document.body.classList.contains('pp-asis-open'))return;ov.classList.remove('show');ov.setAttribute('aria-hidden','true');document.body.classList.remove('pp-asis-open')}
   btn.addEventListener('click',abrir);
   window.addEventListener('message',function(e){if(e.origin===location.origin&&e.data&&e.data.tipo==='pp-cerrar')cerrar()});
   // si cierra sesión, se cierra el asistente
