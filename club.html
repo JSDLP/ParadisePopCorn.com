@@ -5874,26 +5874,26 @@ window.PP_ESTAMPAS=(function(){
 <script>"serviceWorker"in navigator&&window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script>
 <!-- ===== Asistente Paradise (solo dueño) ===== -->
 <style>
-.pp-asis-btn{position:fixed;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 104px);z-index:900;display:none;align-items:center;gap:10px;height:60px;padding:0 20px 0 14px;border-radius:999px;
-  border:2.5px solid #e2ad2e;background:#3a2a21;color:#ffc93c;font:800 22px/1 'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-.01em;box-shadow:0 12px 30px rgba(0,0,0,.5),0 0 22px rgba(226,173,46,.22);cursor:pointer}
-.pp-asis-btn .pa-logo{display:block;height:46px;width:46px;background:#ffc93c;-webkit-mask:center/contain no-repeat;mask:center/contain no-repeat}
-.pp-asis-btn .pa-sep{width:3px;height:34px;border-radius:2px;background:#e2ad2e;opacity:.9}
-.pp-asis-btn .pa-pops{width:44px;height:44px;border-radius:50%;object-fit:cover;border:3px solid #ffc93c;background:#fff}
-.pp-asis-btn:active{transform:scale(.96)}
+.pp-asis-btn{position:fixed;right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 160px);z-index:900;display:none;width:50px;height:50px;padding:0;border-radius:50%;
+  border:1.5px solid rgba(255,201,60,.55);background:rgba(30,20,12,.45);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);
+  box-shadow:0 6px 18px rgba(0,0,0,.35);cursor:pointer;align-items:center;justify-content:center;opacity:.9;transition:transform .15s,opacity .15s}
+.pp-asis-btn .pa-pops{width:40px;height:40px;border-radius:50%;object-fit:cover;background:#fff}
+.pp-asis-btn:hover{opacity:1}
+.pp-asis-btn:active{transform:scale(.92)}
 body.owner:not(.gerente) .pp-asis-btn{display:flex}
 body.pp-asis-open .pp-asis-btn{display:none!important}
-@media (min-width:768px){.pp-asis-btn{bottom:calc(env(safe-area-inset-bottom,0px) + 24px)}}
+@media (min-width:768px){.pp-asis-btn{bottom:calc(env(safe-area-inset-bottom,0px) + 28px)}}
 .pp-asis-ov{position:fixed;inset:0;z-index:10000;background:#0b0806;opacity:0;transform:translateY(24px);transition:opacity .28s ease,transform .32s cubic-bezier(.2,.8,.2,1);pointer-events:none}
 .pp-asis-ov.show{opacity:1;transform:none;pointer-events:auto}
 .pp-asis-ov iframe{width:100%;height:100%;border:0;display:block;background:#0b0806}
 </style>
-<button type="button" class="pp-asis-btn" data-asis-btn aria-label="Abrir Asistente Paradise"><span class="pa-logo" data-asis-logo aria-hidden="true"></span><span class="pa-sep" aria-hidden="true"></span><img alt="" class="pa-pops" data-asis-pops><span>Asistente</span></button>
+<button type="button" class="pp-asis-btn" data-asis-btn aria-label="Abrir Asistente Paradise" title="Asistente"><img alt="" class="pa-pops" data-asis-pops></button>
 <div class="pp-asis-ov" data-asis-ov aria-hidden="true"></div>
 <script>
 (function(){
   var btn=document.querySelector('[data-asis-btn]'),ov=document.querySelector('[data-asis-ov]'),fr=null,listo=false,datos=null;
   function img(n){var i=document.querySelector('img[data-img="'+n+'"]');return i&&i.src?i.src:''}
-  function fotos(){try{document.querySelector('[data-asis-pops]').src=img('POPS');var lg=document.querySelector('[data-asis-logo]'),u=img('LOGOT');if(u&&lg.dataset.u!==u){lg.dataset.u=u;lg.style.webkitMaskImage=lg.style.maskImage='url("'+u+'")';var t=new Image();t.onload=function(){if(t.naturalHeight)lg.style.width=Math.round(46*t.naturalWidth/t.naturalHeight)+'px'};t.src=u}}catch(e){}}fotos();setTimeout(fotos,1500);
+  function fotos(){try{document.querySelector('[data-asis-pops]').src=img('POPS')}catch(e){}}fotos();setTimeout(fotos,1500);
   function limpia(o){ // quita teléfonos y PIN antes de mandarlo a la IA
     if(Array.isArray(o))return o.map(limpia);
     if(o&&typeof o==='object'){var r={};Object.keys(o).forEach(function(k){if(!/whatsapp|telefono|^tel$|pin|codigo/i.test(k))r[k]=limpia(o[k])});return r}
