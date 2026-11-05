@@ -1964,6 +1964,16 @@ body.gerente .pm-ac button.ps{display:none}
 .mb-tag.ok{background:linear-gradient(135deg,#fff1b8,#ffc83d);color:#2a0606;border-color:transparent}
 .mb-tag.live{background:rgba(61,220,132,.18);border-color:rgba(61,220,132,.45)}
 .mb-d{display:block;font-size:10.5px;color:rgba(255,241,230,.55);margin-top:6px}
+.mb-ed{margin-top:10px;width:100%;padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.10);color:#fff1e6;font:800 12.5px/1 "Bricolage Grotesque",Arial,sans-serif;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.mb-ed:active{transform:scale(.97)}
+.mb-form{margin-top:10px;padding:9px 8px;border-radius:16px;background:rgba(0,0,0,.28);border:1px solid rgba(255,200,61,.45);text-align:left}
+.mb-form label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#ffc83d;margin-bottom:6px}
+.mb-in{display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2)}
+.mb-in span{font-weight:800;color:#ffc83d}
+.mb-in input{flex:1;min-width:0;border:0;background:transparent;color:#fff1e6;font:800 18px/1.2 "Bricolage Grotesque",Arial,sans-serif;outline:0}
+.mb-fb{display:flex;gap:6px;margin-top:8px}
+.mb-fb button{flex:1;min-width:0;padding:8px 4px;border-radius:999px;border:0;font:800 12.5px/1 "Bricolage Grotesque",Arial,sans-serif;cursor:pointer}
+.mb-fb .no{background:rgba(255,255,255,.12);color:#fff1e6}.mb-fb .si{background:linear-gradient(135deg,#fff1b8,#ffc83d);color:#2a0606}
 .mb-note{margin:2px 2px 0;font-size:11px;color:rgba(255,241,230,.55)}
 .mb-empty{padding:18px;text-align:center;color:rgba(255,241,230,.75);font-size:14px;width:100%}
 @media (max-width:420px){.mb-stats{grid-template-columns:1fr 1fr}.mb-stats .mb-st:first-child{grid-column:1/-1}.mb-c{flex-basis:156px}}
@@ -2529,7 +2539,7 @@ html body.owner:not(.gerente) .onav button[aria-current="page"]:not(.dk-go){colo
             <div class="mb-head"><div><span class="mb-k">BOTES DE CADA MES</span><h4>Tu temporada en taquilla</h4></div><span class="mb-sub" data-mb-sub>Desliza para ver cada mes</span></div>
             <div class="mb-stats" data-mb-stats></div>
             <div class="mb-track" data-mb-track></div>
-            <p class="mb-note">Tus primeros dos meses tienen meta de $40,000. Desde ahí, cada mes guarda la meta que tenías en ese momento.</p>
+            <p class="mb-note">Toca <b>✏️ Cambiar meta</b> en cualquier bote para ponerle su propia meta. La del mes en curso también cambia tu meta del mes.</p>
           </section>
           <div class="fd-grid">
             <div class="fd-film">
@@ -4902,7 +4912,8 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     if(!ks.length){box.appendChild(fdEl('div','mb-empty','Cuando registres tus cortes, aquí aparecerá el bote de cada mes 🍿'));return}
     var meses=[],y=+ks[0].slice(0,4),m=+ks[0].slice(5,7),yE=+mesHoy.slice(0,4),mE=+mesHoy.slice(5,7);
     while(y<yE||(y===yE&&m<=mE)){meses.push(y+'-'+(m<10?'0':'')+m);m++;if(m>12){m=1;y++}}
-    var FIJA=40000;meses.slice(0,2).forEach(function(k){MM[k]=FIJA});
+    var KU='pp-metas-mes-u',MU={};try{MU=JSON.parse(localStorage.getItem(KU)||'{}')||{}}catch(e){MU={}}
+    var FIJA=40000;meses.slice(0,2).forEach(function(k){MM[k]=FIJA});Object.keys(MU).forEach(function(k){if(+MU[k]>0)MM[k]=+MU[k]});
     meses.reverse();
     var best=null,cump=0,cerr=0,suma=0;meses.forEach(function(k){var t=tot[k]||0;suma+=t;if(!best||t>(tot[best]||0))best=k;if(k!==mesHoy){cerr++;var mt=MM[k]||CT.meta;if(mt>0&&t>=mt)cump++}});
     function st(cls,l,b,s){var d=fdEl('div','mb-st '+cls);d.appendChild(fdEl('small','',l));d.appendChild(fdEl('b','',b));if(s)d.appendChild(fdEl('span','',s));stats.appendChild(d)}
@@ -4923,6 +4934,19 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       var br=fdEl('div','mb-bar'),bi=fdEl('i');br.appendChild(bi);c.appendChild(br);
       var tg=ok?fdEl('span','mb-tag ok','🏆 ¡Meta cumplida!'):now?fdEl('span','mb-tag live',mt>0?'Faltan '+ctMoney(mt-t):'Mes en curso'):fdEl('span','mb-tag',mt>0?'Faltaron '+ctMoney(mt-t):'Sin meta');
       c.appendChild(tg);var nd=dias[k]?Object.keys(dias[k]).length:0;c.appendChild(fdEl('span','mb-d',nd?nd+(nd===1?' día con corte':' días con corte'):'Sin cortes'));
+      var eb=fdEl('button','mb-ed',mt>0?'✏️ Cambiar meta':'＋ Poner meta');eb.type='button';c.appendChild(eb);
+      eb.addEventListener('click',function(){
+        if(c.querySelector('.mb-form'))return;
+        var f=document.createElement('form');f.className='mb-form';
+        f.innerHTML='<label>Meta de '+MESN[+k.slice(5,7)-1]+'</label><div class="mb-in"><span>$</span><input inputmode="numeric" placeholder="40000"></div><div class="mb-fb"><button type="button" class="no">Cancelar</button><button type="submit" class="si">Guardar</button></div>';
+        var inp=f.querySelector('input');inp.value=mt>0?mt:'';
+        f.querySelector('.no').onclick=function(){f.remove();eb.hidden=false};
+        f.addEventListener('submit',function(e){e.preventDefault();var v=parseInt(String(inp.value).replace(/[^\d]/g,''),10)||0;
+          MU[k]=v;try{localStorage.setItem(KU,JSON.stringify(MU))}catch(x){}
+          if(now){api({accion:'guardarMeta',pin:A.pin,meta:String(v)}).then(function(d){if(d&&d.ok){CT.meta=+d.meta||0}try{fdPintar()}catch(x){}}).catch(function(){})}
+          toast('🍿 Meta de '+MESN[+k.slice(5,7)-1]+' guardada');mbPintar(L,hoy)});
+        eb.hidden=true;c.appendChild(f);setTimeout(function(){inp.focus()},50);
+      });
       box.appendChild(c);
       setTimeout(function(){bk.style.setProperty('--pv',pv/100);bi.style.width=pv+'%'},120+i*90);
     });
