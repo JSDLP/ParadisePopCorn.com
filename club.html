@@ -3004,6 +3004,13 @@ body.gerente .nv-own{display:none!important}
               <div class="pv pv-gp" aria-hidden="true"><small data-pv="gfin">Por tiempo limitado</small><b>¡Gourmet a precio de caramelo!</b><div class="pv-gp-l" data-pv="gl"></div></div>
             </div>
           </article>
+          <article class="pc" data-pc="sabn">
+            <header><span class="pc-ic">🍿</span><div><b>Número de sabores</b><small>El número grande de "¿Se te antojó? Pide tus palomitas"</small></div></header>
+            <div class="pc-body">
+              <label class="pf"><span>Más de…</span><input name="s_n" type="number" inputmode="numeric" min="10" max="99" step="1" placeholder="40"></label>
+              <p class="gp-nota" style="align-self:center;margin:0">Escribe un número del 10 al 99. En tu página dirá "Más de <span data-pv="sn" style="display:inline;font-weight:800;color:#ffc83d">40</span> sabores".</p>
+            </div>
+          </article>
           <article class="pc" data-pc="mes">
             <header><span class="pc-ic">⭐</span><div><b>Sabor del mes</b><small>Un sabor destacado arriba del menú</small></div><label class="sw"><input type="checkbox" name="m_activa"><span></span><em class="sr">Activar sabor del mes</em></label></header>
             <div class="pc-body">
@@ -5422,7 +5429,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     var gp=[f.g_p1,f.g_p2,f.g_p3,f.g_p4].map(function(x){return +x.value||0}),gr=(SITIO&&SITIO.precios&&SITIO.precios.gourmet)||[50,100,150,200],gl=$('[data-pv=gl]');gl.innerHTML='';
     ['CH','M','G','J'].forEach(function(t,j){var sp=document.createElement('span');if(gr[j]&&gr[j]!==gp[j]){var o=document.createElement('s');o.textContent='$'+gr[j];sp.appendChild(o)}sp.appendChild(document.createTextNode(t+' $'+(gp[j]||'—')));gl.appendChild(sp)});
     $('[data-pv=gfin]').textContent=f.g_fin.value?('Hasta el '+(+f.g_fin.value.slice(8,10))+' de '+MESES[+f.g_fin.value.slice(5,7)-1]):'Por tiempo limitado';
-    $('[data-pc=gourmet]').classList.toggle('on',f.g_activa.checked);
+    $('[data-pc=gourmet]').classList.toggle('on',f.g_activa.checked);var sv=$('[data-pv=sn]');if(sv)sv.textContent=f.s_n.value||'40';$('[data-pc=sabn]').classList.add('on');
   }
   function prLlenar(c){
     var f=PR.elements;f.d_activa.checked=!!c.dosx1.activa;f.d_dia.value=String(c.dosx1.dia);f.d_sabor.value=c.dosx1.sabor||'Mantequilla';
@@ -5430,7 +5437,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     f.a_activa.checked=!!c.aviso.activa;f.a_texto.value=c.aviso.texto||'';var r=PR.querySelector('[name=a_estilo][value="'+(c.aviso.estilo||'info')+'"]');if(r)r.checked=true;
     var tp=c.top||{},ts=tp.sabores||[];f.t_activa.checked=!!tp.activa;
     [1,2,3,4,5].forEach(function(i){var sel=f['t_s'+i],v=ts[i-1]||'';if(v&&!Array.prototype.some.call(sel.options,function(o){return o.value===v})){var o=document.createElement('option');o.textContent=v;sel.appendChild(o)}sel.value=v});
-    f.w_activa.checked=!!(c.muro&&c.muro.activa);
+    f.w_activa.checked=!!(c.muro&&c.muro.activa);f.s_n.value=(c.sabores&&c.sabores.n)||40;
     var g=c.gourmet||{activa:true,precios:[35,65,130,200],fin:''},gpz=g.precios||[35,65,130,200];f.g_activa.checked=!!g.activa;
     [1,2,3,4].forEach(function(i){f['g_p'+i].value=gpz[i-1]||''});f.g_fin.value=g.fin||'';
     prVista();
@@ -5452,11 +5459,12 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     if(topS.length!==topS.filter(function(v,i){return topS.indexOf(v)===i}).length)return show(m,'En el Top 5 hay un sabor repetido.');
     var gpr=[f.g_p1,f.g_p2,f.g_p3,f.g_p4].map(function(x){return Math.round(+x.value||0)});
     if(f.g_activa.checked&&gpr.some(function(v){return !(v>0)}))return show(m,'Escribe los 4 precios de la promo Gourmet.');
-    var cfg={gourmet:{activa:f.g_activa.checked,precios:gpr,fin:f.g_fin.value||''},dosx1:{activa:f.d_activa.checked,dia:+f.d_dia.value,sabor:f.d_sabor.value},mes:{activa:f.m_activa.checked,sabor:f.m_sabor.value,texto:f.m_texto.value},aviso:{activa:f.a_activa.checked,texto:f.a_texto.value,estilo:(PR.querySelector('[name=a_estilo]:checked')||{}).value||'info'},top:{activa:f.t_activa.checked,sabores:topS},muro:{activa:f.w_activa.checked}};
+    var sn=parseInt(f.s_n.value,10);if(!(sn>=10&&sn<=99))return show(m,'El número de sabores debe ser del 10 al 99.');
+    var cfg={sabores:{n:sn},gourmet:{activa:f.g_activa.checked,precios:gpr,fin:f.g_fin.value||''},dosx1:{activa:f.d_activa.checked,dia:+f.d_dia.value,sabor:f.d_sabor.value},mes:{activa:f.m_activa.checked,sabor:f.m_sabor.value,texto:f.m_texto.value},aviso:{activa:f.a_activa.checked,texto:f.a_texto.value,estilo:(PR.querySelector('[name=a_estilo]:checked')||{}).value||'info'},top:{activa:f.t_activa.checked,sabores:topS},muro:{activa:f.w_activa.checked}};
     b.disabled=true;b.textContent='Publicando…';
     api({accion:'guardarPromos',pin:A.pin,config:JSON.stringify(cfg)}).then(function(d){
       if(!d||!d.ok){if(!salir(d&&d.error))show(m,(d&&d.error)||'No se pudo publicar.');return}
-      var sinG=!(d.promos&&d.promos.gourmet);prLlenar(sinG?Object.assign({},d.promos,{gourmet:cfg.gourmet}):d.promos);if(sinG){show(m,'⚠️ Se publicó todo menos la promo Gourmet: tu código de Google necesita la actualización que guarda "gourmet".');return}show(m,'✅ ¡Publicado! Ya se ve en tu página principal.',true);sonido('canje');confeti();toast('📣 Promociones publicadas');resumen();
+      var sinS=!(d.promos&&d.promos.sabores);var sinG=!(d.promos&&d.promos.gourmet);prLlenar(Object.assign({},d.promos,sinG?{gourmet:cfg.gourmet}:{},sinS?{sabores:cfg.sabores}:{}));if(sinS){show(m,'⚠️ Se publicó todo menos el número de sabores: tu código de Google necesita la actualización que guarda "sabores".');return}if(sinG){show(m,'⚠️ Se publicó todo menos la promo Gourmet: tu código de Google necesita la actualización que guarda "gourmet".');return}show(m,'✅ ¡Publicado! Ya se ve en tu página principal.',true);sonido('canje');confeti();toast('📣 Promociones publicadas');resumen();
     }).catch(function(err){show(m,netErr(err))}).then(function(){b.disabled=false;b.textContent='Publicar en mi página 🚀'});
   });
   /* ---------- Fotos de clientes ---------- */
