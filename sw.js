@@ -1,7 +1,7 @@
 // Paradise Pop Corn — la página abre aunque no haya internet
 // 1) Con internet: siempre muestra la versión más nueva y la guarda.
 // 2) Sin internet: muestra la última versión guardada (con sus fotos).
-const CACHE = 'paradise-v6';
+const CACHE = 'paradise-v7';
 const OFFLINE = './offline.html';
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 const CORE = [
@@ -71,13 +71,18 @@ function cacheKey(url) {
 function page(event) {
   const req = event.request;
   const key = cacheKey(req.url);
-  const net = fetch(req, { cache: 'no-cache' }).catch(() => fetch(req));
-  const saved = net.then((res) => {
-    if (res && res.ok && !res.redirected) {
-      return caches.open(CACHE).then((c) => c.put(key, res.clone()).then(() => {
-        if (/\/(index|club)\.html$/.test(key)) return saveAssetsOf(c, [key]);
-      })).catch(() => {});
-    }
+  // La copia se saca EN CUANTO llega la página (antes de que el navegador la lea),
+  // si no, la copia fallaba sin avisar y sin internet se quedaba la versión vieja.
+  let copia = null;
+  const net = fetch(req, { cache: 'no-cache' }).catch(() => fetch(req)).then((res) => {
+    if (res && res.ok && !res.redirected) copia = res.clone();
+    return res;
+  });
+  const saved = net.then(() => {
+    if (!copia) return;
+    return caches.open(CACHE).then((c) => c.put(key, copia).then(() => {
+      if (/\/(index|club)\.html$/.test(key)) return saveAssetsOf(c, [key]);
+    }));
   }).catch(() => {});
   event.waitUntil(saved);
 
