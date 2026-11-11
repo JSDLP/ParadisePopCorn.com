@@ -1681,7 +1681,7 @@ body:not(.owner) .go.red{background:linear-gradient(135deg,#e01b2b,#8f0a12)!impo
 .mini-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .mini-top b{font-weight:800;font-size:15px;color:#d10f1f;text-transform:uppercase;letter-spacing:-.01em}
 .mini-top span{font-weight:700;font-size:11.5px;color:#7a3a20;letter-spacing:.06em;text-transform:uppercase}
-.mini-slots{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:5px;margin-top:10px}
+.mini-slots{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:10px;max-width:300px;margin-left:auto;margin-right:auto}
 .mini-slots i{aspect-ratio:1;border-radius:50%;border:1.5px dashed rgba(209,15,31,.35);display:grid;place-items:center;font-style:normal;background:#fff}
 .mini-slots i.on{border:1.5px solid #d10f1f;background:#ffe9ea}
 .mini-slots i img{width:80%;height:80%;object-fit:contain}
@@ -2547,7 +2547,10 @@ body.owner .ct-list button:not(.ct-more){display:grid!important;grid-template-co
 
 .edc-it .f-pops{width:26cqw!important;top:-11cqw!important;right:1cqw!important}
 </style>
-</head>
+<style>
+/* Tarjeta de 6 sellos: 3 arriba y 3 abajo, mismo tamaño de círculo */
+.slots[data-n="6"],.slots:has(> .slot:nth-child(6):last-child){grid-template-columns:repeat(3,min(27%,118px));justify-content:center;column-gap:clamp(16px,6vw,34px);row-gap:clamp(12px,3.5vw,20px)}
+</style></head>
 <body>
 <div class="gbg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <div class="sala" aria-hidden="true"><div class="sala-luz l"></div><div class="sala-luz r"></div><div class="sala-pol"></div><div class="sala-cor l"></div><div class="sala-cor r"></div><span class="sala-cuerda l"></span><span class="sala-cuerda r"></span><div class="sala-cen"></div><div class="sala-esc"></div></div>
@@ -2662,9 +2665,9 @@ body.owner .ct-list button:not(.ct-more){display:grid!important;grid-template-co
   <!-- ===== SELLOS ===== -->
   <section class="panel" id="p-sellos" role="tabpanel" aria-labelledby="t-sellos" hidden>
     <div class="box" data-s-reg>
-      <div class="mini-sc" aria-hidden="true"><div class="mini-awn"></div><div class="mini-in"><div class="mini-top"><b>Así se ve tu tarjeta</b><span>10 sellos</span></div><div class="mini-slots"><i class="on"><img alt="" data-img="CUB"></i><i class="on"><img alt="" data-img="CUB"></i><i class="on"><img alt="" data-img="CUB"></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="gift">★</i></div><div class="mini-bar"><span></span></div></div></div>
+      <div class="mini-sc" aria-hidden="true"><div class="mini-awn"></div><div class="mini-in"><div class="mini-top"><b>Así se ve tu tarjeta</b><span><span data-rg="m1">6</span> sellos</span></div><div class="mini-slots" data-n="6"><i class="on"><img alt="" data-img="CUB"></i><i class="on"><img alt="" data-img="CUB"></i><i class="on"><img alt="" data-img="CUB"></i><i></i><i></i><i class="gift">★</i></div><div class="mini-bar"><span></span></div></div></div>
       <h2>Tarjeta de sellos</h2>
-      <p class="sub">Tu primera tarjeta es de <b>10 sellos</b> y te llevas <b>una mediana gratis</b>. Cada tarjeta nueva sube de nivel. 🍿</p>
+      <p class="sub">Tu primera tarjeta es de <b><span data-rg="m1">6</span> sellos</b> y te llevas <b>una mediana gratis</b>. La segunda es de <span data-rg="m2">10</span> y desde la tercera de <span data-rg="m3">15</span>. 🍿</p>
       <form data-s-form novalidate>
         <label class="fld"><span>WhatsApp</span><input name="whatsapp" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="14" placeholder="55 1234 5678" required></label>
         <label class="fld" data-s-name-f><span>Nombre</span><input name="nombre" autocomplete="name" maxlength="40" placeholder="Ej. Ana López"></label>
@@ -2696,9 +2699,9 @@ body.owner .ct-list button:not(.ct-more){display:grid!important;grid-template-co
           <span class="nv-you" data-nv-you><b data-nv-you-n>0</b>Tú</span>
           <ol class="nv-list" data-nv-list>
             <li data-k="bronce" style="--x:0%"><span class="nv-dot"></span><b>Bronce</b><small>0</small></li>
-            <li data-k="plata" style="--x:31%"><span class="nv-dot"></span><b>Plata</b><small>25</small></li>
-            <li data-k="oro" style="--x:64%"><span class="nv-dot"></span><b>Oro</b><small>70</small></li>
-            <li data-k="diamante" style="--x:100%"><span class="nv-dot"></span><b>Diamante</b><small>135</small></li>
+            <li data-k="plata" style="--x:31%"><span class="nv-dot"></span><b>Plata</b><small>5</small></li>
+            <li data-k="oro" style="--x:64%"><span class="nv-dot"></span><b>Oro</b><small>7</small></li>
+            <li data-k="diamante" style="--x:100%"><span class="nv-dot"></span><b>Diamante</b><small>10</small></li>
           </ol>
         </div>
         <p class="nv-txt" data-nv-txt></p>
@@ -2720,8 +2723,8 @@ body.owner .ct-list button:not(.ct-more){display:grid!important;grid-template-co
           <li>Cada compra en sucursal suma <b>1 sello</b>.</li>
           <li>Muestra esta pantalla en caja y el personal sella tu tarjeta desde tu celular.</li>
           <li>Al juntar <b><span data-meta-n>10</span> sellos</b> te llevas <b>una mediana gratis</b>.</li>
-          <li>Todos tus sellos cuentan para tu nivel del Club: <b>Bronce</b>, <b>Plata</b> (25), <b>Oro</b> (70) y <b>Diamante</b> (135).</li>
-          <li>Tu siguiente tarjeta es un nivel más: pide <b>5 sellos más</b> (10, 15, 20…). La próxima será de <b data-s-next>15</b>.</li>
+          <li>Todos tus sellos cuentan para tu nivel del Club: <b>Bronce</b>, <b>Plata</b> (<span data-rg="n1">5</span>), <b>Oro</b> (<span data-rg="n2">7</span>) y <b>Diamante</b> (<span data-rg="n3">10</span>).</li>
+          <li>Tu primera tarjeta es de <b><span data-rg="m1">6</span> sellos</b>, la segunda de <b data-rg="m2">10</b> y desde la tercera son de <b data-rg="m3">15</b>. La próxima será de <b data-s-next>10</b>.</li>
         </ul>
         <button class="link" type="button" data-s-out>Usar otra tarjeta</button>
       </div>
@@ -3126,6 +3129,24 @@ body.owner .ct-list button:not(.ct-more){display:grid!important;grid-template-co
             <div class="pc-body">
               <label class="pf"><span>Más de…</span><input name="s_n" type="number" inputmode="numeric" min="10" max="99" step="1" placeholder="40"></label>
               <p class="gp-nota" style="align-self:center;margin:0">Escribe un número del 10 al 99. En tu página dirá "Más de <span data-pv="sn" style="display:inline;font-weight:800;color:#ffc83d">40</span> sabores".</p>
+            </div>
+          </article>
+          <article class="pc" data-pc="club">
+            <header><span class="pc-ic">🎟️</span><div><b>Tarjeta de sellos y niveles</b><small>Cuántos sellos pide cada tarjeta y cada nivel. Se aplica solo, sin tocar código.</small></div></header>
+            <div class="pc-body" style="display:block">
+              <p class="gp-nota" style="margin:0 0 8px"><b>Sellos para la mediana gratis</b></p>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+                <label class="pf"><span>1ª tarjeta</span><input name="c_m1" type="number" inputmode="numeric" min="1" max="50" step="1" placeholder="6"></label>
+                <label class="pf"><span>2ª tarjeta</span><input name="c_m2" type="number" inputmode="numeric" min="1" max="50" step="1" placeholder="10"></label>
+                <label class="pf"><span>3ª en adelante</span><input name="c_m3" type="number" inputmode="numeric" min="1" max="50" step="1" placeholder="15"></label>
+              </div>
+              <p class="gp-nota" style="margin:14px 0 8px"><b>Sellos totales para subir de nivel</b> (todos empiezan en Bronce)</p>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+                <label class="pf"><span>🥈 Plata</span><input name="c_n1" type="number" inputmode="numeric" min="1" max="9999" step="1" placeholder="5"></label>
+                <label class="pf"><span>🥇 Oro</span><input name="c_n2" type="number" inputmode="numeric" min="1" max="9999" step="1" placeholder="7"></label>
+                <label class="pf"><span>💎 Diamante</span><input name="c_n3" type="number" inputmode="numeric" min="1" max="9999" step="1" placeholder="10"></label>
+              </div>
+              <p class="gp-nota" style="margin:10px 0 0">Toca <b>Publicar</b> abajo y listo. Cada nivel debe pedir más sellos que el anterior.</p>
             </div>
           </article>
           <article class="pc" data-pc="mes">
@@ -4807,7 +4828,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     card=d;META=d.meta||10;save(K_SELLOS,{whatsapp:d.whatsapp,nombre:d.nombre});
     if(+slots.getAttribute('data-n')!==META)armarSlots(slots,META,false);
     $$('[data-meta-n]').forEach(function(e){e.textContent=META});var lv=$('[data-s-level]');if(lv)lv.textContent=nivelTxt(d.canjes);
-    var nx=$('[data-s-next]');if(nx)nx.textContent=d.siguiente||(META+5);
+    var nx=$('[data-s-next]');if(nx)nx.textContent=d.siguiente||ppMetaDe((+d.canjes||0)+1);
     sReg.hidden=true;sCard.hidden=false;
     $('[data-s-name]').textContent=d.nombre||'Cliente Paradise';$('[data-s-canjes]').textContent=d.canjes||0;$('[data-s-tel]').textContent='•••• '+String(d.whatsapp).slice(-4);
     $$('.slot',slots).forEach(function(s,i){var on=i<d.sellos;s.classList.toggle('on',on);s.setAttribute('aria-label',on?'Sello '+(i+1)+' obtenido':'Sello '+(i+1)+' pendiente')});
@@ -4843,7 +4864,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     var c=$('[data-cel]');if(!c||!$('#p-dueno').hidden||location.hash==='#dueno')return;
     try{localStorage.setItem('pp-cel-'+d.whatsapp+'-'+(d.canjes||0),'1')}catch(e){}
     $('[data-cel-name]').textContent=(d.nombre||'Cliente Paradise')+' · Nivel '+((+d.canjes||0)+1);
-    var nx=d.siguiente||((d.meta||10)+5);$('[data-cel-next]').textContent='Después de canjearla, tu siguiente tarjeta será de '+nx+' sellos.';
+    var nx=d.siguiente||ppMetaDe((+d.canjes||0)+1);$('[data-cel-next]').textContent='Después de canjearla, tu siguiente tarjeta será de '+nx+' sellos.';
     c.hidden=false;try{sonido('canje')}catch(e){}
     if(typeof confeti==='function')confeti();else rain(60);setTimeout(function(){rain(40)},900);
     try{if(navigator.vibrate)navigator.vibrate([40,60,40,60,120])}catch(e){}
@@ -5494,8 +5515,8 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
 
 
   /* ---------- Completaron su tarjeta (dueño) ---------- */
-  function msgFelicitar(c){var nom=(c.nombre||'').split(' ')[0],nx=(c.meta||10)+5;
-    return '¡Felicidades'+(nom?' '+nom:'')+'! 🎉🍿 Completaste tu tarjeta de '+(c.meta||10)+' sellos en Paradise Pop Corn y ganaste una MEDIANA GRATIS. Pasa por ella de 1 a 9 p.m. y muestra tu tarjeta en caja. Tu siguiente tarjeta será de '+nx+' sellos. ¡Gracias por ser parte de la familia Paradise! ✨'}
+  function msgFelicitar(c){var nom=(c.nombre||'').split(' ')[0],nx=ppMetaDe((+c.canjes||0)+1);
+    return '¡Felicidades'+(nom?' '+nom:'')+'! 🎉🍿 Completaste tu tarjeta de '+(c.meta||ppMetaDe(c.canjes))+' sellos en Paradise Pop Corn y ganaste una MEDIANA GRATIS. Pasa por ella de 1 a 9 p.m. y muestra tu tarjeta en caja. Tu siguiente tarjeta será de '+nx+' sellos. ¡Gracias por ser parte de la familia Paradise! ✨'}
   function waFelicitar(c){return 'https://wa.me/52'+c.whatsapp+'?text='+encodeURIComponent(msgFelicitar(c))}
   function completos(d){
     var list=(d.porGanar||[]).filter(function(c){return c.sellos>=(c.meta||d.meta)});
@@ -5556,7 +5577,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     f.a_activa.checked=!!c.aviso.activa;f.a_texto.value=c.aviso.texto||'';var r=PR.querySelector('[name=a_estilo][value="'+(c.aviso.estilo||'info')+'"]');if(r)r.checked=true;
     var tp=c.top||{},ts=tp.sabores||[];f.t_activa.checked=!!tp.activa;
     [1,2,3,4,5].forEach(function(i){var sel=f['t_s'+i],v=ts[i-1]||'';if(v&&!Array.prototype.some.call(sel.options,function(o){return o.value===v})){var o=document.createElement('option');o.textContent=v;sel.appendChild(o)}sel.value=v});
-    f.w_activa.checked=!!(c.muro&&c.muro.activa);f.s_n.value=(c.sabores&&c.sabores.n)||40;PR_VOTA=c.vota||PR_VOTA;f.d_color.value=(c.dosx1&&c.dosx1.color)||'#d10f1f';f.g_color.value=(c.gourmet&&c.gourmet.color)||'#6b2a9e';f.m_color.value=(c.mes&&c.mes.color)||'#ffc83d';if(window.ppClrSync)ppClrSync();
+    f.w_activa.checked=!!(c.muro&&c.muro.activa);f.s_n.value=(c.sabores&&c.sabores.n)||40;(function(){var r=(c.club&&c.club.metas&&c.club.niveles)?c.club:{metas:[6,10,15],niveles:[5,7,10]};f.c_m1.value=r.metas[0];f.c_m2.value=r.metas[1];f.c_m3.value=r.metas[2];f.c_n1.value=r.niveles[0];f.c_n2.value=r.niveles[1];f.c_n3.value=r.niveles[2];if(c.club&&window.ppReglas)ppReglas(c.club)})();PR_VOTA=c.vota||PR_VOTA;f.d_color.value=(c.dosx1&&c.dosx1.color)||'#d10f1f';f.g_color.value=(c.gourmet&&c.gourmet.color)||'#6b2a9e';f.m_color.value=(c.mes&&c.mes.color)||'#ffc83d';if(window.ppClrSync)ppClrSync();
     var g=c.gourmet||{activa:true,precios:[35,65,130,200],fin:''},gpz=g.precios||[35,65,130,200];f.g_activa.checked=!!g.activa;
     [1,2,3,4].forEach(function(i){f['g_p'+i].value=gpz[i-1]||''});f.g_fin.value=g.fin||'';
     prVista();
@@ -5579,7 +5600,10 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     var gpr=[f.g_p1,f.g_p2,f.g_p3,f.g_p4].map(function(x){return Math.round(+x.value||0)});
     if(f.g_activa.checked&&gpr.some(function(v){return !(v>0)}))return show(m,'Escribe los 4 precios de la promo Gourmet.');
     var sn=parseInt(f.s_n.value,10);if(!(sn>=10&&sn<=99))return show(m,'El número de sabores debe ser del 10 al 99.');
-    var cfg={vota:PR_VOTA,sabores:{n:sn},gourmet:{activa:f.g_activa.checked,precios:gpr,fin:f.g_fin.value||'',color:f.g_color.value},dosx1:{activa:f.d_activa.checked,dia:+f.d_dia.value,sabor:f.d_sabor.value,color:f.d_color.value},mes:{activa:f.m_activa.checked,sabor:f.m_sabor.value,texto:f.m_texto.value,color:f.m_color.value},aviso:{activa:f.a_activa.checked,texto:f.a_texto.value,estilo:(PR.querySelector('[name=a_estilo]:checked')||{}).value||'info'},top:{activa:f.t_activa.checked,sabores:topS},muro:{activa:f.w_activa.checked}};
+    var cm=[f.c_m1,f.c_m2,f.c_m3].map(function(x){return parseInt(x.value,10)}),cn=[f.c_n1,f.c_n2,f.c_n3].map(function(x){return parseInt(x.value,10)});
+    if(cm.some(function(v){return !(v>=1&&v<=50)}))return show(m,'Los sellos de cada tarjeta deben ser del 1 al 50.');
+    if(!(cn[0]>=1&&cn[1]>cn[0]&&cn[2]>cn[1]))return show(m,'Los niveles deben ir de menos a más sellos: Plata < Oro < Diamante.');
+    var cfg={vota:PR_VOTA,club:{metas:cm,niveles:cn},sabores:{n:sn},gourmet:{activa:f.g_activa.checked,precios:gpr,fin:f.g_fin.value||'',color:f.g_color.value},dosx1:{activa:f.d_activa.checked,dia:+f.d_dia.value,sabor:f.d_sabor.value,color:f.d_color.value},mes:{activa:f.m_activa.checked,sabor:f.m_sabor.value,texto:f.m_texto.value,color:f.m_color.value},aviso:{activa:f.a_activa.checked,texto:f.a_texto.value,estilo:(PR.querySelector('[name=a_estilo]:checked')||{}).value||'info'},top:{activa:f.t_activa.checked,sabores:topS},muro:{activa:f.w_activa.checked}};
     b.disabled=true;b.textContent='Publicando…';
     api({accion:'guardarPromos',pin:A.pin,config:JSON.stringify(cfg)}).then(function(d){
       if(!d||!d.ok){if(!salir(d&&d.error))show(m,(d&&d.error)||'No se pudo publicar.');return}
@@ -6019,16 +6043,27 @@ window.PP_ESTAMPAS=(function(){
 /* Niveles del Club: Bronce, Plata, Oro y Diamante según los sellos de toda la vida */
 (function(){
   var TIC={"bronce": "<svg viewBox=\"-30 -30 60 60\"><path d=\"M0,-27 C2,-27 3.4,-25.6 4.3,-23.7 L9.6,-12.6 L21.8,-10.9 C26,-10.3 27.6,-5.1 24.6,-2.2 L15.7,6.4 L17.9,18.6 C18.6,22.7 14.3,25.9 10.6,23.9 L0,18.3 L-10.6,23.9 C-14.3,25.9 -18.6,22.7 -17.9,18.6 L-15.7,6.4 L-24.6,-2.2 C-27.6,-5.1 -26,-10.3 -21.8,-10.9 L-9.6,-12.6 L-4.3,-23.7 C-3.4,-25.6 -2,-27 0,-27 Z\" fill=\"currentColor\"/></svg>", "plata": "<svg viewBox=\"-30 -30 60 60\"><path transform=\"translate(-11 3) scale(.6)\" d=\"M0,-27 C2,-27 3.4,-25.6 4.3,-23.7 L9.6,-12.6 L21.8,-10.9 C26,-10.3 27.6,-5.1 24.6,-2.2 L15.7,6.4 L17.9,18.6 C18.6,22.7 14.3,25.9 10.6,23.9 L0,18.3 L-10.6,23.9 C-14.3,25.9 -18.6,22.7 -17.9,18.6 L-15.7,6.4 L-24.6,-2.2 C-27.6,-5.1 -26,-10.3 -21.8,-10.9 L-9.6,-12.6 L-4.3,-23.7 C-3.4,-25.6 -2,-27 0,-27 Z\" fill=\"currentColor\"/><path transform=\"translate(12 -3) scale(.56)\" d=\"M0,-27 C2,-27 3.4,-25.6 4.3,-23.7 L9.6,-12.6 L21.8,-10.9 C26,-10.3 27.6,-5.1 24.6,-2.2 L15.7,6.4 L17.9,18.6 C18.6,22.7 14.3,25.9 10.6,23.9 L0,18.3 L-10.6,23.9 C-14.3,25.9 -18.6,22.7 -17.9,18.6 L-15.7,6.4 L-24.6,-2.2 C-27.6,-5.1 -26,-10.3 -21.8,-10.9 L-9.6,-12.6 L-4.3,-23.7 C-3.4,-25.6 -2,-27 0,-27 Z\" fill=\"currentColor\"/></svg>", "oro": "<svg viewBox=\"-32 -34 64 62\"><g fill=\"currentColor\"><path d=\"M-26,10 L-30,-14 C-30.6,-17.6 -26.6,-19.8 -24,-17.4 L-13,-7.5 L-3.3,-22 C-1.8,-24.3 1.8,-24.3 3.3,-22 L13,-7.5 L24,-17.4 C26.6,-19.8 30.6,-17.6 30,-14 L26,10 Z M-27,13 L27,13 C28.7,13 30,14.3 30,16 L30,21 C30,22.7 28.7,24 27,24 L-27,24 C-28.7,24 -30,22.7 -30,21 L-30,16 C-30,14.3 -28.7,13 -27,13 Z\"/><circle cx=\"-28\" cy=\"-20\" r=\"5\"/><circle cx=\"0\" cy=\"-27\" r=\"5.5\"/><circle cx=\"28\" cy=\"-20\" r=\"5\"/></g></svg>", "diamante": "<svg viewBox=\"-32 -32 64 64\"><g><path d=\"M-30,-12 L-18,-26 L18,-26 L30,-12 L0,30 Z\" fill=\"#2f7fd8\"/><path d=\"M-30,-12 L-18,-26 L-8,-12 Z\" fill=\"#9fdcff\"/><path d=\"M-8,-12 L-18,-26 L0,-26 Z\" fill=\"#cdf0ff\"/><path d=\"M0,-26 L18,-26 L8,-12 Z\" fill=\"#bfe9ff\"/><path d=\"M8,-12 L18,-26 L30,-12 Z\" fill=\"#7fc8ff\"/><path d=\"M-8,-12 L0,-26 L8,-12 Z\" fill=\"#e8f8ff\"/><path d=\"M-30,-12 L-8,-12 L0,30 Z\" fill=\"#5fb4f5\"/><path d=\"M-8,-12 L8,-12 L0,30 Z\" fill=\"#9fdcff\"/><path d=\"M8,-12 L30,-12 L0,30 Z\" fill=\"#3a8fe0\"/><path d=\"M-22,-18 L-16,-24\" stroke=\"#fff\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"14\" cy=\"-30\" r=\"2.4\" fill=\"#fff\"/></g></svg>"};
-  var N=[{k:'bronce',n:'Bronce',d:0},{k:'plata',n:'Plata',d:25},{k:'oro',n:'Oro',d:70},{k:'diamante',n:'Diamante',d:135}],MAX=135;
-  window.ppSellosTotales=function(d){var c=+d.canjes||0,meta=+d.meta||10,t=+d.sellos||0;for(var i=1;i<=c;i++)t+=Math.max(10,meta-5*i);return t};
+  var N=[{k:'bronce',n:'Bronce',d:0},{k:'plata',n:'Plata',d:5},{k:'oro',n:'Oro',d:7},{k:'diamante',n:'Diamante',d:10}],MAX=10;
+  var RG={metas:[6,10,15],niveles:[5,7,10]};try{var rg0=JSON.parse(localStorage.getItem('pp-reglas')||'null');if(rg0&&rg0.metas&&rg0.niveles)RG=rg0}catch(e){}
+  window.ppMetaDe=function(c){c=+c||0;return RG.metas[c===0?0:(c===1?1:2)]};
+  window.ppReglas=function(r){if(!r||!Array.isArray(r.metas)||!Array.isArray(r.niveles)||r.metas.length!==3||r.niveles.length!==3)return RG;
+    RG={metas:r.metas.map(Number),niveles:r.niveles.map(Number)};try{localStorage.setItem('pp-reglas',JSON.stringify(RG))}catch(e){}
+    N[1].d=RG.niveles[0];N[2].d=RG.niveles[1];N[3].d=RG.niveles[2];MAX=RG.niveles[2];
+    document.querySelectorAll('[data-nv-list] li').forEach(function(li,j){var sm=li.querySelector('small');if(sm)sm.textContent=j?RG.niveles[j-1]:0});
+    var T={m1:RG.metas[0],m2:RG.metas[1],m3:RG.metas[2],n1:RG.niveles[0],n2:RG.niveles[1],n3:RG.niveles[2]};
+    Object.keys(T).forEach(function(k){document.querySelectorAll('[data-rg="'+k+'"]').forEach(function(e){e.textContent=T[k]})});
+    var ms=document.querySelector('.mini-slots');if(ms&&+ms.getAttribute('data-n')!==RG.metas[0]){var n=RG.metas[0],h='';for(var i=0;i<n;i++)h+=i===n-1?'<i class="gift">★</i>':(i<Math.min(3,n-1)?'<i class="on"><img alt="" src="'+((ms.querySelector('img')||{}).src||'')+'"></i>':'<i></i>');ms.innerHTML=h;ms.setAttribute('data-n',n);ms.style.gridTemplateColumns='repeat('+(n<=8?n:Math.ceil(n/2))+',minmax(0,1fr))'}
+    return RG};
+  setTimeout(function(){ppReglas(RG)},0);
+  window.ppSellosTotales=function(d){var c=+d.canjes||0,t=+d.sellos||0;for(var i=0;i<c;i++)t+=ppMetaDe(i);return t};
   window.ppNivelDe=function(total){var x=N[0];N.forEach(function(n){if(total>=n.d)x=n});return x};
   function cuenta(el,to){var from=+el.textContent||0,t0=null;if(from===to){el.textContent=to;return}
     function f(ts){if(!t0)t0=ts;var k=Math.min(1,(ts-t0)/900);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
-  window.ppNivel=function(d,anim){var box=document.querySelector('[data-nv]');if(!box||!d)return;
+  window.ppNivel=function(d,anim){if(d&&d.reglas)ppReglas(d.reglas);var box=document.querySelector('[data-nv]');if(!box||!d)return;
     var t=ppSellosTotales(d),nv=ppNivelDe(t),i=N.indexOf(nv),sig=N[i+1];
     var antes=box.getAttribute('data-k');box.hidden=false;box.setAttribute('data-k',nv.k);box.classList.toggle('max',!sig);
     box.querySelector('[data-nv-name]').textContent=nv.n;var lv=box.querySelector('[data-nv-lv]');if(lv)lv.textContent='Nivel '+(i+1)+' de 4';var rm=box.querySelector('[data-nv-rom]');if(rm)rm.textContent=['I','II','III','IV'][i];var mb=box.querySelector('[data-nv-member]'),sn=document.querySelector('[data-s-card] [data-s-name]');if(mb)mb.textContent=((d.nombre||(sn&&sn.textContent)||'Miembro')+'').trim();cuenta(box.querySelector('[data-nv-num]'),t);
-    var D=[0,25,70,135],P=[0,31,64,100],pr=100;for(var q=0;q<3;q++){if(t<D[q+1]){pr=P[q]+(P[q+1]-P[q])*(t-D[q])/(D[q+1]-D[q]);break}}
+    var D=[0,N[1].d,N[2].d,N[3].d],P=[0,31,64,100],pr=100;for(var q=0;q<3;q++){if(t<D[q+1]){pr=P[q]+(P[q+1]-P[q])*(t-D[q])/(D[q+1]-D[q]);break}}
     box.querySelector('[data-nv-bar]').style.setProperty('--p',pr+'%');box.querySelector('[data-nv-bar]').style.setProperty('--pn',Math.max(pr,1));
     var you=box.querySelector('[data-nv-you]');you.style.setProperty('--p',Math.max(3,Math.min(97,pr))+'%');box.querySelector('[data-nv-you-n]').textContent=t;
     var tx=box.querySelector('[data-nv-txt]');tx.textContent='';
