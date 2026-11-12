@@ -1,7 +1,7 @@
 // Paradise Pop Corn — la página abre aunque no haya internet
 // 1) Con internet: siempre muestra la versión más nueva y la guarda.
 // 2) Sin internet: muestra la última versión guardada (con sus fotos).
-const CACHE = 'paradise-v7';
+const CACHE = 'paradise-v8';
 const OFFLINE = './offline.html';
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 const CORE = [
@@ -10,7 +10,7 @@ const CORE = [
   './icon-maskable-192.png', './icon-maskable-512.png', './og-image.jpg', './fz-co-luces.webp'
 ];
 const ASSET_RE = /(?:img-[0-9a-f]+|IMG_\d+|fz-[a-z-]+|icon-[a-z0-9-]+|apple-touch-icon)\.(?:webp|png|jpe?g)/g;
-const NET_TIMEOUT = 4000;
+const NET_TIMEOUT = 10000; // con internet lento espera más antes de mostrar la copia guardada
 
 function put(cache, url, res) {
   if (res && res.ok && !res.redirected) return cache.put(url, res.clone()).catch(() => {});
