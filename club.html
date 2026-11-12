@@ -2550,6 +2550,9 @@ body.owner .ct-list button:not(.ct-more){display:grid!important;grid-template-co
 <style>
 /* Tarjeta de 6 sellos: 3 arriba y 3 abajo, mismo tamaño de círculo */
 .slots[data-n="6"],.slots:has(> .slot:nth-child(6):last-child){grid-template-columns:repeat(3,min(27%,118px));justify-content:center;column-gap:clamp(16px,6vw,34px);row-gap:clamp(12px,3.5vw,20px)}
+</style><style>
+/* Tarjeta de sellos y niveles: siempre editable (no tiene interruptor) */
+.pc[data-pc="club"] .pc-body{pointer-events:auto!important;opacity:1!important;filter:none!important}
 </style></head>
 <body>
 <div class="gbg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -3131,7 +3134,7 @@ body.owner .ct-list button:not(.ct-more){display:grid!important;grid-template-co
               <p class="gp-nota" style="align-self:center;margin:0">Escribe un número del 10 al 99. En tu página dirá "Más de <span data-pv="sn" style="display:inline;font-weight:800;color:#ffc83d">40</span> sabores".</p>
             </div>
           </article>
-          <article class="pc" data-pc="club">
+          <article class="pc on" data-pc="club">
             <header><span class="pc-ic">🎟️</span><div><b>Tarjeta de sellos y niveles</b><small>Cuántos sellos pide cada tarjeta y cada nivel. Se aplica solo, sin tocar código.</small></div></header>
             <div class="pc-body" style="display:block">
               <p class="gp-nota" style="margin:0 0 8px"><b>Sellos para la mediana gratis</b></p>
