@@ -2624,7 +2624,69 @@ document.addEventListener('DOMContentLoaded',function(){var c=document.querySele
  c.addEventListener('pointermove',function(e){mover(e.clientX,e.clientY)});
  c.addEventListener('touchmove',function(e){var p=e.touches[0];if(p)mover(p.clientX,p.clientY)},{passive:true});
 });
-</script></head>
+</script><style>
+/* ===== Sucursales históricas (galería tipo póster de cine) ===== */
+.sh{position:relative;border-radius:20px;padding:22px 0 14px;background:radial-gradient(120% 70% at 50% 0%,rgba(255,200,61,.14),transparent 60%),linear-gradient(180deg,#220306,#0d0102);border:1.5px solid rgba(255,200,61,.45);overflow:hidden;box-shadow:inset 0 0 40px rgba(209,15,31,.18)}
+.sh-bulbs{position:absolute;left:10px;right:10px;top:8px;height:8px;background:radial-gradient(circle,#fff3c4 0 2.4px,transparent 3px) 0 50%/16px 8px repeat-x;filter:drop-shadow(0 0 3px #ffc83d);opacity:.9}
+.sh-head{padding:0 16px;text-align:center}
+.sh-k{font-size:11px;font-weight:800;letter-spacing:.28em;color:#ffc83d}
+.sh h4{margin:4px 0 0;font-size:24px;font-weight:800;color:#fff1e6;letter-spacing:-.3px}
+.sh-sum{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 14px 0}
+.sh-pill{font-size:12px;color:#d9c39a;border:1px solid rgba(255,200,61,.35);border-radius:999px;padding:4px 10px;background:rgba(0,0,0,.25)}
+.sh-pill b{color:#fff1e6}.sh-pill.g b{color:#7be3a4}.sh-pill.c b{color:#b9a79c}
+.sh-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:16px 16px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.sh-track::-webkit-scrollbar{display:none}
+.shp{flex:0 0 min(74%,290px);scroll-snap-align:center;position:relative;aspect-ratio:3/4.25;border-radius:18px;overflow:hidden;background:#140204;box-shadow:0 18px 34px rgba(0,0,0,.55),0 0 0 1.5px rgba(255,200,61,.5);isolation:isolate}
+.shp-ph,.shp-ph>img{position:absolute;inset:0;width:100%;height:100%}
+.shp-ph>img{object-fit:cover;display:block}
+.shp-ph:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,transparent 22%,transparent 42%,rgba(10,1,2,.82) 66%,#0a0102 100%)}
+.shp.off .shp-ph>img{filter:grayscale(1) contrast(1.05) brightness(.75)}
+.shp-no{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:26%;gap:10px;background:radial-gradient(circle at 50% 30%,#4a0812,#160204 70%)}
+.shp-no img{width:52%;opacity:.4}.shp-no span{font-size:12px;color:#d9c39a;font-weight:700}
+.shp-fr{position:absolute;inset:7px;border-radius:13px;border:1px solid rgba(255,200,61,.55);pointer-events:none;z-index:2}
+.shp-top{position:absolute;left:14px;right:14px;top:14px;display:flex;justify-content:space-between;align-items:center;z-index:3}
+.shp-sala{font-size:10.5px;font-weight:800;letter-spacing:.24em;color:#1a0203;background:linear-gradient(135deg,#fff2c0,#ffc83d);padding:5px 10px;border-radius:6px;box-shadow:0 3px 10px rgba(0,0,0,.4)}
+.shp-ed{appearance:none;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,241,230,.5);background:rgba(10,1,2,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff1e6;font-size:17px;cursor:pointer}
+.shp-st{position:absolute;left:14px;top:52px;z-index:3;font-size:10px;font-weight:800;letter-spacing:.16em;color:#e9ffef;background:rgba(31,122,70,.85);padding:4px 9px;border-radius:999px}
+.shp-st.nv{background:#ffc83d;color:#1a0203}
+.shp-rib{position:absolute;z-index:2;top:70px;right:-48px;width:170px;transform:rotate(38deg);text-align:center;background:#1a0203;color:#d9cdb6;font-size:11px;font-weight:800;letter-spacing:.3em;padding:6px 0;border-top:1px solid rgba(255,200,61,.6);border-bottom:1px solid rgba(255,200,61,.6);box-shadow:0 4px 12px rgba(0,0,0,.5)}
+.shp-bt{position:absolute;left:0;right:0;bottom:0;padding:0 16px 16px;z-index:3}
+.shp-bt h5{margin:0;font-size:30px;font-weight:800;line-height:1;color:#fff;letter-spacing:-.5px;text-shadow:0 2px 12px rgba(0,0,0,.7)}
+.shp-z{margin:6px 0 0;font-size:12.5px;color:#e8d8c8;line-height:1.25}
+.shp-f{margin:4px 0 0;font-size:11px;font-weight:800;letter-spacing:.14em;color:#ffc83d}
+.shp-tk{position:relative;display:grid;grid-template-columns:1.35fr 1fr 1fr;margin-top:10px;background:#fff1e6;border-radius:8px;padding:8px 6px;color:#1a0203;-webkit-mask:radial-gradient(circle at 0 50%,transparent 6px,#000 7px) left/51% 100% no-repeat,radial-gradient(circle at 100% 50%,transparent 6px,#000 7px) right/51% 100% no-repeat}
+.shp-tk>div{text-align:center}.shp-tk>div+div{border-left:1.5px dashed rgba(209,15,31,.35)}
+.shp-tk b{display:block;font-size:15px;font-weight:800;white-space:nowrap}.shp-tk small{display:block;font-size:9px;font-weight:700;letter-spacing:.06em;color:#7a5a50;text-transform:uppercase;white-space:nowrap}
+.shp.off .shp-tk{background:#d9cdb6}
+.shp-add{appearance:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:repeating-linear-gradient(135deg,rgba(255,200,61,.06) 0 10px,transparent 10px 20px),#140204;box-shadow:none;border:2px dashed rgba(255,200,61,.55);color:#fff1e6;font-family:"Bricolage Grotesque",Arial,sans-serif}
+.shp-add .pl{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:38px;font-weight:300;color:#1a0203;background:linear-gradient(135deg,#fff2c0,#ffc83d);box-shadow:0 8px 24px rgba(255,200,61,.35)}
+.shp-add b{font-size:18px;font-weight:800;margin-top:6px}.shp-add small{font-size:12px;color:#b9a79c}
+.sh-pg{display:flex;justify-content:center;gap:6px;margin-top:6px}
+.sh-pg i{width:6px;height:6px;border-radius:3px;background:rgba(255,200,61,.3);transition:width .2s,background .2s}.sh-pg i.on{width:18px;background:#ffc83d}
+body.gerente .sh{display:none}
+/* formulario */
+html.shm-on,html.shm-on body{overflow:hidden}
+.shm{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center}
+.shm[hidden]{display:none}
+.shm-c{width:min(100%,460px);max-height:92svh;overflow:auto;background:linear-gradient(180deg,#2a0408,#120102);border:1.5px solid rgba(255,200,61,.5);border-bottom:0;border-radius:24px 24px 0 0;padding:16px 18px calc(18px + env(safe-area-inset-bottom,0px));color:#fff1e6;font-family:"Bricolage Grotesque",Arial,sans-serif;display:flex;flex-direction:column;gap:12px}
+@media(min-width:700px){.shm{align-items:center}.shm-c{border-radius:24px;border-bottom:1.5px solid rgba(255,200,61,.5)}}
+.shm-h{display:flex;justify-content:space-between;align-items:center}.shm-h b{font-size:20px;font-weight:800}
+.shm-x{appearance:none;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,241,230,.3);background:none;color:#fff1e6;font-size:15px}
+.shm-ph{appearance:none;cursor:pointer;width:100%;aspect-ratio:16/10;border-radius:16px;border:2px dashed rgba(255,200,61,.6);background:#1a0203 center/cover no-repeat;display:flex;align-items:flex-end;justify-content:center;padding:10px;color:#fff1e6;font:800 14px "Bricolage Grotesque",Arial,sans-serif}
+.shm-ph span{background:rgba(10,1,2,.7);padding:7px 12px;border-radius:999px}
+.shm-ph.has{border-style:solid}
+.shm-f{display:flex;flex-direction:column;gap:5px}.shm-f>span{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#ffc83d}
+.shm-f input{appearance:none;width:100%;border-radius:12px;border:1.5px solid rgba(255,200,61,.35);background:#fff8f2;color:#1a0203;padding:12px 14px;font:600 16px "Bricolage Grotesque",Arial,sans-serif;min-height:46px}
+.shm-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.shm-f input[type=month]{min-width:0;max-width:100%}.shm-2 [hidden]{display:none}
+.shm-seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shm-seg button{appearance:none;border-radius:12px;border:1.5px solid rgba(255,241,230,.25);background:rgba(255,241,230,.06);color:#fff1e6;padding:11px;font:800 14px "Bricolage Grotesque",Arial,sans-serif;cursor:pointer}
+.shm-seg button.on{background:linear-gradient(135deg,#fff2c0,#ffc83d);color:#1a0203;border-color:#ffc83d}
+.shm-m{margin:0;font-size:14px;color:#ffb3a8}
+.shm-ok{appearance:none;border:0;border-radius:14px;padding:15px;font:800 16px "Bricolage Grotesque",Arial,sans-serif;background:linear-gradient(135deg,#ff3b4a,#d10f1f);color:#fff;box-shadow:0 8px 20px rgba(209,15,31,.4);cursor:pointer}
+.shm-ok[disabled]{opacity:.6}
+.shm-del{appearance:none;background:none;border:0;color:#b9a79c;text-decoration:underline;font:600 13px "Bricolage Grotesque",Arial,sans-serif;cursor:pointer}
+.shm-del[hidden]{display:none}
+</style></head>
 <body>
 <style>/* ===== Intro Paradise Owner ===== */
 #poi{position:fixed;inset:0;z-index:99;background:radial-gradient(110% 80% at 50% 44%,#161616 0%,#070707 55%,#000 100%);overflow:hidden;font-family:"Bricolage Grotesque",Helvetica Neue,Arial,sans-serif;color:#fff}
@@ -2941,6 +3003,14 @@ html.poi-on,html.poi-on body{overflow:hidden!important}
             <div class="mb-stats" data-mb-stats></div>
             <div class="mb-track" data-mb-track></div>
             <p class="mb-note">Tus primeros dos meses tienen meta de $40,000. Desde ahí, cada mes guarda la meta que tenías en ese momento.</p>
+          </section>
+          <section class="sh" data-sh aria-label="Sucursales históricas">
+            <div class="sh-bulbs" aria-hidden="true"></div>
+            <div class="sh-head"><div><span class="sh-k">★ SUCURSALES HISTÓRICAS ★</span><h4>Todas las salas de Paradise</h4></div></div>
+            <div class="sh-sum" data-sh-sum></div>
+            <div class="sh-track" data-sh-track></div>
+            <div class="sh-pg" data-sh-pg></div>
+            <input type="file" accept="image/*" data-sh-file hidden>
           </section>
           <div class="fd-grid">
             <div class="fd-film">
@@ -4766,7 +4836,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   var calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- Modo sin internet: el panel abre con los últimos datos guardados ---------- */
-  var OFF_READ={resumen:1,buscar:1,cortes:1,fotos:1,promos:1,tarjeta:1},offRol='dueno';
+  var OFF_READ={resumen:1,buscar:1,cortes:1,fotos:1,promos:1,tarjeta:1,fotosSuc:1},offRol='dueno';
   function offKey(p){var o={_r:offRol};Object.keys(p).sort().forEach(function(k){if(k!=='pin')o[k]=p[k]});return 'pp-off:'+JSON.stringify(o)}
   function offGet(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
   function offSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){try{Object.keys(localStorage).forEach(function(x){if(x.indexOf('pp-off:')===0&&x.indexOf('"accion":"buscar"')>0)localStorage.removeItem(x)});localStorage.setItem(k,JSON.stringify(v))}catch(e2){}}}
@@ -5339,7 +5409,90 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       d.appendChild(fdEl('span','',(tot?Math.round(t/tot*100):0)+'% de la marca · '+Ls.length+(Ls.length===1?' corte':' cortes')));
       if(mm)d.appendChild(fdEl('span','','Mejor mes: '+MESN[+mm.slice(5,7)-1]+' '+mm.slice(0,4)+' ('+ctMoney(porMes[mm])+')'));
       var br=fdEl('div','fh-bar'),bi=fdEl('i');bi.style.width=(tot?t/tot*100:0)+'%';br.appendChild(bi);d.appendChild(br);box.appendChild(d)});
+    if(window.shPintar)shPintar(L);
   }
+
+
+  /* ---------- Sucursales históricas: galería con foto de cada sucursal (solo dueño) ---------- */
+  (function(){
+    var SH={L:[],hist:{},info:{},cargado:false,cargando:false};
+    var track=$('[data-sh-track]'),file=$('[data-sh-file]');if(!track)return;
+    var MES3=['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+    function mesTxt(m){return m&&/^\d{4}-\d{2}$/.test(m)?MES3[+m.slice(5,7)-1]+' '+m.slice(0,4):''}
+    function guardaResp(d){SH.hist={};(d.hist||[]).forEach(function(h){SH.hist[h.nombre]=h});SH.info={};(d.sucursales||[]).forEach(function(x){SH.info[x.nombre]=x});SH.cargado=true}
+    function cargar(){if(SH.cargando||!A.pin||A.rol==='gerente')return;SH.cargando=true;
+      api({accion:'fotosSuc',pin:A.pin}).then(function(d){if(d&&d.ok){guardaResp(d);pintar()}}).catch(function(){}).then(function(){SH.cargando=false})}
+    function lista(){
+      var L=SH.L,act=(CT&&CT.sucs)||[],n=[];
+      function add(x){if(x&&n.indexOf(x)<0)n.push(x)}
+      act.forEach(add);Object.keys(SH.info).forEach(add);Object.keys(SH.hist).forEach(add);L.forEach(function(c){add(c.sucursal)});
+      return n.map(function(nm){var h=SH.hist[nm],inf=SH.info[nm]||{},Ls=L.filter(function(c){return c.sucursal===nm});
+        var abierta=h?h.estado!=='cerrada':(act.indexOf(nm)>=0||!!SH.info[nm]);var dias=Ls.map(function(c){return c.fecha}).sort();
+        return {n:nm,h:h,foto:h&&h.foto,zona:(h&&h.zona)||inf.zona||inf.direccion||'',abierta:abierta,nueva:abierta&&!!inf.nueva,
+          t:Ls.reduce(function(a,c){return a+c.monto},0),k:Ls.length,desde:(h&&h.desde)||(dias[0]||'').slice(0,7),hasta:(h&&h.hasta)||(!abierta?(dias[dias.length-1]||'').slice(0,7):'')}})
+       .sort(function(a,b){return (b.abierta-a.abierta)||((a.desde||'9')<(b.desde||'9')?-1:1)});
+    }
+    function pintar(){
+      var X=lista(),tot=X.reduce(function(a,x){return a+x.t},0),ab=X.filter(function(x){return x.abierta}).length;track.innerHTML='';
+      var sum=$('[data-sh-sum]');sum.innerHTML='';[[X.length,X.length===1?'sala':'salas'],[ab,'en función'],[X.length-ab,X.length-ab===1?'cerrada':'cerradas']].forEach(function(q,i){var e=fdEl('span','sh-pill'+(i===1?' g':i===2?' c':''));e.appendChild(fdEl('b','',String(q[0])));e.appendChild(document.createTextNode(' '+q[1]));sum.appendChild(e)});
+      X.forEach(function(x,i){
+        var c=fdEl('article','shp'+(x.abierta?'':' off'));
+        var ph=fdEl('div','shp-ph');
+        if(x.foto){var im=new Image();im.alt='Sucursal '+x.n;im.src=x.foto;im.loading='lazy';ph.appendChild(im)}
+        else{var em=fdEl('div','shp-no');var lg=new Image();lg.alt='';lg.src=(window.IMG&&IMG.LOGOT)||'';em.appendChild(lg);em.appendChild(fdEl('span','','Toca ✎ para ponerle foto'));ph.appendChild(em)}
+        c.appendChild(ph);c.appendChild(fdEl('div','shp-fr'));
+        var top=fdEl('div','shp-top');top.appendChild(fdEl('span','shp-sala','SALA '+String(i+1).padStart(2,'0')));
+        var ed=fdEl('button','shp-ed','✎');ed.type='button';ed.setAttribute('aria-label','Editar '+x.n);ed.onclick=function(){abrir(x)};top.appendChild(ed);c.appendChild(top);
+        if(x.abierta)c.appendChild(fdEl('span','shp-st'+(x.nueva?' nv':''),x.nueva?'¡NUEVA!':'● EN FUNCIÓN'));else c.appendChild(fdEl('span','shp-rib','CERRADA'));
+        var bt=fdEl('div','shp-bt');bt.appendChild(fdEl('h5','',x.n));if(x.zona)bt.appendChild(fdEl('p','shp-z','📍 '+x.zona));
+        var fe=x.desde?(x.abierta?'En cartelera desde '+mesTxt(x.desde):mesTxt(x.desde)+(x.hasta?' — '+mesTxt(x.hasta):'')):'';if(fe)bt.appendChild(fdEl('p','shp-f',fe));
+        var tk=fdEl('div','shp-tk');[[ctMoney(x.t),'vendido'],[String(x.k),x.k===1?'corte':'cortes'],[(tot?Math.round(x.t/tot*100):0)+'%','de marca']].forEach(function(q){var d=fdEl('div','');d.appendChild(fdEl('b','',q[0]));d.appendChild(fdEl('small','',q[1]));tk.appendChild(d)});
+        bt.appendChild(tk);c.appendChild(bt);track.appendChild(c)});
+      var add=fdEl('button','shp shp-add');add.type='button';add.innerHTML='<span class="pl">+</span><b>Agregar sucursal</b><small>Sube su foto y sus datos</small>';add.onclick=function(){abrir(null)};track.appendChild(add);
+      var pg=$('[data-sh-pg]');pg.innerHTML='';for(var k=0;k<=X.length;k++)pg.appendChild(fdEl('i',k?'':'on'));
+    }
+    track.addEventListener('scroll',function(){var cs=track.children;if(!cs.length)return;var w=cs[0].getBoundingClientRect().width+14,k=Math.round(track.scrollLeft/w);$$('[data-sh-pg] i').forEach(function(d,j){d.classList.toggle('on',j===k)})},{passive:true});
+
+    /* --- formulario para agregar o editar --- */
+    var M=document.createElement('div');M.className='shm';M.hidden=true;
+    M.innerHTML='<form class="shm-c" novalidate><div class="shm-h"><b data-shm-t>Nueva sucursal</b><button type="button" class="shm-x" aria-label="Cerrar">✕</button></div>'+
+      '<button type="button" class="shm-ph" data-shm-ph><span>📷 Elegir foto</span></button>'+
+      '<label class="shm-f"><span>Nombre</span><input name="nombre" maxlength="40" placeholder="Ej. Tláhuac"></label>'+
+      '<label class="shm-f"><span>Zona o dirección (opcional)</span><input name="zona" maxlength="80" placeholder="Ej. Colonia del Mar"></label>'+
+      '<div class="shm-f"><span>¿Cómo está?</span><div class="shm-seg"><button type="button" data-est="abierta">● Abierta</button><button type="button" data-est="cerrada">Cerrada</button></div></div>'+
+      '<div class="shm-2"><label class="shm-f"><span>Desde (opcional)</span><input name="desde" type="month"></label><label class="shm-f" data-shm-hasta><span>Hasta</span><input name="hasta" type="month"></label></div>'+
+      '<p class="shm-m" data-shm-m hidden></p>'+
+      '<button type="submit" class="shm-ok">Guardar sucursal</button><button type="button" class="shm-del" data-shm-del>Borrar de la galería</button></form>';
+    document.body.appendChild(M);
+    var F=M.querySelector('form'),est='abierta',fotoNueva='',editando=null,msg=M.querySelector('[data-shm-m]'),phb=M.querySelector('[data-shm-ph]');
+    function setEst(e){est=e;[].forEach.call(M.querySelectorAll('[data-est]'),function(b){b.classList.toggle('on',b.getAttribute('data-est')===e)});M.querySelector('[data-shm-hasta]').hidden=e!=='cerrada'}
+    function setFoto(u){phb.style.backgroundImage=u?'url("'+u+'")':'';phb.classList.toggle('has',!!u);phb.querySelector('span').textContent=u?'📷 Cambiar foto':'📷 Elegir foto'}
+    function abrir(x){editando=x&&x.h?x.h.nombre:null;fotoNueva='';msg.hidden=true;
+      M.querySelector('[data-shm-t]').textContent=x?'Editar '+x.n:'Nueva sucursal';
+      F.nombre.value=x?x.n:'';F.zona.value=x?x.zona:'';F.desde.value=x&&x.desde||'';F.hasta.value=x&&x.hasta||'';setEst(x&&!x.abierta?'cerrada':'abierta');setFoto(x&&x.foto||'');
+      F.dataset.antes=x?x.n:'';M.querySelector('[data-shm-del]').hidden=!editando;M.hidden=false;document.documentElement.classList.add('shm-on')}
+    function cerrar(){M.hidden=true;document.documentElement.classList.remove('shm-on')}
+    M.querySelector('.shm-x').onclick=cerrar;M.addEventListener('click',function(e){if(e.target===M)cerrar()});
+    [].forEach.call(M.querySelectorAll('[data-est]'),function(b){b.onclick=function(){setEst(b.getAttribute('data-est'))}});
+    phb.onclick=function(){file.value='';file.click()};
+    function achicar(fl){return new Promise(function(ok,no){var r=new FileReader();r.onerror=no;r.onload=function(){var im=new Image();im.onerror=no;im.onload=function(){
+      var mx=1100,w=im.naturalWidth,h=im.naturalHeight,k=Math.min(1,mx/Math.max(w,h));var cv=document.createElement('canvas');cv.width=Math.round(w*k);cv.height=Math.round(h*k);
+      cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);var q=.82,u=cv.toDataURL('image/jpeg',q);
+      while(u.length>190000&&q>.4){q-=.08;u=cv.toDataURL('image/jpeg',q)}
+      if(u.length>190000){var c2=document.createElement('canvas');c2.width=Math.round(cv.width*.7);c2.height=Math.round(cv.height*.7);c2.getContext('2d').drawImage(cv,0,0,c2.width,c2.height);u=c2.toDataURL('image/jpeg',.7)}
+      ok(u)};im.src=r.result};r.readAsDataURL(fl)})}
+    file.addEventListener('change',function(){var fl=file.files&&file.files[0];if(!fl)return;achicar(fl).then(function(u){fotoNueva=u;setFoto(u)}).catch(function(){msg.hidden=false;msg.textContent='No se pudo leer la foto. Intenta con otra.'})});
+    F.addEventListener('submit',function(e){e.preventDefault();var nom=F.nombre.value.trim();msg.hidden=false;
+      if(!nom){msg.textContent='Escribe el nombre de la sucursal.';return}
+      if(!fotoNueva&&!editando){msg.textContent='Elige una foto de la sucursal.';return}
+      var ok=F.querySelector('.shm-ok');ok.disabled=true;msg.textContent='Guardando…';
+      var q={accion:'guardarSucHist',pin:A.pin,nombre:nom,antes:editando||'',zona:F.zona.value.trim(),estado:est,desde:F.desde.value,hasta:est==='cerrada'?F.hasta.value:''};if(fotoNueva)q.foto=fotoNueva;
+      api(q).then(function(d){if(d&&d.ok){guardaResp(d);pintar();cerrar();try{sonido('sello')}catch(x){}}else msg.textContent=(d&&d.error)||'No se pudo guardar.'})
+      .catch(function(x){msg.textContent=netErr(x)}).then(function(){ok.disabled=false})});
+    M.querySelector('[data-shm-del]').onclick=function(){if(!editando||!confirm('¿Borrar la foto y los datos de '+editando+' de la galería? Sus cortes no se borran.'))return;
+      api({accion:'borrarSucHist',pin:A.pin,nombre:editando}).then(function(d){if(d&&d.ok){guardaResp(d);pintar();cerrar()}else{msg.hidden=false;msg.textContent=(d&&d.error)||'No se pudo borrar.'}}).catch(function(x){msg.hidden=false;msg.textContent=netErr(x)})};
+    window.shPintar=function(L){SH.L=L||[];pintar();if(!SH.cargado)cargar()};
+  })();
 
   function mbPintar(L,hoy){
     var box=$('[data-mb-track]');if(!box)return;
