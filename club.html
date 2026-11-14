@@ -2686,6 +2686,63 @@ html.shm-on,html.shm-on body{overflow:hidden}
 .shm-ok[disabled]{opacity:.6}
 .shm-del{appearance:none;background:none;border:0;color:#b9a79c;text-decoration:underline;font:600 13px "Bricolage Grotesque",Arial,sans-serif;cursor:pointer}
 .shm-del[hidden]{display:none}
+</style><style>
+/* Ficha completa de cada sucursal — efecto iPhone (burbuja de vidrio) */
+.shp:not(.shp-add){cursor:pointer;transition:transform .15s}
+.shp:not(.shp-add):active{transform:scale(.98)}
+.shp-bt:after{content:"Toca para ver todo ›";display:block;margin-top:8px;font-size:11px;font-weight:700;color:rgba(255,241,230,.7);letter-spacing:.04em}
+.shd{position:fixed;inset:0;z-index:9000;background:#0a0102;display:flex;justify-content:center;align-items:flex-end;overflow:hidden}
+.shd[hidden]{display:none}
+.shd-bg{position:absolute;inset:-40px;background:radial-gradient(60% 40% at 20% 15%,#d10f1f,transparent 70%),radial-gradient(50% 40% at 85% 60%,#7a0a2a,transparent 70%),radial-gradient(50% 35% at 30% 95%,rgba(255,200,61,.35),transparent 70%),#2a0306}
+.shd-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(38px) saturate(1.5) brightness(.55);transform:scale(1.15);opacity:.9}
+.shd-c{position:relative;width:min(100%,520px);height:100%;max-height:100svh;overflow-y:auto;-webkit-overflow-scrolling:touch;color:#fff1e6;font-family:"Bricolage Grotesque",Arial,sans-serif;animation:shd-in .4s cubic-bezier(.16,1,.3,1);scrollbar-width:none}
+.shd-c::-webkit-scrollbar{display:none}
+@media(min-width:700px){.shd{align-items:center}.shd-c{height:auto;max-height:94svh;border-radius:30px;background:rgba(255,241,230,.05);border:1px solid rgba(255,255,255,.14)}}
+@keyframes shd-in{from{transform:translateY(50px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+.shd-hero{position:relative;margin:calc(env(safe-area-inset-top,0px) + 12px) 12px 0;aspect-ratio:4/4.4;max-height:58svh;border-radius:28px;overflow:hidden;background:#200306;box-shadow:0 24px 50px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.18)}
+.shd-hero>img{width:100%;height:100%;object-fit:cover;display:block}
+.shd-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4),transparent 22%,transparent 50%,rgba(10,1,2,.85) 100%)}
+.shd-noph{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#4a0812,#160204 70%)}.shd-noph img{width:50%;opacity:.4}
+.shd-x{position:absolute;z-index:3;top:14px;right:14px;appearance:none;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,241,230,.18);backdrop-filter:blur(18px) saturate(1.6);-webkit-backdrop-filter:blur(18px) saturate(1.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 0 0 1px rgba(255,255,255,.18);color:#fff;font-size:17px;cursor:pointer}
+.shd-hero .shp-sala{position:absolute;z-index:3;top:20px;left:16px;background:rgba(255,241,230,.2);color:#fff;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 0 0 1px rgba(255,255,255,.2);border-radius:999px;padding:7px 12px}
+.shd-ht{position:absolute;z-index:3;left:18px;right:18px;bottom:18px}
+.shd-st{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.16em;padding:6px 11px;border-radius:999px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.shd-st.ok{background:rgba(31,160,90,.55);color:#e9ffef;box-shadow:inset 0 0 0 1px rgba(160,255,200,.4)}.shd-st.nv{background:#ffc83d;color:#1a0203}.shd-st.cl{background:rgba(0,0,0,.45);color:#e8dccb;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.shd-ht h3{margin:8px 0 0;font-size:42px;font-weight:800;line-height:1;letter-spacing:-1px;text-shadow:0 2px 16px rgba(0,0,0,.6)}
+.shd-z{margin:6px 0 0;font-size:13.5px;color:rgba(255,241,230,.85)}
+.shd-b{padding:14px 12px calc(28px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
+/* vidrio */
+.shd-big,.shd-g>div,.shd-sec{background:rgba(255,241,230,.09);backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);border:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 0 0 1px rgba(255,255,255,.12),0 12px 30px rgba(0,0,0,.25)}
+.shd-big{border-radius:26px;padding:16px;display:flex;align-items:center;gap:16px}
+.shd-ring{--p:0;flex:0 0 96px;height:96px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(20,2,4,.85) 58%,transparent 59%),conic-gradient(#ffc83d calc(var(--p)*1%),rgba(255,255,255,.14) 0);box-shadow:0 0 22px rgba(255,200,61,.25)}
+.shd-ring b{font-size:24px;font-weight:800;line-height:1;color:#ffc83d}.shd-ring small{font-size:9px;font-weight:700;color:rgba(255,241,230,.7);margin-top:2px}
+.shd-bt2{min-width:0}.shd-bt2 small{font-size:10.5px;font-weight:800;letter-spacing:.2em;color:rgba(255,241,230,.7)}
+.shd-bt2 b{display:block;font-size:clamp(28px,9vw,38px);font-weight:800;line-height:1.05;margin:4px 0;background:linear-gradient(180deg,#fff,#ffe08a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.shd-bt2 span{font-size:12.5px;color:rgba(255,241,230,.75)}
+.shd-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shd-g>div{position:relative;border-radius:22px;padding:14px 14px 13px}
+.shd-g .ic{position:absolute;top:12px;right:12px;font-style:normal;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:14px;background:rgba(255,241,230,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.shd-g small{display:block;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,241,230,.65);padding-right:30px}
+.shd-g b{display:block;font-size:21px;font-weight:800;margin-top:6px;color:#fff}
+.shd-g em{display:block;font-style:normal;font-size:12px;color:rgba(255,241,230,.6);margin-top:2px}
+.shd-sec{border-radius:26px;padding:16px}
+.shd-sec h4{margin:0 0 12px;font-size:16px;font-weight:800;display:flex;align-items:center;gap:8px}
+.shd-sec h4 span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:14px;background:rgba(255,241,230,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.shd-ch{display:flex;align-items:flex-end;gap:10px;height:160px;overflow-x:auto;padding-top:18px}
+.shd-bar{flex:1 0 38px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px}
+.shd-bar i{display:block;width:100%;border-radius:12px;background:linear-gradient(180deg,rgba(255,120,128,.95),rgba(209,15,31,.75));box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 6px 16px rgba(209,15,31,.35);animation:shd-grow .7s cubic-bezier(.16,1,.3,1) both;transform-origin:bottom}
+.shd-bar.top i{background:linear-gradient(180deg,#fff4c8,#ffc83d);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 6px 18px rgba(255,200,61,.45)}
+@keyframes shd-grow{from{transform:scaleY(0)}to{transform:none}}
+.shd-bar .v{font-size:9.5px;font-weight:700;color:rgba(255,241,230,.75);white-space:nowrap}
+.shd-bar .m{font-size:10px;font-weight:800;color:rgba(255,241,230,.6)}
+.shd-ls{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.shd-ls li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(255,241,230,.06);font-size:14px}
+.shd-ls li:first-child{background:rgba(255,200,61,.16);box-shadow:inset 0 0 0 1px rgba(255,200,61,.35)}
+.shd-ls li span{color:rgba(255,241,230,.82)}.shd-ls li b{color:#fff}
+.shd-nada{margin:0;color:rgba(255,241,230,.7);text-align:center}
+.shd-btns{display:flex;gap:10px;flex-wrap:wrap}
+.shd-bt{flex:1 1 140px;appearance:none;text-align:center;text-decoration:none;border-radius:999px;padding:15px;font:800 15px "Bricolage Grotesque",Arial,sans-serif;background:linear-gradient(180deg,#ff4d5a,#d10f1f);color:#fff;border:0;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 10px 24px rgba(209,15,31,.4)}
+.shd-bt.g{background:rgba(255,241,230,.12);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#ffe08a;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 0 0 1px rgba(255,200,61,.45)}
 </style></head>
 <body>
 <style>/* ===== Intro Paradise Owner ===== */
@@ -5428,7 +5485,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       act.forEach(add);Object.keys(SH.info).forEach(add);Object.keys(SH.hist).forEach(add);L.forEach(function(c){add(c.sucursal)});
       return n.map(function(nm){var h=SH.hist[nm],inf=SH.info[nm]||{},Ls=L.filter(function(c){return c.sucursal===nm});
         var abierta=h?h.estado!=='cerrada':(act.indexOf(nm)>=0||!!SH.info[nm]);var dias=Ls.map(function(c){return c.fecha}).sort();
-        return {n:nm,h:h,foto:h&&h.foto,zona:(h&&h.zona)||inf.zona||inf.direccion||'',abierta:abierta,nueva:abierta&&!!inf.nueva,
+        return {n:nm,h:h,Ls:Ls,mapa:inf.mapa||'',dir:inf.direccion||'',foto:h&&h.foto,zona:(h&&h.zona)||inf.zona||inf.direccion||'',abierta:abierta,nueva:abierta&&!!inf.nueva,
           t:Ls.reduce(function(a,c){return a+c.monto},0),k:Ls.length,desde:(h&&h.desde)||(dias[0]||'').slice(0,7),hasta:(h&&h.hasta)||(!abierta?(dias[dias.length-1]||'').slice(0,7):'')}})
        .sort(function(a,b){return (b.abierta-a.abierta)||((a.desde||'9')<(b.desde||'9')?-1:1)});
     }
@@ -5442,7 +5499,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
         else{var em=fdEl('div','shp-no');var lg=new Image();lg.alt='';lg.src=(window.IMG&&IMG.LOGOT)||'';em.appendChild(lg);em.appendChild(fdEl('span','','Toca ✎ para ponerle foto'));ph.appendChild(em)}
         c.appendChild(ph);c.appendChild(fdEl('div','shp-fr'));
         var top=fdEl('div','shp-top');top.appendChild(fdEl('span','shp-sala','SALA '+String(i+1).padStart(2,'0')));
-        var ed=fdEl('button','shp-ed','✎');ed.type='button';ed.setAttribute('aria-label','Editar '+x.n);ed.onclick=function(){abrir(x)};top.appendChild(ed);c.appendChild(top);
+        var ed=fdEl('button','shp-ed','✎');ed.type='button';ed.setAttribute('aria-label','Editar '+x.n);ed.onclick=function(e){e.stopPropagation();abrir(x)};c.tabIndex=0;c.setAttribute('role','button');c.setAttribute('aria-label','Ver todo sobre '+x.n);c.onclick=function(){detalle(x,i,tot)};c.onkeydown=function(e){if(e.key==='Enter')detalle(x,i,tot)};top.appendChild(ed);c.appendChild(top);
         if(x.abierta)c.appendChild(fdEl('span','shp-st'+(x.nueva?' nv':''),x.nueva?'¡NUEVA!':'● EN FUNCIÓN'));else c.appendChild(fdEl('span','shp-rib','CERRADA'));
         var bt=fdEl('div','shp-bt');bt.appendChild(fdEl('h5','',x.n));if(x.zona)bt.appendChild(fdEl('p','shp-z','📍 '+x.zona));
         var fe=x.desde?(x.abierta?'En cartelera desde '+mesTxt(x.desde):mesTxt(x.desde)+(x.hasta?' — '+mesTxt(x.hasta):'')):'';if(fe)bt.appendChild(fdEl('p','shp-f',fe));
@@ -5491,6 +5548,48 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
       .catch(function(x){msg.textContent=netErr(x)}).then(function(){ok.disabled=false})});
     M.querySelector('[data-shm-del]').onclick=function(){if(!editando||!confirm('¿Borrar la foto y los datos de '+editando+' de la galería? Sus cortes no se borran.'))return;
       api({accion:'borrarSucHist',pin:A.pin,nombre:editando}).then(function(d){if(d&&d.ok){guardaResp(d);pintar();cerrar()}else{msg.hidden=false;msg.textContent=(d&&d.error)||'No se pudo borrar.'}}).catch(function(x){msg.hidden=false;msg.textContent=netErr(x)})};
+
+    /* --- ficha completa de cada sucursal --- */
+    var DT=document.createElement('div');DT.className='shd';DT.hidden=true;document.body.appendChild(DT);
+    var DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+    function fLarga(f){return (+f.slice(8))+' de '+MESN[+f.slice(5,7)-1]+' de '+f.slice(0,4)}
+    function cerrarDet(){DT.hidden=true;DT.innerHTML='';document.documentElement.classList.remove('shm-on')}
+    function detalle(x,i,tot){
+      var Ls=(x.Ls||[]).slice().sort(function(a,b){return a.fecha<b.fecha?-1:1}),t=x.t,k=Ls.length;
+      var mejor=null;Ls.forEach(function(c){if(!mejor||c.monto>mejor.monto)mejor=c});
+      var pm={};Ls.forEach(function(c){var m=c.fecha.slice(0,7);pm[m]=(pm[m]||0)+c.monto});var meses=Object.keys(pm).sort();
+      var mm=null;meses.forEach(function(m){if(!mm||pm[m]>pm[mm])mm=m});
+      var pd=[0,0,0,0,0,0,0],nd=[0,0,0,0,0,0,0];Ls.forEach(function(c){var d=new Date(c.fecha+'T12:00:00').getDay();pd[d]+=c.monto;nd[d]++});
+      var bd=-1,bv=0;pd.forEach(function(v,j){var a=nd[j]?v/nd[j]:0;if(a>bv){bv=a;bd=j}});
+      var ini=x.desde||(Ls[0]&&Ls[0].fecha.slice(0,7))||'',fin=x.abierta?'':(x.hasta||(Ls[k-1]&&Ls[k-1].fecha.slice(0,7))||'');
+      var dur='';if(ini){var a=new Date(ini+'-01T12:00:00'),b=fin?new Date(fin+'-28T12:00:00'):new Date();var dm=Math.max(0,(b.getFullYear()-a.getFullYear())*12+b.getMonth()-a.getMonth())+(fin?1:0);dur=dm<1?'Menos de un mes':dm+(dm===1?' mes':' meses')}
+      var pct=tot?Math.round(t/tot*100):0;var h='<div class="shd-bg">'+(x.foto?'<img alt="" src="'+x.foto+'">':'')+'</div><div class="shd-c"><div class="shd-hero">'+(x.foto?'<img alt="" src="'+x.foto+'">':'<div class="shd-noph"><img alt="" src="'+((window.IMG&&IMG.LOGOT)||'')+'"></div>')+
+        '<button type="button" class="shd-x" aria-label="Cerrar">✕</button><span class="shp-sala">SALA '+String(i+1).padStart(2,'0')+'</span>'+
+        '<div class="shd-ht"><span class="shd-st '+(x.abierta?(x.nueva?'nv':'ok'):'cl')+'">'+(x.abierta?(x.nueva?'¡NUEVA!':'● EN FUNCIÓN'):'CERRADA')+'</span><h3></h3><p class="shd-z"></p></div></div>'+
+        '<div class="shd-b">'+
+        '<div class="shd-big"><div class="shd-ring" style="--p:'+pct+'"><b>'+pct+'%</b><small>de la marca</small></div><div class="shd-bt2"><small>VENDIDO EN TOTAL</small><b>'+ctMoney(t)+'</b><span>de todo lo que ha vendido Paradise</span></div></div>'+
+        '<div class="shd-g">'+
+          '<div><i class="ic">🎟️</i><small>Cortes</small><b>'+k+'</b></div>'+
+          '<div><i class="ic">📊</i><small>Promedio por día</small><b>'+(k?ctMoney(t/k):'—')+'</b></div>'+
+          '<div><i class="ic">⭐</i><small>Mejor día</small><b>'+(mejor?ctMoney(mejor.monto):'—')+'</b><em>'+(mejor?fLarga(mejor.fecha):'')+'</em></div>'+
+          '<div><i class="ic">🏆</i><small>Mejor mes</small><b>'+(mm?ctMoney(pm[mm]):'—')+'</b><em>'+(mm?MESN[+mm.slice(5,7)-1]+' '+mm.slice(0,4):'')+'</em></div>'+
+          '<div><i class="ic">🔥</i><small>Día más fuerte</small><b>'+(bd>=0?DIAS[bd].charAt(0).toUpperCase()+DIAS[bd].slice(1):'—')+'</b><em>'+(bd>=0?'promedio '+ctMoney(bv):'')+'</em></div>'+
+          '<div><i class="ic">⏳</i><small>'+(x.abierta?'Tiempo abierta':'Estuvo abierta')+'</small><b>'+(dur||'—')+'</b><em>'+(ini?mesTxt(ini)+(fin?' — '+mesTxt(fin):' — hoy'):'')+'</em></div>'+
+        '</div>'+
+        (meses.length?'<div class="shd-sec"><h4><span>📈</span>Ventas por mes</h4><div class="shd-ch" data-ch></div></div>':'')+
+        (k?'<div class="shd-sec"><h4><span>🧾</span>Últimos cortes</h4><ul class="shd-ls" data-ls></ul></div>':'<p class="shd-nada">Esta sucursal todavía no tiene cortes registrados.</p>')+
+        '<div class="shd-btns">'+(x.mapa?'<a class="shd-bt" target="_blank" rel="noopener" data-map>📍 Cómo llegar</a>':'')+'<button type="button" class="shd-bt g" data-ed>✎ Editar foto y datos</button></div>'+
+        '</div></div>';
+      DT.innerHTML=h;
+      DT.querySelector('h3').textContent=x.n;DT.querySelector('.shd-z').textContent=x.zona?('📍 '+x.zona+(x.dir&&x.dir!==x.zona?' · '+x.dir:'')):'';
+      if(x.mapa)DT.querySelector('[data-map]').href=x.mapa;
+      var ch=DT.querySelector('[data-ch]');if(ch){var mx=Math.max.apply(null,meses.map(function(m){return pm[m]}))||1;meses.slice(-12).forEach(function(m){var b=fdEl('div','shd-bar'+(m===mm?' top':''));var f=fdEl('i');f.style.height=Math.max(4,Math.round(pm[m]/mx*100))+'%';b.appendChild(fdEl('span','v',ctMoney(pm[m]).replace(/\.00$/,'')));b.appendChild(f);b.appendChild(fdEl('span','m',MES3[+m.slice(5,7)-1]));ch.appendChild(b)})}
+      var ls=DT.querySelector('[data-ls]');if(ls){Ls.slice(-10).reverse().forEach(function(c){var li=fdEl('li','');var dn=DIAS[new Date(c.fecha+'T12:00:00').getDay()];li.appendChild(fdEl('span','',dn.charAt(0).toUpperCase()+dn.slice(1,3)+' '+fLarga(c.fecha)));li.appendChild(fdEl('b','',ctMoney(c.monto)));ls.appendChild(li)})}
+      DT.querySelector('.shd-x').onclick=cerrarDet;DT.onclick=function(e){if(e.target===DT)cerrarDet()};
+      DT.querySelector('[data-ed]').onclick=function(){cerrarDet();abrir(x)};
+      DT.hidden=false;document.documentElement.classList.add('shm-on');DT.querySelector('.shd-c').scrollTop=0;
+    }
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!DT.hidden)cerrarDet()});
     window.shPintar=function(L){SH.L=L||[];pintar();if(!SH.cargado)cargar()};
   })();
 
