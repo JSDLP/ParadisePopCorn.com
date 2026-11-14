@@ -1,13 +1,15 @@
 // Paradise Pop Corn — la página abre aunque no haya internet
 // 1) Con internet: siempre muestra la versión más nueva y la guarda.
 // 2) Sin internet: muestra la última versión guardada (con sus fotos).
-const CACHE = 'paradise-v8';
+const CACHE = 'paradise-v9';
 const OFFLINE = './offline.html';
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 const CORE = [
   './', './index.html', './club.html', './pops.html', './ruleta.html', './historia-pops.html',
   OFFLINE, './manifest.json', './apple-touch-icon.png', './icon-192.png', './icon-512.png',
-  './icon-maskable-192.png', './icon-maskable-512.png', './og-image.jpg', './fz-co-luces.webp'
+  './icon-maskable-192.png', './icon-maskable-512.png', './og-image.jpg', './fz-co-luces.webp',
+  // App Paradise Owner (modo dueño): abre aunque no haya internet
+  './dueno.html', './manifest-dueno.json', './IMG_0476.png', './IMG_0477.png'
 ];
 const ASSET_RE = /(?:img-[0-9a-f]+|IMG_\d+|fz-[a-z-]+|icon-[a-z0-9-]+|apple-touch-icon)\.(?:webp|png|jpe?g)/g;
 const NET_TIMEOUT = 10000; // con internet lento espera más antes de mostrar la copia guardada
