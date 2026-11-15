@@ -6928,8 +6928,13 @@ document.querySelectorAll('[data-nv-card]').forEach(function(c){if(matchMedia('(
   function marcar(OS){try{OS.User.addTags({jefe:'1',app:'owner'})}catch(e){}L('pp-jefe','1')}
   function activar(btn){
     btn.disabled=true;btn.textContent='Un momento…';
-    cargar().then(function(OS){return OS.Notifications.requestPermission().then(function(){return OS})}).then(function(OS){
-      var e=suscrito(OS);
+    // iPhone solo deja pedir permiso justo al tocar el botón: primero el permiso, luego OneSignal
+    var pide;try{pide=Notification.requestPermission();if(!pide||!pide.then)pide=Promise.resolve(Notification.permission)}catch(e){pide=Promise.resolve(Notification.permission)}
+    pide.then(function(){return cargar()}).then(function(OS){
+      return Promise.resolve(Notification.permission==='granted'&&OS.User.PushSubscription.optIn?OS.User.PushSubscription.optIn():0).catch(function(){}).then(function(){
+        return new Promise(function(r){setTimeout(function(){r(OS)},1500)})});
+    }).then(function(OS){
+      var e=Notification.permission==='granted'?'si':suscrito(OS);
       if(e==='si'){marcar(OS);aviso('✅','¡Listo, jefe! Avisos activados',HORAS,'', 'Cerrar',true);quitar(5200)}
       else if(e==='bloq'){aviso('🔕','Los avisos están bloqueados','Actívalos en <em>Ajustes › Notificaciones › PP Owner</em> y vuelve a entrar.','', 'Entendido')}
       else{btn.disabled=false;btn.textContent='Activar avisos'}
@@ -6946,6 +6951,7 @@ document.querySelectorAll('[data-nv-card]').forEach(function(c){if(matchMedia('(
     if(perm==='granted'){cargar().then(function(OS){if(suscrito(OS)==='si')marcar(OS)}).catch(function(){});if(L('pp-jefe')==='1')return}
     if(perm==='denied')return;
     var no=+L('pp-jefe-no')||0;if(Date.now()-no<3*864e5)return;
+    cargar().catch(function(){});
     setTimeout(function(){if(B.classList.contains('owner'))aviso('🔔','Reporte del jefe en tu celular',HORAS,'Activar avisos','Ahora no')},1800);
   }
   new MutationObserver(function(){if(B.classList.contains('owner'))alEntrar();else{visto=false;quitar()}}).observe(B,{attributes:true,attributeFilter:['class']});
