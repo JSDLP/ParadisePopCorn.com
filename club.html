@@ -6915,30 +6915,32 @@ document.querySelectorAll('[data-nv-card]').forEach(function(c){if(matchMedia('(
     if(cargado)return listo;cargado=true;
     window.OneSignalDeferred=window.OneSignalDeferred||[];
     listo=new Promise(function(res,rej){
-      var s=document.createElement('script');s.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';s.defer=true;s.onerror=rej;document.head.appendChild(s);
+      var s=document.createElement('script');s.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';s.defer=true;s.onerror=function(){window.__osErr='no cargó OneSignal';rej()};document.head.appendChild(s);
       window.OneSignalDeferred.push(function(OS){
         return OS.init({appId:APP,serviceWorkerPath:sc.slice(1)+'sw.js',serviceWorkerParam:{scope:sc},notifyButton:{enable:false},
-          welcomeNotification:{title:'Paradise Owner',message:'Listo, jefe. Aquí te llegará tu reporte 🍿'}}).then(function(){res(OS)},rej);
+          welcomeNotification:{title:'Paradise Owner',message:'Listo, jefe. Aquí te llegará tu reporte 🍿'}}).then(function(){window.__osOK=1;res(OS)},function(er){window.__osErr=String(er&&er.message||er);rej(er)});
       });
     });
     return listo;
   }
   function suscrito(OS){var p=OS.Notifications.permissionNative||(window.Notification&&Notification.permission);
     return p==='denied'?'bloq':(OS.Notifications.permission&&OS.User.PushSubscription.optedIn!==false?'si':'no')}
-  function marcar(OS){try{OS.User.addTags({jefe:'1',app:'owner'})}catch(e){}L('pp-jefe','1')}
+  function marcar(OS){try{OS.User.addTags({jefe:'1',app:'owner'})}catch(e){}L('pp-jefe',OS.User.PushSubscription.id?'1':null)}
+  function registrar(OS){var ps=OS.User.PushSubscription;if(ps.id&&ps.optedIn!==false){marcar(OS);return Promise.resolve(OS)}
+    return Promise.resolve(ps.optIn?ps.optIn():0).catch(function(er){window.__osErr=String(er&&er.message||er)}).then(function(){return new Promise(function(r){var n=0;(function w(){if(ps.id||n++>12){marcar(OS);r(OS)}else setTimeout(w,500)})()})})}
   function activar(btn){
     btn.disabled=true;btn.textContent='Un momento…';
     // iPhone solo deja pedir permiso justo al tocar el botón: primero el permiso, luego OneSignal
     var pide;try{pide=Notification.requestPermission();if(!pide||!pide.then)pide=Promise.resolve(Notification.permission)}catch(e){pide=Promise.resolve(Notification.permission)}
     pide.then(function(){return cargar()}).then(function(OS){
-      return Promise.resolve(Notification.permission==='granted'&&OS.User.PushSubscription.optIn?OS.User.PushSubscription.optIn():0).catch(function(){}).then(function(){
-        return new Promise(function(r){setTimeout(function(){r(OS)},1500)})});
+      return Notification.permission==='granted'?registrar(OS):OS;
     }).then(function(OS){
-      var e=Notification.permission==='granted'?'si':suscrito(OS);
+      var e=Notification.permission==='granted'?(OS.User.PushSubscription.id?'si':'nada'):suscrito(OS);
       if(e==='si'){marcar(OS);pintaBell();aviso('✅','¡Listo, jefe! Avisos activados',HORAS,'', 'Cerrar',true);quitar(5200)}
+      else if(e==='nada'){mostrar()}
       else if(e==='bloq'){aviso('🔕','Los avisos están bloqueados','Actívalos en <em>Ajustes › Notificaciones › PP Owner</em> y vuelve a entrar.','', 'Entendido')}
       else{btn.disabled=false;btn.textContent='Activar avisos'}
-    }).catch(function(){btn.disabled=false;btn.textContent='Reintentar'});
+    }).catch(function(er){window.__osErr=window.__osErr||String(er&&er.message||er);btn.disabled=false;btn.textContent='Reintentar';mostrar()});
   }
   function estado(){
     if(ios&&!app)return 'web';
@@ -6947,12 +6949,12 @@ document.querySelectorAll('[data-nv-card]').forEach(function(c){if(matchMedia('(
     return p==='granted'?(L('pp-jefe')==='1'?'si':'casi'):(p==='denied'?'bloq':'no');
   }
   function mostrar(){
-    var e=estado(),dbg='<br><span style="opacity:.55;font-size:11px">Estado: '+e+' · '+(app?'app':'navegador')+' · '+(window.Notification?Notification.permission:'sin Notification')+'</span>';
+    var e=estado(),dbg='<br><span style="opacity:.55;font-size:11px">Estado: '+e+' · '+(app?'app':'navegador')+' · '+(window.Notification?Notification.permission:'sin Notification')+' · OneSignal: '+(window.__osErr?'error: '+String(window.__osErr).replace(/[<>]/g,'').slice(0,90):(window.__osOK?'conectado':'cargando'))+' · registro: '+(L('pp-jefe')==='1'?'sí':'no')+'</span>';
     if(e==='web')return aviso('📲','Abre tu app PP Owner','Las notificaciones solo funcionan desde el ícono <em>PP Owner</em> de tu pantalla de inicio.'+dbg,'','Entendido');
     if(e==='nosop')return aviso('⚠️','Este equipo no acepta avisos','Actualiza tu iPhone/iPad a la versión más nueva (iOS 16.4 o más) en <em>Ajustes › General › Actualización de software</em>.'+dbg,'','Entendido');
     if(e==='bloq')return aviso('🔕','Los avisos están bloqueados','Ve a <em>Ajustes › Notificaciones › PP Owner</em> y activa <em>Permitir notificaciones</em>. Luego vuelve a abrir la app.'+dbg,'','Entendido');
     if(e==='si')return aviso('✅','Avisos del jefe activados',HORAS+dbg,'','Cerrar',true);
-    aviso('🔔','Reporte del jefe en tu celular',HORAS+dbg,e==='casi'?'Terminar de activar':'Activar avisos','Ahora no');
+    aviso('🔔',e==='casi'?'Falta terminar de activar':'Reporte del jefe en tu celular',HORAS+dbg,e==='casi'?'Terminar de activar':'Activar avisos','Ahora no');
   }
   var bell=null;
   function campana(){
@@ -6964,7 +6966,7 @@ document.querySelectorAll('[data-nv-card]').forEach(function(c){if(matchMedia('(
     if(visto||!B.classList.contains('owner')||B.classList.contains('gerente'))return;visto=true;
     campana();
     var e=estado();
-    if(e==='casi'){cargar().then(function(OS){if(suscrito(OS)==='si'){marcar(OS);pintaBell()}}).catch(function(){})}
+    if(e==='casi'||e==='si'){cargar().then(registrar).then(pintaBell).catch(function(){})}
     if(e==='no'||e==='casi'){cargar().catch(function(){});
       var no=+L('pp-jefe-no')||0;if(Date.now()-no<3*864e5)return;
       setTimeout(function(){if(B.classList.contains('owner'))mostrar()},1800);}
