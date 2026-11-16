@@ -4,7 +4,7 @@ try { importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js')
 // Paradise Pop Corn — la página abre aunque no haya internet
 // 1) Con internet: siempre muestra la versión más nueva y la guarda.
 // 2) Sin internet: muestra la última versión guardada (con sus fotos).
-const CACHE = 'paradise-v13';
+const CACHE = 'paradise-v14';
 const OFFLINE = './offline.html';
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 const CORE = [
