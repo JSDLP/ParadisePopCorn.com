@@ -2900,7 +2900,7 @@ html.occ-von,html.occ-von body{overflow:hidden}
 /* ===== Partículas de temporada ===== */
 .pp-part{position:fixed;inset:0;pointer-events:none;z-index:3}
 @media (prefers-reduced-motion:reduce){.pp-part{display:none}}
-</style></head>
+</style><style>.sx-es{display:grid;gap:6px;margin:10px 0 4px}.sx-es select{width:100%;box-sizing:border-box;padding:11px 12px;border-radius:12px;border:1px solid rgba(255,200,61,.45);background:rgba(0,0,0,.3);color:#fff1e6;font:inherit;font-weight:700}</style></head>
 <body>
 <style>/* ===== Intro Paradise Owner ===== */
 #poi{position:fixed;inset:0;z-index:99;background:radial-gradient(110% 80% at 50% 44%,#161616 0%,#070707 55%,#000 100%);overflow:hidden;font-family:"Bricolage Grotesque",Helvetica Neue,Arial,sans-serif;color:#fff}
@@ -5883,14 +5883,15 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     d.appendChild(sxCampo('Nombre','nombre',x.nombre,'Ej. Iztapalapa',false,30));d.appendChild(sxCampo('Colonia o zona','zona',x.zona,'Ej. Colonia Centro',false,40));
     d.appendChild(sxCampo('Dirección','direccion',x.direccion,'Calle, número, colonia, alcaldía',true,140));
     d.appendChild(sxCampo('Link de Google Maps (opcional)','mapa',x.mapa,'Si lo dejas vacío, lo armamos con la dirección',true,400));
-    var nv=document.createElement('label');nv.className='sx-new';nv.innerHTML='<input type="checkbox" name="nueva"> Marcar como <b>NUEVA</b> en la página';nv.querySelector('input').checked=!!x.nueva;d.appendChild(nv);
+    var nv=document.createElement('label');nv.className='sx-new';nv.innerHTML='<input type="checkbox" name="nueva"> Marcar como <b>NUEVA</b> en la página';nv.querySelector('input').checked=!!x.nueva;
+    var es=document.createElement('label');es.className='pf sx-es';es.innerHTML='<span>¿Cómo se ve en la página?</span><select name="estado"><option value="abierta">✅ Abierta (ya pueden ir)</option><option value="pronto">🚧 Próximamente (en preparación)</option></select>';es.querySelector('select').value=x.estado==='pronto'?'pronto':'abierta';d.appendChild(es);d.appendChild(nv);
     $('[data-up]',d).addEventListener('click',function(){var p=d.previousElementSibling;if(p)d.parentNode.insertBefore(d,p);sxNum()});
     $('[data-dn]',d).addEventListener('click',function(){var n=d.nextElementSibling;if(n)d.parentNode.insertBefore(n,d);sxNum()});
     $('[data-x]',d).addEventListener('click',function(){var nm=$('[name=nombre]',d).value.trim()||'esta sucursal';if(confirm('¿Quitar '+nm+' de tu página? Tus cortes guardados no se borran.')){d.remove();sxNum()}});
     $('[data-sx-list]').appendChild(d);sxNum();return d}
   function sxLlenar(L){$('[data-sx-list]').innerHTML='';(L&&L.length?L:[{nombre:'Tláhuac'},{nombre:'Coyoacán'}]).forEach(sxItem);$('[data-sx-load]').hidden=true;SX.hidden=false}
-  function sxLeer(){return $$('.sx-it',SX).map(function(d){var v=function(n){return $('[name='+n+']',d).value.trim()};return {id:d.getAttribute('data-id')||'',nombre:v('nombre'),zona:v('zona'),direccion:v('direccion'),mapa:v('mapa'),nueva:$('[name=nueva]',d).checked}})}
-  $('[data-sx-add]').addEventListener('click',function(){var d=sxItem({nueva:true});$('[name=nombre]',d).focus()});
+  function sxLeer(){return $$('.sx-it',SX).map(function(d){var v=function(n){return $('[name='+n+']',d).value.trim()};return {id:d.getAttribute('data-id')||'',nombre:v('nombre'),zona:v('zona'),direccion:v('direccion'),mapa:v('mapa'),nueva:$('[name=nueva]',d).checked,estado:$('[name=estado]',d).value}})}
+  $('[data-sx-add]').addEventListener('click',function(){var d=sxItem({nueva:true,estado:'pronto'});$('[name=nombre]',d).focus()});
   SX.addEventListener('submit',function(e){e.preventDefault();var m=$('[data-sx-msg]'),b=$('[data-sx-save]'),L=sxLeer();show(m,'');
     for(var i=0;i<L.length;i++){if(!L[i].nombre)return show(m,'Ponle nombre a la sucursal '+(i+1)+'.');if(!L[i].direccion)return show(m,'Escribe la dirección de '+L[i].nombre+'.')}
     var vis={};for(var j=0;j<L.length;j++){var k=L[j].nombre.toLowerCase();if(vis[k])return show(m,'Hay dos sucursales llamadas '+L[j].nombre+'.');vis[k]=1}
