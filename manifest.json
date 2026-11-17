@@ -10,7 +10,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#140203",
-  "theme_color": "#b30000",
+  "theme_color": "#000000",
   "categories": [
     "food",
     "shopping"
