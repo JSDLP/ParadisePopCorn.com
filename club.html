@@ -2532,6 +2532,7 @@ body.owner .ct-money i{font-size:26px;left:16px}
 @media (min-width:900px){.edc-tabs{display:none}.edc-row{overflow:visible}.edc-it{flex:1 1 0}}
 .edc-it .stage{margin:0 auto!important;width:100%;max-width:460px}
 .edc-it .cred{--rx:0deg!important;--ry:0deg!important;cursor:grab}.edc-it .nv-card{--rx:0deg!important;--ry:0deg!important}
+.edc-it .cred,.edc-it .nvf,.edc-it .cred *,.edc-it .nvf *{touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .edc-hint{margin:10px 0 0;text-align:center;font-size:12px;font-weight:700;letter-spacing:.04em;color:rgba(255,241,230,.55)}
 .edc-it .nv{margin:0}
 .edc-none{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;aspect-ratio:1.586;border-radius:20px;border:2px dashed rgba(255,200,61,.45);text-align:center;padding:16px;color:rgba(255,241,230,.8);font-weight:700;background:rgba(0,0,0,.25)}
@@ -3591,6 +3592,12 @@ html.poi-on,html.poi-on body{overflow:hidden!important}
         <p class="pr-intro">Lo que cambies aquí se ve en tu página principal en cuanto toques <b>Publicar</b>. No tienes que editar ningún archivo.</p>
         <div class="pr-load" data-pr-load>Cargando tus promociones…</div>
         <form class="pr" data-pr hidden novalidate>
+          <article class="pc" data-pc="rifa">
+            <header><span class="pc-ic">🎄</span><div><b>Rifa de la palomera</b><small>Pase Navideño en la página principal</small></div><label class="sw"><input type="checkbox" name="r_activa"><span></span><em class="sr">Mostrar la rifa en la página</em></label></header>
+            <div class="pc-body">
+              <p class="pf wide" style="margin:0;font-size:13.5px;line-height:1.4;opacity:.85">Prendido: la promoción de la rifa ($150 + membresía de regalo) sale arriba en la página principal. Apágalo cuando termine la rifa y toca «Publicar». De todos modos se quita sola el 1 de enero.</p>
+            </div>
+          </article>
           <article class="pc" data-pc="dosx1">
             <header><span class="pc-ic">🔥</span><div><b>2x1 de la semana</b><small>La promoción grande del menú</small></div><label class="sw"><input type="checkbox" name="d_activa"><span></span><em class="sr">Activar 2x1</em></label></header>
             <div class="pc-body">
@@ -3675,12 +3682,6 @@ html.poi-on,html.poi-on body{overflow:hidden!important}
               <label class="pf wide"><span>🥉 3er lugar</span><select name="t_s3"></select></label>
               <label class="pf wide"><span>4to lugar</span><select name="t_s4"></select></label>
               <label class="pf wide"><span>5to lugar</span><select name="t_s5"></select></label>
-            </div>
-          </article>
-          <article class="pc" data-pc="rifa">
-            <header><span class="pc-ic">🎄</span><div><b>Rifa de la palomera</b><small>Pase Navideño en la página principal</small></div><label class="sw"><input type="checkbox" name="r_activa"><span></span><em class="sr">Mostrar la rifa en la página</em></label></header>
-            <div class="pc-body">
-              <p class="pf wide" style="margin:0;font-size:13.5px;line-height:1.4;opacity:.85">Prendido: la promoción de la rifa ($150 + membresía de regalo) sale arriba en la página principal. Apágalo cuando termine la rifa y toca «Publicar». De todos modos se quita sola el 1 de enero.</p>
             </div>
           </article>
           <article class="pc" data-pc="muro">
@@ -5207,9 +5208,12 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   window.ppGirar=function(el,o){var ang=0,drag=false,x0=0,a0=0,mov=false,pid=null;
     function apply(a,anim){ang=a;el.classList.toggle('pp-snap',!!anim);o.set(a);var n=((a%360)+360)%360;o.back(n>90&&n<270)}
     el.addEventListener('pointerdown',function(e){if(e.button>0)return;drag=true;mov=false;x0=e.clientX;a0=ang;pid=e.pointerId});
-    el.addEventListener('pointermove',function(e){if(!drag||e.pointerId!==pid)return;var dx=e.clientX-x0;if(!mov&&Math.abs(dx)>7){mov=true;try{el.setPointerCapture(pid)}catch(_){}}if(mov)apply(a0+dx*.62,false)});
+    el.addEventListener('pointermove',function(e){if(!drag||e.pointerId!==pid||e.pointerType==='touch'&&tl)return;var dx=e.clientX-x0;if(!mov&&Math.abs(dx)>7){mov=true;try{el.setPointerCapture(pid)}catch(_){}}if(mov)apply(a0+dx*.62,false)});
     function up(){if(!drag)return;drag=false;apply(mov?Math.round(ang/180)*180:Math.round(ang/180)*180+180,true)}
     el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);
+    var tx=0,ty=0,tl=null;el.addEventListener('touchstart',function(e){var t=e.touches[0];tx=t.clientX;ty=t.clientY;tl=null},{passive:true});
+    el.addEventListener('touchmove',function(e){var t=e.touches[0],dx=t.clientX-tx,dy=t.clientY-ty;if(tl===null&&(Math.abs(dx)>6||Math.abs(dy)>6))tl=Math.abs(dx)>Math.abs(dy);if(tl){e.preventDefault();if(!drag){drag=true;mov=true;x0=tx;a0=ang}apply(a0+dx*.62,false)}},{passive:false});
+    el.addEventListener('touchend',function(){if(tl){tl=null;up()}},{passive:true});
     el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();apply(Math.round(ang/180)*180+180,true)}});
     return {reset:function(){apply(0,true)}}};
   ppGirar(cred,{set:function(a){cred.style.setProperty('--flip',a+'deg')},back:function(b){cred.classList.toggle('flipped',b)}});
@@ -7284,12 +7288,12 @@ document.querySelectorAll('[data-nv-card]').forEach(function(c){if(matchMedia('(
   /* ---------- Partículas de temporada ---------- */
   function temporada(){var q=(location.search.match(/temporada=([a-z]+)/)||[])[1];if(q&&q!=='auto')return q;
     var p={};try{new Intl.DateTimeFormat('en-US',{timeZone:'America/Mexico_City',month:'numeric',day:'numeric'}).formatToParts(new Date()).forEach(function(x){p[x.type]=+x.value})}catch(e){var d=new Date();p={month:d.getMonth()+1,day:d.getDate()}}
-    var m=p.month,d=p.day;if(m===12||(m===1&&d<=7))return 'navidad';if(m===2&&d>=7&&d<=21)return 'amor';if((m===10&&d>=25)||(m===11&&d<=2))return 'halloween';return ''}
-  window.ppParticulas=function(){var t=temporada();if(!t||calm)return;var E={navidad:['❄','❅','❆'],amor:['❤','💕','♥'],halloween:['🍂','🍁','🍂']}[t];if(!E)return;
+    var m=p.month;if(m===12)return 'navidad';if(m===2)return 'amor';if(m===10)return 'halloween';return ''}
+  window.ppParticulas=function(){var t=temporada();if(!t||calm)return;var E={navidad:['❄️','❄️','❅'],amor:['💗','💕','❤️'],halloween:['🍂','🍁','🍂']}[t];if(!E)return;
     var c=document.createElement('canvas');c.className='pp-part';c.setAttribute('aria-hidden','true');document.body.appendChild(c);var x=c.getContext('2d'),W,H,P=[],N=innerWidth<600?18:30;
     function sz(){var d=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0)}sz();addEventListener('resize',sz);
-    for(var i=0;i<N;i++)P.push({x:Math.random()*W,y:Math.random()*H,s:10+Math.random()*12,v:.3+Math.random()*.7,w:Math.random()*6.28,e:E[i%E.length],o:.35+Math.random()*.45});
-    function f(){x.clearRect(0,0,W,H);P.forEach(function(p){p.y+=p.v;p.w+=.02;p.x+=Math.sin(p.w)*.4;if(p.y>H+20){p.y=-20;p.x=Math.random()*W}x.globalAlpha=p.o;x.font=p.s+'px serif';x.fillStyle=t==='navidad'?'#fff':t==='amor'?'#ff6b9a':'#e08a2a';x.fillText(p.e,p.x,p.y)});if(!document.hidden)requestAnimationFrame(f);else setTimeout(f,500)}f()};
+    for(var i=0;i<N;i++)P.push({x:Math.random()*W,y:Math.random()*H,s:16+Math.random()*22,r:Math.random()*6.28,v:.3+Math.random()*.7,w:Math.random()*6.28,e:E[i%E.length],o:.55+Math.random()*.4});
+    function f(){x.clearRect(0,0,W,H);P.forEach(function(p){p.y+=p.v;p.w+=.02;p.x+=Math.sin(p.w)*.4;if(p.y>H+40){p.y=-40;p.x=Math.random()*W}p.r+=.01;x.save();x.translate(p.x,p.y);x.rotate(Math.sin(p.r)*.5);x.globalAlpha=p.o;x.font=p.s+"px 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',serif";x.textAlign='center';x.shadowColor=t==='navidad'?'rgba(170,215,255,.9)':t==='amor'?'rgba(255,90,150,.8)':'rgba(255,150,60,.6)';x.shadowBlur=14;x.fillStyle=t==='navidad'?'#dff1ff':t==='amor'?'#ff6b9a':'#e08a2a';x.fillText(p.e,0,0);x.restore()});if(!document.hidden)requestAnimationFrame(f);else setTimeout(f,500)}f()};
   ppParticulas();
 })();
 </script><style id="pp-lvu">
