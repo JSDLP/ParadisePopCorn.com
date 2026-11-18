@@ -3403,6 +3403,13 @@ html.poi-on,html.poi-on body{overflow:hidden!important}
         </div>
       </section>
 
+      <section class="dsec" data-ot="numeros" data-solo-dueno data-ew-sec aria-labelledby="t-ew">
+        <h3 class="dsec-t" id="t-ew"><span>Equipo · esta semana 👥</span></h3>
+        <div class="ew" data-ew><p class="ew-n">Cargando…</p></div>
+        <p class="ew-n">Sellos que dio cada quien en los últimos 7 días.</p>
+        <button type="button" class="ew-ref" data-ew-ref>↻ Actualizar</button>
+      </section>
+
       <section class="dsec" data-ot="numeros" data-a-hrsec hidden aria-labelledby="t-hr">
         <h3 class="dsec-t" id="t-hr"><span>Horas más fuertes ⏰</span></h3>
         <div class="hr"><p class="hr-pk" data-a-hrpk></p><div class="hr-grid" data-a-hr></div><p class="hr-n">Sellos de los últimos 7 días, por hora.</p></div>
@@ -7279,5 +7286,127 @@ document.querySelectorAll('[data-nv-card]').forEach(function(c){if(matchMedia('(
     function f(){x.clearRect(0,0,W,H);P.forEach(function(p){p.y+=p.v;p.w+=.02;p.x+=Math.sin(p.w)*.4;if(p.y>H+20){p.y=-20;p.x=Math.random()*W}x.globalAlpha=p.o;x.font=p.s+'px serif';x.fillStyle=t==='navidad'?'#fff':t==='amor'?'#ff6b9a':'#e08a2a';x.fillText(p.e,p.x,p.y)});if(!document.hidden)requestAnimationFrame(f);else setTimeout(f,500)}f()};
   ppParticulas();
 })();
-</script></body>
+</script><style id="pp-lvu">
+.lvu{position:fixed;inset:0;z-index:400;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,color-mix(in srgb,var(--lc) 26%,#1a1205),#0a0702 72%);font-family:'Bricolage Grotesque',system-ui,sans-serif;color:#fff1e6;opacity:0;transition:opacity .35s}
+.lvu.on{opacity:1}
+.lvu::before{content:"";position:absolute;left:50%;top:42%;width:170vmax;height:170vmax;margin:-85vmax;background:repeating-conic-gradient(color-mix(in srgb,var(--lc) 24%,transparent) 0 5deg,transparent 5deg 15deg);-webkit-mask:radial-gradient(#000 8%,transparent 55%);mask:radial-gradient(#000 8%,transparent 55%);animation:lvuSpin 40s linear infinite}
+@keyframes lvuSpin{to{transform:rotate(360deg)}}
+.lvu-in{position:relative;width:min(92vw,420px);text-align:center;padding:24px 10px 28px}
+.lvu-k{font-size:12px;font-weight:800;letter-spacing:.34em;color:var(--lc);opacity:0;animation:lvuUp .5s .2s forwards}
+.lvu h2{margin:10px 0 0;font-size:clamp(34px,9vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1.05;opacity:0;animation:lvuUp .5s .35s forwards}
+.lvu h2 span{color:var(--lc)}
+.lvu-card{position:relative;margin:26px auto 0;width:92%;opacity:0;transform:translateY(40px) rotate(-14deg) scale(.7);animation:lvuCard 1s .55s cubic-bezier(.2,1.3,.4,1) forwards}
+.lvu-cc{position:relative;aspect-ratio:1.586;border-radius:20px;overflow:hidden;text-align:left;color:#fff;background:linear-gradient(125deg,color-mix(in srgb,var(--lc) 55%,#3a2400) 0%,var(--lc) 38%,color-mix(in srgb,var(--lc) 40%,#fff) 52%,var(--lc) 66%,color-mix(in srgb,var(--lc) 55%,#3a2400) 100%);box-shadow:0 0 0 1.5px rgba(255,255,255,.5) inset,0 30px 50px rgba(0,0,0,.6),0 0 60px color-mix(in srgb,var(--lc) 45%,transparent)}
+.lvu-cc .lg{position:absolute;left:6%;top:8%;width:30%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.lvu-cc .chip{position:absolute;right:7%;top:12%;width:13%;aspect-ratio:1.3;border-radius:6px;background:linear-gradient(135deg,#fff6c8,#c98a0c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}
+.lvu-cc .rom{position:absolute;right:7%;top:38%;font-weight:800;font-size:clamp(20px,6vw,28px);color:rgba(0,0,0,.28)}
+.lvu-cc .nm{position:absolute;left:6%;bottom:10%;right:30%}
+.lvu-cc .nm small{display:block;font-size:9px;font-weight:800;letter-spacing:.2em;color:rgba(0,0,0,.5)}
+.lvu-cc .nm b{display:block;margin-top:3px;font-size:clamp(17px,5vw,22px);font-weight:800;letter-spacing:-.01em;text-shadow:0 2px 3px rgba(0,0,0,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lvu-cc .no{position:absolute;right:7%;bottom:10%;font-weight:800;font-size:clamp(20px,6vw,28px);color:rgba(255,255,255,.95);text-shadow:0 2px 3px rgba(0,0,0,.3)}
+.lvu-card .lvu-sh{position:absolute;inset:0;border-radius:18px;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.7) 48%,transparent 60%);transform:translateX(-120%);animation:lvuSh 1.2s 1.5s ease-in-out forwards;pointer-events:none;mix-blend-mode:soft-light;z-index:5}
+@keyframes lvuCard{to{opacity:1;transform:rotate(-5deg)}}
+@keyframes lvuSh{to{transform:translateX(120%)}}
+@keyframes lvuUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.lvu-p{margin:26px 0 0;font-size:15px;font-weight:600;opacity:0;animation:lvuUp .5s 1.4s forwards}
+.lvu-p b{color:var(--lc)}
+.lvu-bt{display:grid;gap:10px;margin-top:22px;opacity:0;animation:lvuUp .5s 1.6s forwards}
+.lvu-bt button{height:54px;border:0;border-radius:999px;font:800 16px 'Bricolage Grotesque',system-ui,sans-serif;cursor:pointer}
+.lvu-bt .a{background:var(--lc);color:#1a0203;box-shadow:0 6px 0 color-mix(in srgb,var(--lc) 55%,#000),0 14px 24px rgba(0,0,0,.4)}
+.lvu-bt .b{background:transparent;color:#fff1e6;box-shadow:inset 0 0 0 2px rgba(255,241,230,.5)}
+.lvu i.cf{position:absolute;top:-20px;width:9px;height:14px;border-radius:2px;animation:lvuCf linear forwards}
+@keyframes lvuCf{to{transform:translateY(110vh) rotate(720deg)}}
+@media (prefers-reduced-motion:reduce){.lvu::before,.lvu-card,.lvu-k,.lvu h2,.lvu-p,.lvu-bt{animation:none;opacity:1;transform:none}.lvu i.cf{display:none}}
+.nv-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:12px 0 14px;height:46px;border:0;border-radius:999px;font:800 15px 'Bricolage Grotesque',system-ui,sans-serif;color:#1a0203;background:linear-gradient(90deg,#ffe08a,#ffc83d);box-shadow:0 5px 0 #b8860b,0 10px 18px rgba(0,0,0,.25);cursor:pointer}
+.nvs-m{position:fixed;inset:0;z-index:410;display:grid;place-items:center;background:rgba(0,0,0,.82);padding:20px}
+.nvs-m div{text-align:center;color:#fff1e6;font-family:'Bricolage Grotesque',system-ui,sans-serif}
+.nvs-m img{display:block;max-height:72vh;max-width:86vw;border-radius:18px;margin:0 auto;box-shadow:0 20px 40px rgba(0,0,0,.6)}
+.nvs-m p{margin:14px 0 0;font-weight:700}
+.nvs-m button{margin-top:12px;height:46px;padding:0 26px;border:0;border-radius:999px;font:800 15px 'Bricolage Grotesque',system-ui,sans-serif;background:#ffc83d;color:#1a0203}
+/* Equipo esta semana */
+.ew{display:grid;gap:10px}
+.ew-r{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,241,230,.12)}
+.ew-av{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:17px;color:#fff;box-shadow:0 0 0 3px #fff1e6}
+.ew-m{flex:1;min-width:0}
+.ew-t{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.ew-t b{font-size:16px;font-weight:800;color:#fff1e6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ew-t span{font-size:15px;font-weight:800;color:#ffc83d;white-space:nowrap}
+.ew-bar{height:8px;margin-top:8px;border-radius:9px;background:rgba(255,255,255,.12);overflow:hidden}
+.ew-bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#ffc83d,#ff8a00);width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.ew-x{margin-top:5px;font-size:12px;font-weight:600;color:rgba(255,241,230,.75)}
+.ew-star{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:linear-gradient(135deg,#ffe08a,#ffc83d);color:#1a0203;font-weight:800;font-size:15px;box-shadow:0 10px 20px rgba(0,0,0,.25)}
+.ew-star span{font-size:26px}
+.ew-n{margin:6px 0 0;font-size:12px;color:rgba(255,241,230,.6);text-align:center}
+.ew-ref{display:block;margin:10px auto 0;padding:8px 16px;border:0;border-radius:999px;background:rgba(255,255,255,.1);color:#fff1e6;font:700 13px 'Bricolage Grotesque',system-ui,sans-serif;cursor:pointer}
+</style>
+<script>
+/* ===== Animación al subir de nivel + Compartir mi nivel ===== */
+(function(){
+  var COL={bronce:'#e0a06a',plata:'#d4dae2',oro:'#ffc83d',diamante:'#7ad3ff'},NOM={bronce:'Bronce',plata:'Plata',oro:'Oro',diamante:'Diamante'},ORD=['bronce','plata','oro','diamante'];
+  var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function G(k){try{return localStorage.getItem(k)}catch(e){return null}}function S(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function limpia(el){el.removeAttribute('id');[].slice.call(el.attributes).forEach(function(a){if(/^data-/.test(a.name))el.removeAttribute(a.name)});[].forEach.call(el.children,limpia);return el}
+  var ULT=null;
+  function overlay(k,d){
+    var c=COL[k]||'#ffc83d',w=document.createElement('div');w.className='lvu';w.style.setProperty('--lc',c);w.setAttribute('role','dialog');w.setAttribute('aria-label','Subiste de nivel');
+    w.innerHTML='<div class="lvu-in"><div class="lvu-k">¡FELICIDADES!</div><h2>Subiste a <span></span></h2><div class="lvu-card"></div><p class="lvu-p">Ahora eres nivel <b></b> en Club Paradise 🍿</p><div class="lvu-bt"><button type="button" class="a">📸 Compartir mi nivel</button><button type="button" class="b">Ver mi tarjeta</button></div></div>';
+    w.querySelector('h2 span').textContent=NOM[k];w.querySelector('.lvu-p b').textContent=NOM[k];
+    var hd=w.querySelector('.lvu-card'),num=(document.querySelector('[data-c-num]')||{}).textContent||'';hd.innerHTML='<div class="lvu-cc"><img alt="" class="lg"><span class="chip"></span><span class="rom"></span><div class="nm"><small>MIEMBRO · NIVEL '+NOM[k].toUpperCase()+'</small><b></b></div><span class="no"></span><span class="lvu-sh"></span></div>';
+    hd.querySelector('.lg').src=(window.IMG&&(IMG.LOGOT||IMG.LOGO))||'';hd.querySelector('.rom').textContent=['I','II','III','IV'][ORD.indexOf(k)];hd.querySelector('.nm b').textContent=String((d&&d.nombre)||'Miembro').trim().toUpperCase();hd.querySelector('.no').textContent=/\d/.test(num)&&!/^0+$/.test(num)?num:'';
+    document.body.appendChild(w);requestAnimationFrame(function(){w.classList.add('on')});
+    if(!calm){var cs=[c,'#fff1e6','#d10f1f','#ffc83d'];for(var i=0;i<60;i++){var f=document.createElement('i');f.className='cf';f.style.left=Math.random()*100+'%';f.style.background=cs[i%4];f.style.animationDuration=(2.2+Math.random()*2)+'s';f.style.animationDelay=(.4+Math.random()*1.4)+'s';w.appendChild(f)}}
+    function cerrar(){w.classList.remove('on');setTimeout(function(){w.remove()},400)}
+    w.querySelector('.b').addEventListener('click',cerrar);
+    w.querySelector('.a').addEventListener('click',function(){compartir(k,d&&d.nombre)});
+  }
+  var o=window.ppNivel;
+  if(o)window.ppNivel=function(d){var r=o.apply(this,arguments);try{
+      if(d&&d.whatsapp&&window.ppNivelDe&&window.ppSellosTotales){var k=ppNivelDe(ppSellosTotales(d)).k;ULT={k:k,nombre:d.nombre};var key='pp-nvk-'+String(d.whatsapp).slice(-10),ant=G(key);
+        if(ant&&ORD.indexOf(k)>ORD.indexOf(ant))setTimeout(function(){overlay(k,d)},900);S(key,k);boton()}
+    }catch(e){}return r};
+  function boton(){var tx=document.querySelector('[data-nv] [data-nv-txt]');if(!tx||document.querySelector('.nv-share'))return;var b=document.createElement('button');b.type='button';b.className='nv-share';b.textContent='📸 Compartir mi nivel';b.addEventListener('click',function(){if(ULT)compartir(ULT.k,ULT.nombre)});tx.parentNode.insertBefore(b,tx.nextSibling)}
+  function img(src){return new Promise(function(r){if(!src)return r(null);var i=new Image();i.onload=function(){r(i)};i.onerror=function(){r(null)};i.src=src})}
+  function compartir(k,nombre){
+    var c=COL[k]||'#ffc83d',W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
+    var fam="'Bricolage Grotesque',system-ui,sans-serif";
+    Promise.all([img(window.IMG&&(IMG.LOGOT||IMG.LOGO)),img(window.IMG&&IMG.POPS),document.fonts?document.fonts.load('800 100px "Bricolage Grotesque"').catch(function(){}):0]).then(function(r){
+      var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1a0203');g.addColorStop(.45,'#5c0710');g.addColorStop(1,'#b8660f');x.fillStyle=g;x.fillRect(0,0,W,H);
+      x.save();x.translate(W/2,820);for(var i=0;i<36;i++){x.rotate(Math.PI*2/36);x.fillStyle='rgba(255,200,61,.06)';x.beginPath();x.moveTo(0,0);x.lineTo(-40,-1400);x.lineTo(40,-1400);x.closePath();x.fill()}x.restore();
+      var rg=x.createRadialGradient(W/2,820,0,W/2,820,520);rg.addColorStop(0,'rgba(255,214,120,.35)');rg.addColorStop(1,'rgba(255,214,120,0)');x.fillStyle=rg;x.fillRect(0,0,W,H);
+      x.strokeStyle=c;x.lineWidth=6;x.beginPath();x.roundRect?x.roundRect(40,40,W-80,H-80,56):x.rect(40,40,W-80,H-80);x.stroke();
+      if(r[0]){var lw=520,lh=lw*r[0].height/r[0].width;x.drawImage(r[0],(W-lw)/2,150,lw,lh)}
+      x.textAlign='center';x.fillStyle=c;x.font='800 54px '+fam;x.letterSpacing='18px';x.fillText('SOY NIVEL',W/2+9,760);x.letterSpacing='0px';
+      var fs=NOM[k].length>5?230:300;x.font='800 '+fs+'px '+fam;x.shadowColor='rgba(0,0,0,.45)';x.shadowOffsetY=14;x.shadowBlur=20;
+      var tg=x.createLinearGradient(0,800,0,800+fs);tg.addColorStop(0,'#fff');tg.addColorStop(.35,c);tg.addColorStop(1,c);x.fillStyle=tg;x.fillText(NOM[k].toUpperCase(),W/2,800+fs*.82);x.shadowColor='transparent';
+      x.fillStyle='#fff1e6';x.font='700 62px '+fam;x.fillText('en Club Paradise 🍿',W/2,800+fs+80);
+      if(nombre){x.font='600 44px '+fam;x.fillStyle='rgba(255,241,230,.85)';x.fillText(String(nombre).trim().split(/\s+/)[0],W/2,800+fs+160)}
+      if(r[1]){var pw=560,ph=pw*r[1].height/r[1].width;x.drawImage(r[1],(W-pw)/2,H-ph-170,pw,ph)}
+      x.fillStyle='#fff1e6';x.font='700 34px '+fam;x.fillText('jsdlp.github.io/ParadisePopCorn.com',W/2,H-90);
+      cv.toBlob(function(b){if(!b)return;var f=null;try{f=new File([b],'mi-nivel-paradise.png',{type:'image/png'})}catch(e){}
+        if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:'Soy nivel '+NOM[k]+' en Club Paradise'}).catch(function(){})}
+        else{var u=URL.createObjectURL(b),m=document.createElement('div');m.className='nvs-m';m.innerHTML='<div><img alt="Mi nivel en Club Paradise"><p>Mantén presionada la imagen para guardarla 📲</p><button type="button">Listo</button></div>';m.querySelector('img').src=u;m.addEventListener('click',function(e){if(e.target.tagName==='BUTTON'||e.target===m){m.remove();URL.revokeObjectURL(u)}});document.body.appendChild(m)}
+      },'image/png');
+    });
+  }
+  window.ppCompartirNivel=compartir;window.ppSubeNivel=overlay;
+})();
+/* ===== Modo dueño: Equipo · esta semana ===== */
+(function(){
+  var sec=document.querySelector('[data-ew-sec]');if(!sec)return;var box=sec.querySelector('[data-ew]');
+  var AV=['#d10f1f','#6b2a9e','#c9740a','#0d6b4a','#2a5bd1','#e0457b','#444'];
+  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':t;return d.innerHTML}
+  function pinta(L){if(!L.length){box.innerHTML='<p class="ew-n">Todavía no hay movimientos esta semana.</p>';return}
+    var mx=Math.max.apply(null,L.map(function(x){return x.sellos}))||1,h='';
+    L.forEach(function(x,i){var ex=[];if(x.canjes)ex.push(x.canjes+(x.canjes===1?' canje':' canjes'));if(x.nuevos)ex.push(x.nuevos+(x.nuevos===1?' cliente nuevo':' clientes nuevos'));
+      h+='<div class="ew-r"><div class="ew-av" style="background:'+AV[i%AV.length]+'">'+esc((x.nombre||'?').charAt(0).toUpperCase())+'</div><div class="ew-m"><div class="ew-t"><b>'+esc(x.nombre)+'</b><span>'+x.sellos+(x.sellos===1?' sello':' sellos')+'</span></div><div class="ew-bar"><i data-w="'+Math.round(x.sellos*100/mx)+'"></i></div>'+(ex.length?'<div class="ew-x">'+ex.join(' · ')+'</div>':'')+'</div></div>'});
+    if(L[0].sellos>0)h+='<div class="ew-star"><span>🏆</span><div>'+esc(L[0].nombre)+' es la estrella de la semana</div></div>';
+    box.innerHTML=h;setTimeout(function(){box.querySelectorAll('.ew-bar i').forEach(function(i){i.style.width=i.getAttribute('data-w')+'%'})},60)}
+  function carga(){var A=window.ppA;if(!A||!A.pin||A.rol!=='dueno')return;box.innerHTML='<p class="ew-n">Cargando…</p>';
+    window.ppApi({accion:'equipoSemana',pin:A.pin}).then(function(d){if(!d||!d.ok){box.innerHTML='<p class="ew-n">'+esc((d&&d.error)||'No se pudo cargar.')+'</p>';return}pinta(d.equipo||[])}).catch(function(){box.innerHTML='<p class="ew-n">Sin internet.</p>'})}
+  sec.querySelector('[data-ew-ref]').addEventListener('click',carga);
+  window.ppEquipoSemana=pinta;
+  var hecho=false;new MutationObserver(function(){if(document.body.classList.contains('owner')&&!document.body.classList.contains('gerente')){if(!hecho){hecho=true;setTimeout(carga,1200)}}else hecho=false}).observe(document.body,{attributes:true,attributeFilter:['class']});
+})();
+</script>
+</body>
 </html>
