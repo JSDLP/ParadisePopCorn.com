@@ -3677,6 +3677,12 @@ html.poi-on,html.poi-on body{overflow:hidden!important}
               <label class="pf wide"><span>5to lugar</span><select name="t_s5"></select></label>
             </div>
           </article>
+          <article class="pc" data-pc="rifa">
+            <header><span class="pc-ic">🎄</span><div><b>Rifa de la palomera</b><small>Pase Navideño en la página principal</small></div><label class="sw"><input type="checkbox" name="r_activa"><span></span><em class="sr">Mostrar la rifa en la página</em></label></header>
+            <div class="pc-body">
+              <p class="pf wide" style="margin:0;font-size:13.5px;line-height:1.4;opacity:.85">Prendido: la promoción de la rifa ($150 + membresía de regalo) sale arriba en la página principal. Apágalo cuando termine la rifa y toca «Publicar». De todos modos se quita sola el 1 de enero.</p>
+            </div>
+          </article>
           <article class="pc" data-pc="muro">
             <header><span class="pc-ic">🎖️</span><div><b>Muro de récords</b><small>Los 5 clientes con más sellos del mes</small></div><label class="sw"><input type="checkbox" name="w_activa"><span></span><em class="sr">Mostrar muro de récords</em></label></header>
             <div class="pc-body">
@@ -6233,7 +6239,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     $('[data-pv=msab]').textContent=f.m_sabor.value;$('[data-pv=mtxt]').textContent=f.m_texto.value;
     var est=(PR.querySelector('[name=a_estilo]:checked')||{}).value||'info';
     $('[data-pv=abar]').className='pv pv-av '+est;$('[data-pv=atxt]').textContent=f.a_texto.value||'Tu mensaje aparecerá aquí';
-    ['dosx1','mes','aviso','top','muro'].forEach(function(k,i){$('[data-pc='+k+']').classList.toggle('on',[f.d_activa,f.m_activa,f.a_activa,f.t_activa,f.w_activa][i].checked)});
+    ['dosx1','mes','aviso','top','muro','rifa'].forEach(function(k,i){$('[data-pc='+k+']').classList.toggle('on',[f.d_activa,f.m_activa,f.a_activa,f.t_activa,f.w_activa,f.r_activa][i].checked)});
     var gp=[f.g_p1,f.g_p2,f.g_p3,f.g_p4].map(function(x){return +x.value||0}),gr=(SITIO&&SITIO.precios&&SITIO.precios.gourmet)||[50,100,150,200],gl=$('[data-pv=gl]');gl.innerHTML='';
     ['CH','M','G','J'].forEach(function(t,j){var sp=document.createElement('span');if(gr[j]&&gr[j]!==gp[j]){var o=document.createElement('s');o.textContent='$'+gr[j];sp.appendChild(o)}sp.appendChild(document.createTextNode(t+' $'+(gp[j]||'—')));gl.appendChild(sp)});
     $('[data-pv=gfin]').textContent=f.g_fin.value?('Hasta el '+(+f.g_fin.value.slice(8,10))+' de '+MESES[+f.g_fin.value.slice(5,7)-1]):'Por tiempo limitado';
@@ -6245,7 +6251,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     f.a_activa.checked=!!c.aviso.activa;f.a_texto.value=c.aviso.texto||'';var r=PR.querySelector('[name=a_estilo][value="'+(c.aviso.estilo||'info')+'"]');if(r)r.checked=true;
     var tp=c.top||{},ts=tp.sabores||[];f.t_activa.checked=!!tp.activa;
     [1,2,3,4,5].forEach(function(i){var sel=f['t_s'+i],v=ts[i-1]||'';if(v&&!Array.prototype.some.call(sel.options,function(o){return o.value===v})){var o=document.createElement('option');o.textContent=v;sel.appendChild(o)}sel.value=v});
-    f.w_activa.checked=!!(c.muro&&c.muro.activa);f.s_n.value=(c.sabores&&c.sabores.n)||40;(function(){var r=(c.club&&c.club.metas&&c.club.niveles)?c.club:{metas:[6,10,15],niveles:[5,7,10]};f.c_m1.value=r.metas[0];f.c_m2.value=r.metas[1];f.c_m3.value=r.metas[2];f.c_n1.value=r.niveles[0];f.c_n2.value=r.niveles[1];f.c_n3.value=r.niveles[2];if(c.club&&window.ppReglas)ppReglas(c.club)})();PR_VOTA=c.vota||PR_VOTA;f.d_color.value=(c.dosx1&&c.dosx1.color)||'#d10f1f';f.g_color.value=(c.gourmet&&c.gourmet.color)||'#6b2a9e';f.m_color.value=(c.mes&&c.mes.color)||'#ffc83d';if(window.ppClrSync)ppClrSync();
+    f.w_activa.checked=!!(c.muro&&c.muro.activa);f.r_activa.checked=!(c.rifa&&c.rifa.activa===false);f.s_n.value=(c.sabores&&c.sabores.n)||40;(function(){var r=(c.club&&c.club.metas&&c.club.niveles)?c.club:{metas:[6,10,15],niveles:[5,7,10]};f.c_m1.value=r.metas[0];f.c_m2.value=r.metas[1];f.c_m3.value=r.metas[2];f.c_n1.value=r.niveles[0];f.c_n2.value=r.niveles[1];f.c_n3.value=r.niveles[2];if(c.club&&window.ppReglas)ppReglas(c.club)})();PR_VOTA=c.vota||PR_VOTA;f.d_color.value=(c.dosx1&&c.dosx1.color)||'#d10f1f';f.g_color.value=(c.gourmet&&c.gourmet.color)||'#6b2a9e';f.m_color.value=(c.mes&&c.mes.color)||'#ffc83d';if(window.ppClrSync)ppClrSync();
     var g=c.gourmet||{activa:true,precios:[35,65,130,200],fin:''},gpz=g.precios||[35,65,130,200];f.g_activa.checked=!!g.activa;
     [1,2,3,4].forEach(function(i){f['g_p'+i].value=gpz[i-1]||''});f.g_fin.value=g.fin||'';
     prVista();
@@ -6271,7 +6277,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
     var cm=[f.c_m1,f.c_m2,f.c_m3].map(function(x){return parseInt(x.value,10)}),cn=[f.c_n1,f.c_n2,f.c_n3].map(function(x){return parseInt(x.value,10)});
     if(cm.some(function(v){return !(v>=1&&v<=50)}))return show(m,'Los sellos de cada tarjeta deben ser del 1 al 50.');
     if(!(cn[0]>=1&&cn[1]>cn[0]&&cn[2]>cn[1]))return show(m,'Los niveles deben ir de menos a más sellos: Plata < Oro < Diamante.');
-    var cfg={vota:PR_VOTA,club:{metas:cm,niveles:cn},sabores:{n:sn},gourmet:{activa:f.g_activa.checked,precios:gpr,fin:f.g_fin.value||'',color:f.g_color.value},dosx1:{activa:f.d_activa.checked,dia:+f.d_dia.value,sabor:f.d_sabor.value,color:f.d_color.value},mes:{activa:f.m_activa.checked,sabor:f.m_sabor.value,texto:f.m_texto.value,color:f.m_color.value},aviso:{activa:f.a_activa.checked,texto:f.a_texto.value,estilo:(PR.querySelector('[name=a_estilo]:checked')||{}).value||'info'},top:{activa:f.t_activa.checked,sabores:topS},muro:{activa:f.w_activa.checked}};
+    var cfg={vota:PR_VOTA,club:{metas:cm,niveles:cn},sabores:{n:sn},gourmet:{activa:f.g_activa.checked,precios:gpr,fin:f.g_fin.value||'',color:f.g_color.value},dosx1:{activa:f.d_activa.checked,dia:+f.d_dia.value,sabor:f.d_sabor.value,color:f.d_color.value},mes:{activa:f.m_activa.checked,sabor:f.m_sabor.value,texto:f.m_texto.value,color:f.m_color.value},aviso:{activa:f.a_activa.checked,texto:f.a_texto.value,estilo:(PR.querySelector('[name=a_estilo]:checked')||{}).value||'info'},top:{activa:f.t_activa.checked,sabores:topS},muro:{activa:f.w_activa.checked},rifa:{activa:f.r_activa.checked}};
     b.disabled=true;b.textContent='Publicando…';
     api({accion:'guardarPromos',pin:A.pin,config:JSON.stringify(cfg)}).then(function(d){
       if(!d||!d.ok){if(!salir(d&&d.error))show(m,(d&&d.error)||'No se pudo publicar.');return}
