@@ -512,7 +512,7 @@ document.readyState==="loading"?document.addEventListener("DOMContentLoaded",put
   contar();try{new MutationObserver(function(){clearTimeout(contar.t);contar.t=setTimeout(contar,80)}).observe(document.getElementById('sabores'),{childList:true,subtree:true,attributes:true,attributeFilter:['hidden','style']})}catch(e){}
 })();
 </script>
-<script>(function(){function ap(pr){if(!pr)return;var r=document.querySelector('.rul-cta'),f=document.getElementById('clientes');if(r)r.style.display=(pr.ruleta&&pr.ruleta.activa===false)?'none':'';if(f)f.style.display=(pr.fotos&&pr.fotos.activa===false)?'none':''}
+<script>(function(){function ap(pr){if(!pr)return;var r=document.querySelector('.rul-cta'),f=document.getElementById('clientes');if(r)r.style.display=(pr.ruleta&&pr.ruleta.activa===false)?'none':'';var fo=(pr.fotos&&pr.fotos.activa===false);if(f)f.style.display=fo?'none':'';[].forEach.call(document.querySelectorAll('[data-k="clientes"],a[href="#clientes"]'),function(x){if(!x.closest('#clientes'))x.style.display=fo?'none':''})}
  try{ap(JSON.parse(localStorage.getItem('pp-promos')||'null'))}catch(e){}
  var t=0,iv=setInterval(function(){t++;if(window.PP_REC&&window.PP_REC[0]){clearInterval(iv);ap(window.PP_REC[0])}else if(t>40)clearInterval(iv)},400);})();</script>
 </body></html>
