@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><script>(function(){try{if(window.parent===window&&location.hash==="#dueno")sessionStorage.setItem("pp-own-app","1")}catch(e){}})();</script>
+<head><script>(function(){try{if(window.parent===window&&location.hash==="#dueno"){sessionStorage.setItem("pp-own-app","1");sessionStorage.removeItem("pp-ger-app")}else if(window.parent===window&&location.hash==="#gerente"){sessionStorage.setItem("pp-ger-app","1");sessionStorage.removeItem("pp-own-app")}}catch(e){}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <script>
@@ -5455,7 +5455,9 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   var entrando=false;
   function entrar(){if(entrando)return;if(!pinBuf)return show(lmsg,'Escribe tu PIN.');entrando=true;var pin=pinBuf;$$('.ocpad button').forEach(function(b){b.disabled=true});
     api({accion:'dueno',pin:pin}).then(function(d){if(!d||!d.ok){musStop(.25);show(lmsg,(d&&d.error)||'PIN incorrecto.');var dd=$('[data-a-dots]');dd.classList.remove('bad');void dd.offsetWidth;dd.classList.add('bad');pinBuf='';pintaDots();return}
-      A.pin=pin;A.rol=d.rol==='gerente'?'gerente':'dueno';document.body.classList.toggle('gerente',A.rol==='gerente');if(A.rol==='gerente')musStop(1.2);pinBuf='';pintaDots();(A.rol==='gerente'?entradaGerente:entrada)(function(){mostrarPanel(true)})})
+      var _r=d.rol==='gerente'?'gerente':'dueno',_ap='';try{_ap=sessionStorage.getItem('pp-ger-app')?'gerente':(sessionStorage.getItem('pp-own-app')?'dueno':'')}catch(_e){}
+      if(_ap&&_r!==_ap){musStop(.25);show(lmsg,_ap==='dueno'?'Esta app es solo para el dueño. Los gerentes entran con la app Paradise Gerente.':'Esta app es solo para gerentes. El dueño entra con la app Paradise Owner.');var dd2=$('[data-a-dots]');dd2.classList.remove('bad');void dd2.offsetWidth;dd2.classList.add('bad');pinBuf='';pintaDots();return}
+      A.pin=pin;A.rol=_r;document.body.classList.toggle('gerente',A.rol==='gerente');if(A.rol==='gerente')musStop(1.2);pinBuf='';pintaDots();(A.rol==='gerente'?entradaGerente:entrada)(function(){mostrarPanel(true)})})
     .catch(function(err){musStop(.25);show(lmsg,netErr(err))}).then(function(){entrando=false;$$('.ocpad button').forEach(function(b){b.disabled=false})});}
   $('[data-a-lform]').addEventListener('submit',function(e){e.preventDefault();entrar()});
   function salir(err){if(err&&/dueño incorrecto|bloqueado/.test(err)){document.body.classList.remove('owner','gerente');A.pin=null;try{sessionStorage.removeItem('pp-dueno')}catch(e){}aPanel.hidden=true;aLogin.hidden=false;show($('[data-a-lmsg]'),err);return true}return false}
@@ -6429,7 +6431,7 @@ return {QRCode:require('./index'),L:require('./QRErrorCorrectLevel')}})();
   var pm=load(K_PREM);if(pm&&!s0){$('[name=whatsapp]',sF).value=pm.whatsapp}
   var H0=EMB?PW.ppClubStart:location.hash.slice(1);
   tab(H0==='sellos'?'sellos':'premium');
-  if(!EMB&&H0==='dueno')abrirDueno();
+  if(!EMB&&(H0==='dueno'||H0==='gerente'))abrirDueno();
   if(EMB){$$('[data-home]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();PW.ppClubClose()})})}
 })();
 </script>
@@ -6675,71 +6677,7 @@ window.PP_ESTAMPAS=(function(){
 })();
 
 </script>
-<div class="sec-door" data-sec-door aria-hidden="true"><div class="dr"><img alt=""></div></div>
-<script>
-/* Acceso secreto del dueño:
-   1) Telón 3 + 2: 3 toques en el lado izquierdo de la pantalla y luego 2 en el lado derecho.
-   2) Abrir el telón: desliza desde el lado derecho de la pantalla hacia la izquierda; aparece la puerta. */
-(function(){
-  var abrir=function(){var b=document.querySelector('[data-dueno-open]');if(b)b.click();};
-  var interactivo='a,button,input,textarea,select,label,dialog,[role=button],.sc';
-  var hayDialogo=function(){return !!document.querySelector('dialog[open]');};
-  var libre=function(t){return !(t&&t.closest&&t.closest(interactivo));};
 
-  // --- Telón 3 + 2 ---
-  var TELON=['L','L','L','R','R'],seq=[],tT=0;
-  document.addEventListener('pointerup',function(e){
-    if(arrastrando)return;
-    if(e.pointerType==='mouse'&&e.button!==0)return;
-    if(hayDialogo()||!libre(e.target))return;
-    var w=window.innerWidth,x=e.clientX,lado=x<w*0.22?'L':(x>w*0.78?'R':null),now=Date.now();
-    if(!lado){seq=[];return;}
-    if(now-tT>1500)seq=[]; tT=now;
-    seq.push(lado);
-    for(var i=0;i<seq.length;i++){if(seq[i]!==TELON[i]){seq=(lado==='L')?['L']:[];break;}}
-    if(seq.length===TELON.length){seq=[];abrir();}
-  },true);
-
-  // --- Abrir el telón (deslizar desde la derecha) ---
-  var door=document.querySelector('[data-sec-door]'),x0=0,y0=0,activo=false,arrastrando=false,horizontal=null;
-  var src=document.querySelector('img[data-img="OWNER"]');
-  var ponerLogo=function(){var im=door.querySelector('img');if(src&&src.src&&!im.src)im.src=src.src;};
-  var inicio=function(x,y,t){
-    var w=window.innerWidth;
-    if(hayDialogo()||!libre(t))return;
-    if(x<w*0.70||x>w-14)return;   // empieza en el lado derecho (no en la orilla, para no chocar con Safari)
-    x0=x;y0=y;activo=true;arrastrando=false;horizontal=null;ponerLogo();
-  };
-  var mover=function(x,y,e){
-    if(!activo)return;
-    var dx=x0-x,dy=Math.abs(y-y0);
-    if(horizontal===null&&(Math.abs(dx)>10||dy>10))horizontal=dx>dy;
-    if(!horizontal){if(horizontal===false)activo=false;return;}
-    if(e&&e.cancelable)e.preventDefault();
-    arrastrando=true;
-    var w=window.innerWidth,ancho=Math.max(0,Math.min(dx,w*0.8));
-    door.classList.remove('back');door.classList.add('on');door.style.width=ancho+'px';
-    door.classList.toggle('ready',ancho>w*0.45);
-  };
-  var fin=function(){
-    if(!activo)return; activo=false;
-    if(!arrastrando)return;
-    var listo=door.classList.contains('ready');
-    door.classList.add('back');
-    if(listo){door.style.width='80vw';setTimeout(function(){abrir();cerrarPuerta();},450);}
-    else cerrarPuerta();
-    setTimeout(function(){arrastrando=false;},50);
-  };
-  var cerrarPuerta=function(){door.classList.add('back');door.style.width='0px';door.classList.remove('ready');setTimeout(function(){door.classList.remove('on','back');},380);};
-  document.addEventListener('touchstart',function(e){var t=e.touches[0];if(e.touches.length===1)inicio(t.clientX,t.clientY,e.target);},{passive:true});
-  document.addEventListener('touchmove',function(e){var t=e.touches[0];mover(t.clientX,t.clientY,e);},{passive:false});
-  document.addEventListener('touchend',fin,{passive:true});
-  document.addEventListener('touchcancel',function(){activo=false;cerrarPuerta();},{passive:true});
-  document.addEventListener('mousedown',function(e){if(e.button===0)inicio(e.clientX,e.clientY,e.target);});
-  document.addEventListener('mousemove',function(e){mover(e.clientX,e.clientY,null);});
-  document.addEventListener('mouseup',fin);
-})();
-</script>
 <script>
 /* Niveles del Club: Bronce, Plata, Oro y Diamante según los sellos de toda la vida */
 (function(){

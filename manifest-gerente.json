@@ -1,0 +1,17 @@
+{
+  "id": "./gerente.html",
+  "name": "Paradise Pop Corn Gerente",
+  "short_name": "PP Gerente",
+  "lang": "es-MX",
+  "start_url": "./gerente.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#061a4d",
+  "theme_color": "#061a4d",
+  "icons": [
+    { "src": "icon-gerente-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "icon-gerente-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-gerente-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

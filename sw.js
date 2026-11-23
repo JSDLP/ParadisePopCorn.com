@@ -4,7 +4,7 @@ try { importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js')
 // Paradise Pop Corn — la página abre aunque no haya internet
 // 1) Con internet: siempre muestra la versión más nueva y la guarda.
 // 2) Sin internet: muestra la última versión guardada (con sus fotos).
-const CACHE = 'paradise-v35';
+const CACHE = 'paradise-v36';
 const OFFLINE = './offline.html';
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 const CORE = [
@@ -13,6 +13,7 @@ const CORE = [
   './icon-maskable-192.png', './icon-maskable-512.png', './og-image.jpg', './fz-co-luces.webp',
   // App Paradise Owner (modo dueño): abre aunque no haya internet
   './dueno.html', './manifest-dueno.json', './IMG_0476.png', './IMG_0477.png',
+  './gerente.html', './manifest-gerente.json', './icon-gerente-180.png', './icon-gerente-192.png', './icon-gerente-512.png',
   // Reporte del jefe (abre desde la notificación, también sin internet)
   './reporte.html', './pops-aviso.png', './IMG_4915.webp', './img-bce868c739.webp', './IMG_0623.png', './IMG_0624.png', './IMG_0625.png'
 ];

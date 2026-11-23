@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Paradise Pop Corn Gerente</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#061a4d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PP Gerente">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest-gerente.json">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-gerente-180.png">
+<link rel="icon" type="image/png" href="icon-gerente-192.png">
+<script>
+(function(){
+  var app = window.navigator.standalone === true ||
+    (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+  if (app) location.replace('club.html#gerente');
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#ffc83d;--cream:#fff1e6}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%;background:#061a4d;color:var(--cream);font-family:'Bricolage Grotesque',system-ui,sans-serif}
+body{display:flex;align-items:center;justify-content:center;padding:32px 16px;min-height:100vh;
+  background:radial-gradient(120% 80% at 50% 0%,#1450c8 0%,#0a2f86 40%,#061a4d 75%)}
+.c{width:100%;max-width:420px;text-align:center}
+.ic{width:132px;height:132px;border-radius:30px;box-shadow:0 10px 40px rgba(255,200,61,.3)}
+h1{font-weight:800;font-size:26px;margin:22px 0 6px}
+p.s{opacity:.8;font-weight:300;margin-bottom:22px}
+ol{text-align:left;list-style:none;padding:0;display:grid;gap:10px;counter-reset:n}
+li{counter-increment:n;display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:18px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,200,61,.28);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+li::before{content:counter(n);flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,#f3e3a0,#e6bb3e 50%,#c88e14);color:#1a1205;font-weight:800}
+b{color:var(--gold);font-weight:600}
+a.go{display:block;margin-top:22px;padding:15px;border-radius:16px;text-decoration:none;font-weight:800;color:#1a1205;
+  background:linear-gradient(135deg,#f3e3a0,#e6bb3e 50%,#c88e14)}
+.n{margin-top:14px;font-size:12.5px;opacity:.7}
+</style>
+</head>
+<body>
+<main class="c">
+  <img class="ic" src="icon-gerente-512.png" alt="Paradise Pop Corn Gerente">
+  <h1>Paradise Gerente</h1>
+  <p class="s">Instala el modo gerente como app en la pantalla de inicio</p>
+  <ol>
+    <li><span>Toca <b>Compartir</b> (cuadrito con flecha ↑) en Safari.</span></li>
+    <li><span>Elige <b>Agregar a pantalla de inicio</b>.</span></li>
+    <li><span>Deja activado <b>Abrir como app web</b> y toca <b>Agregar</b>.</span></li>
+  </ol>
+  <a class="go" href="club.html#gerente">Entrar ahora al modo gerente</a>
+  <p class="n">Solo para el equipo de Paradise: cada gerente entra con su propio PIN.</p>
+</main>
+</body>
+</html>
